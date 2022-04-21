@@ -23,7 +23,6 @@ class UI(QtWidgets.QMainWindow):
         self.bandBioHeader = self.findChild(QtWidgets.QLabel, "bandBioHeader")
         self.bandBioLabel = self.findChild(QtWidgets.QLabel, "bandBioLabel")
         self.bandInfoNameLabel = self.findChild(QtWidgets.QLabel, "bandInfoNameLabel")
-        self.bandInfoOtherLabel = self.findChild(QtWidgets.QLabel, "bandInfoOtherLabel")
         self.bandInfoWebsiteLabel = self.findChild(QtWidgets.QLabel, "bandInfoWebsiteLabel")
         self.bandBioHeader_2 = self.findChild(QtWidgets.QLabel, "bandBioHeader_2")
         self.tourDatesHomeHeader = self.findChild(QtWidgets.QLabel, "tourDatesHomeHeader")
@@ -44,14 +43,14 @@ class UI(QtWidgets.QMainWindow):
 
         # Functionality
 
-        self.searchButton.clicked.connect(self.add_it)
+        self.searchButton.clicked.connect(self.artist_search_test)
 
         # show the app
         self.show()
 
     # Functions
 
-    def add_it(self):
+    def artist_search_test(self):
         value = self.bandSearchLineEdit.text()
         print(value)
         obj = {"band_search": value}
@@ -62,10 +61,11 @@ class UI(QtWidgets.QMainWindow):
 
         dates = ""
         for date in data["dates"]:
-            dates += f"{date['date']}" + " " + f"{date['venue']}" + " " + f"{date['tickets']} \n\n"
+            dates += f"{date['date']}" + " " + f"{date['venue']}" + " " + f"<a href='{date['tickets']}'>{date['tickets']}</a>" + "<br><br>"
 
+        print(dates)
         self.homeTourDatesLabel.setText(dates)
-        self.bandInfoWebsiteLabel.setText(data["website"])
+        self.bandInfoWebsiteLabel.setText(f"<a href='{data['website']}'>{data['website']}</a>" )
 
         img_url = data["image_url"]
         data = urllib.request.urlopen(img_url).read()
