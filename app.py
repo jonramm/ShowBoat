@@ -4,7 +4,7 @@ from flask import Flask, request, jsonify
 app = Flask(__name__)
 
 @app.route("/artist-search", methods=['GET', 'POST'])
-def tour_dates():
+def artist_search():
     
     if request.method == 'POST':    
         data = [{
@@ -66,3 +66,47 @@ def tour_dates():
             if el["band"] == request.form.get('band_search'):
                 return el
 
+@app.route("/city-search", methods=['GET', 'POST'])
+def city_search():
+
+    if request.method == 'POST':
+        data = [{
+            "city": "Portland",
+            "state": "OR",
+            "coords": (45.52073660670834, -122.66398344934734)
+        },
+        {
+            "city": "Pittsburgh",
+            "state": "PA",
+            "coords": (40.44011308064731, -79.99509700514174)
+        }]
+
+        for el in data:
+            if el["city"] == request.form.get('city_search'):
+                return el
+
+@app.route("/video-search", methods=['GET', 'POST'])
+def video_search():
+
+    if request.method == 'POST':
+        data = [{
+            "artist": "Radiohead",
+            "video_urls": [
+                "https://www.youtube.com/watch?v=AOinMjQ9jo8?autoplay=0",
+                "https://www.youtube.com/watch?v=lcmbLpCXUGk?autoplay=0",
+                "https://www.youtube.com/watch?v=nrxWiU_v9Qs?autoplay=0"
+                ]
+            },
+            {
+            "artist": "Kendrick Lamar",
+            "video_urls": [
+                "https://www.youtube.com/watch?v=JQbjS0_ZfJ0?autoplay=0",
+                "https://www.youtube.com/watch?v=K5xERXE7pxI?autoplay=0",
+                "https://www.youtube.com/watch?v=GfCqMv--ncA?autoplay=0"
+                ]
+            },
+        ]
+
+        for el in data:
+            if el["artist"] == request.form.get('artist'):
+                return el

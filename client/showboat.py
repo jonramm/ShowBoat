@@ -54,17 +54,18 @@ class UI(QtWidgets.QMainWindow):
 
         # Map
         self.mapMapContainer = self.findChild(QWebEngineView, "mapMapContainer")
+        self.mapHomeCityLineEdit = self.findChild(QtWidgets.QLineEdit, "mapHomeCityLineEdit")
+        self.mapSetRadiusSlider = self.findChild(QtWidgets.QSlider, "mapSetRadiusSlider")
+        self.mapSetCityButton = self.findChild(QtWidgets.QPushButton, "mapSetCityButton")
+        self.mapDateDisplayLabel = self.findChild(QtWidgets.QLabel, "mapDateDisplayLabel")
+        self.mapVenueDisplayLabel = self.findChild(QtWidgets.QLabel, "mapVenueDisplayLabel")
+        self.mapCityDisplayLabel = self.findChild(QtWidgets.QLabel, "mapCityDisplayLabel")
+        self.mapTicketsDisplayLabel = self.findChild(QtWidgets.QLabel, "mapTicketsDisplayLabel")
 
-        # Functionality
-
-        self.searchButton.clicked.connect(self.artist_search_test)
-
-        # Map
-
-        coordinates = (35.667149707748244, -105.96673483749876)
+        coordinates = (39.70495909177235, -101.79370097549975)
         map = folium.Map(
             title='Santa Fe',
-            zoom_start=10,
+            zoom_start=3,
             location=coordinates
         )
 
@@ -74,14 +75,63 @@ class UI(QtWidgets.QMainWindow):
 
         self.mapMapContainer.setHtml(data.getvalue().decode())
 
+        # Video
+
+        self.video0 = self.findChild(QWebEngineView, "video0")
+        self.video1 = self.findChild(QWebEngineView, "video1")
+        self.video2 = self.findChild(QWebEngineView, "video2")
+
+        self.video_dict = {
+            "video0": self.video0,
+            "video1": self.video1,
+            "video2": self.video2
+        }
+
+        # url = "https://www.youtube.com/watch?v=JQbjS0_ZfJ0?autoplay=0"
+        # self.video_dict["video0"].setUrl(QtCore.QUrl(url))
+
+        self.videoSeeMoreButton = self.findChild(QtWidgets.QPushButton, "videoSeeMoreButton")
+
+        # Functionality
+
+        self.searchButton.clicked.connect(self.artist_search_test)
+        self.mapSetCityButton.clicked.connect(self.city_search_test)
+
+        
+
         # show the app
         self.show()
 
     # Functions
 
+    def video_search_test(self, artist):
+        obj = {"artist": artist}
+        response = requests.post('http://127.0.0.1:5000/video-search', data=obj)
+        data = response.json()
+
+        for i, url in enumerate(data["video_urls"]):
+            self.video_dict[f"video{i}"].setUrl(QtCore.QUrl(url))
+
+    def city_search_test(self):
+        value = self.mapHomeCityLineEdit.text()
+        obj = {"city_search": value}
+        response = requests.post('http://127.0.0.1:5000/city-search', data=obj)
+        data = response.json()
+        city = data["city"] + ", " + data["state"]
+        coords = data["coords"]
+
+        map = folium.Map(
+            title='Santa Fe',
+            zoom_start=6,
+            location=coords
+        )
+        data = io.BytesIO()
+        map.save(data, close_file=False)
+        self.mapMapContainer.setHtml(data.getvalue().decode())
+
+
     def artist_search_test(self):
         value = self.bandSearchLineEdit.text()
-        print(value)
         obj = {"band_search": value}
         response = requests.post('http://127.0.0.1:5000/artist-search', data=obj)
         data = response.json()
@@ -119,6 +169,7 @@ class UI(QtWidgets.QMainWindow):
         self.bandPhotoLabel.setPixmap(pixmap)
         self.bandPhotoLabel.setScaledContents(True)
 
+        self.video_search_test(value)
             
         self.bandSearchLineEdit.setText("")
 
