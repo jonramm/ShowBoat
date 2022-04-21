@@ -52,7 +52,10 @@ class UI(QtWidgets.QMainWindow):
     # Functions
 
     def add_it(self):
-        response = requests.get('http://127.0.0.1:5000/artist-search')
+        value = self.bandSearchLineEdit.text()
+        print(value)
+        obj = {"band_search": value}
+        response = requests.post('http://127.0.0.1:5000/artist-search', data=obj)
         data = response.json()
         self.bandInfoNameLabel.setText(data["band"])
         self.bandBioLabel.setText(data["bio"])
