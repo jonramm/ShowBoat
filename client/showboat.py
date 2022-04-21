@@ -18,7 +18,14 @@ class UI(QtWidgets.QMainWindow):
 
         # define our widgets
 
-        # Labels
+        # Tabs
+        self.homeTab = self.findChild(QtWidgets.QWidget, "homeTab")
+        self.tourDatesTab = self.findChild(QtWidgets.QWidget, "tourDatesTab")
+        self.mapTab = self.findChild(QtWidgets.QWidget, "mapTab")
+        self.videoTab = self.findChild(QtWidgets.QWidget, "videoTab")
+        self.infoTab = self.findChild(QtWidgets.QWidget, "infoTab")
+
+        # Home
         self.bandPhotoLabel = self.findChild(QtWidgets.QLabel, "bandPhotoLabel")
         self.bandBioHeader = self.findChild(QtWidgets.QLabel, "bandBioHeader")
         self.bandBioLabel = self.findChild(QtWidgets.QLabel, "bandBioLabel")
@@ -27,19 +34,23 @@ class UI(QtWidgets.QMainWindow):
         self.bandBioHeader_2 = self.findChild(QtWidgets.QLabel, "bandBioHeader_2")
         self.tourDatesHomeHeader = self.findChild(QtWidgets.QLabel, "tourDatesHomeHeader")
         self.homeTourDatesLabel = self.findChild(QtWidgets.QLabel, "homeTourDatesLabel")
-        # Lists
         
-        # Input
         self.bandSearchLineEdit = self.findChild(QtWidgets.QLineEdit, "bandSearchLineEdit")
-        # Buttons
+
         self.lastSearchButton = self.findChild(QtWidgets.QPushButton, "lastSearchButton")
         self.searchButton = self.findChild(QtWidgets.QPushButton, "searchButton")
-        # Tabs
-        self.homeTab = self.findChild(QtWidgets.QWidget, "homeTab")
-        self.tourDatesTab = self.findChild(QtWidgets.QWidget, "tourDatesTab")
-        self.mapTab = self.findChild(QtWidgets.QWidget, "mapTab")
-        self.videoTab = self.findChild(QtWidgets.QWidget, "videoTab")
-        self.infoTab = self.findChild(QtWidgets.QWidget, "infoTab")
+
+        # Tour Dates
+        self.tourDatesDateLabel = self.findChild(QtWidgets.QLabel, "tourDatesDateLabel")
+        self.tourDatesVenueLabel = self.findChild(QtWidgets.QLabel, "tourDatesVenueLabel")
+        self.tourDatesCityLabel = self.findChild(QtWidgets.QLabel, "tourDatesCityLabel")
+        self.tourDatesStateLabel = self.findChild(QtWidgets.QLabel, "tourDatesStateLabel")
+        self.tourDatesTicketInfoLabel = self.findChild(QtWidgets.QLabel, "tourDatesTicketInfoLabel")
+        self.tourDatesDateListLabel = self.findChild(QtWidgets.QLabel, "tourDatesDateListLabel")
+        self.tourDatesVenueListLabel = self.findChild(QtWidgets.QLabel, "tourDatesVenueListLabel")
+        self.tourDatesCityListLabel = self.findChild(QtWidgets.QLabel, "tourDatesCityListLabel")
+        self.tourDatesStateListLabel = self.findChild(QtWidgets.QLabel, "tourDatesStateListLabel")
+        self.tourDatesTicketListLabel = self.findChild(QtWidgets.QLabel, "tourDatesTicketListLabel")
 
         # Functionality
 
