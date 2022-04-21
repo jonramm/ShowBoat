@@ -1,8 +1,8 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
-from PyQt5.QtGui import QPixmap, QIcon
-from PySide2.QtCore import *
-from PySide2.QtGui import *
-from PySide2.QtWidgets import *
+from PyQt5.QtGui import QPixmap, QIcon, QImage
+# from PySide2.QtCore import *
+# from PySide2.QtGui import *
+# from PySide2.QtWidgets import *
 from PyQt5 import uic
 import sys
 import requests
@@ -27,8 +27,9 @@ class UI(QtWidgets.QMainWindow):
         self.bandInfoWebsiteLabel = self.findChild(QtWidgets.QLabel, "bandInfoWebsiteLabel")
         self.bandBioHeader_2 = self.findChild(QtWidgets.QLabel, "bandBioHeader_2")
         self.tourDatesHomeHeader = self.findChild(QtWidgets.QLabel, "tourDatesHomeHeader")
+        self.homeTourDatesLabel = self.findChild(QtWidgets.QLabel, "homeTourDatesLabel")
         # Lists
-        self.tourDatesHomeList = self.findChild(QtWidgets.QListWidget, "tourDatesHomeList")
+        
         # Input
         self.bandSearchLineEdit = self.findChild(QtWidgets.QLineEdit, "bandSearchLineEdit")
         # Buttons
@@ -45,16 +46,33 @@ class UI(QtWidgets.QMainWindow):
 
         self.searchButton.clicked.connect(self.add_it)
 
-    
         # show the app
         self.show()
 
     # Functions
 
     def add_it(self):
-        response = requests.get('http://127.0.0.1:5000/test')
-        band = response.json()["band"]
-        self.bandInfoNameLabel.setText(band)
+        response = requests.get('http://127.0.0.1:5000/artist-search')
+        data = response.json()
+        self.bandInfoNameLabel.setText(data["band"])
+        self.bandBioLabel.setText(data["bio"])
+
+        dates = ""
+        for date in data["dates"]:
+            dates += f"{date['date']}" + " " + f"{date['venue']}" + " " + f"{date['tickets']} \n\n"
+
+        self.homeTourDatesLabel.setText(dates)
+        self.bandInfoWebsiteLabel.setText(data["website"])
+
+        img_url = data["image_url"]
+        data = urllib.request.urlopen(img_url).read()
+        pixmap = QPixmap()
+        pixmap.loadFromData(data)
+
+        self.bandPhotoLabel.setPixmap(pixmap)
+        self.bandPhotoLabel.setScaledContents(True)
+
+            
         self.bandSearchLineEdit.setText("")
 
     def get_photo(self):
@@ -117,7 +135,7 @@ class UI(QtWidgets.QMainWindow):
         return bio
 
 # initialize app
-app = QApplication(sys.argv)
+app = QtWidgets.QApplication(sys.argv)
 UIWindow = UI()
 app.exec_()
 
