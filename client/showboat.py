@@ -1,10 +1,10 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtGui import QPixmap, QIcon, QImage
-# from PySide2.QtCore import *
-# from PySide2.QtGui import *
-# from PySide2.QtWidgets import *
+from PyQt5.QtWebEngineWidgets import QWebEngineView
 from PyQt5 import uic
 import sys
+import io
+import folium
 import requests
 import urllib
 import pprint
@@ -52,9 +52,27 @@ class UI(QtWidgets.QMainWindow):
         self.tourDatesStateListLabel = self.findChild(QtWidgets.QLabel, "tourDatesStateListLabel")
         self.tourDatesTicketListLabel = self.findChild(QtWidgets.QLabel, "tourDatesTicketListLabel")
 
+        # Map
+        self.mapMapContainer = self.findChild(QWebEngineView, "mapMapContainer")
+
         # Functionality
 
         self.searchButton.clicked.connect(self.artist_search_test)
+
+        # Map
+
+        coordinates = (35.667149707748244, -105.96673483749876)
+        map = folium.Map(
+            title='Santa Fe',
+            zoom_start=10,
+            location=coordinates
+        )
+
+        # save map data to data object
+        data = io.BytesIO()
+        map.save(data, close_file=False)
+
+        self.mapMapContainer.setHtml(data.getvalue().decode())
 
         # show the app
         self.show()
@@ -71,12 +89,27 @@ class UI(QtWidgets.QMainWindow):
         self.bandBioLabel.setText(data["bio"])
 
         dates = ""
+        tourDates = ""
+        tourVenues = ""
+        tourTickets = ""
+        tourCities = ""
+        tourStates = ""
+
         for date in data["dates"]:
             dates += f"{date['date']}" + " " + f"{date['venue']}" + " " + f"<a href='{date['tickets']}'>{date['tickets']}</a>" + "<br><br>"
+            tourDates += f"{date['date']} <br><br>"
+            tourVenues += f"{date['venue']} <br><br>" 
+            tourTickets += f"<a href='{date['tickets']}'>{date['tickets']}</a> <br><br>"
+            tourCities += f"{date['city']} <br><br>" 
+            tourStates += f"{date['state']} <br><br>" 
 
-        print(dates)
         self.homeTourDatesLabel.setText(dates)
-        self.bandInfoWebsiteLabel.setText(f"<a href='{data['website']}'>{data['website']}</a>" )
+        self.tourDatesDateListLabel.setText(tourDates)
+        self.tourDatesVenueListLabel.setText(tourVenues)
+        self.tourDatesTicketListLabel.setText(tourTickets)
+        self.tourDatesStateListLabel.setText(tourStates)
+        self.tourDatesCityListLabel.setText(tourCities)
+        self.bandInfoWebsiteLabel.setText(f"<a href='{data['website']}'>{data['website']}</a>")
 
         img_url = data["image_url"]
         data = urllib.request.urlopen(img_url).read()

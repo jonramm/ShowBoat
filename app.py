@@ -12,16 +12,22 @@ def tour_dates():
             "bio": "Radiohead is an excellent band with a weird looking front man.",
             "dates": [{
                 "date": "05/04/2022",
+                "city": "Seattle",
+                "state": "WA",
                 "venue": "Doo-doo Arena",
                 "tickets": "www.tickets.com"
             },
                 {
                 "date": "05/06/2022",
+                "city": "Phoenix",
+                "state": "AZ",
                 "venue": "Scrimshaw Center",
                 "tickets": "www.getyourtix.com"
             },
                 {
                 "date": "05/08/2022",
+                "city": "Asheville",
+                "state": "NC",
                 "venue": "Big Outdoor Venue",
                 "tickets": "www.tickytickets.com"
             }],
@@ -33,16 +39,22 @@ def tour_dates():
             "bio": "Kendrick Lamar is a great rapper with some certified bangers.",
             "dates": [{
                 "date": "06/08/2022",
+                "city": "Seattle",
+                "state": "WA",
                 "venue": "Doo-doo Arena",
                 "tickets": "www.tickets.com"
             },
                 {
                 "date": "06/10/2022",
+                "city": "Phoenix",
+                "state": "AZ",
                 "venue": "Scrimshaw Center",
                 "tickets": "www.getyourtix.com"
             },
                 {
                 "date": "056/12/2022",
+                "city": "Asheville",
+                "state": "NC",
                 "venue": "Big Outdoor Venue",
                 "tickets": "www.tickytickets.com"
             }],
