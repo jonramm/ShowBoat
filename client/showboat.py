@@ -105,6 +105,13 @@ class UI(QtWidgets.QMainWindow):
     def artist_search(self):
         value = self.bandSearchLineEdit.text()
         obj = {"artist_search": value}
+
+        screen = QtWidgets.QSplashScreen()
+        screen.showMessage('Loading...')
+        screen.setGeometry(QtCore.QRect(650,400,100,100))
+        screen.show()
+        app.processEvents()
+
         response = requests.post('http://127.0.0.1:5000/artist-search', data=obj)
         data = response.json()
         if data['artist']:
@@ -121,6 +128,8 @@ class UI(QtWidgets.QMainWindow):
             x = msg.exec_()
             
         self.bandSearchLineEdit.setText("")
+
+        screen.close()
 
     def video_search(self, id):
         obj = {"artist_id": id}
