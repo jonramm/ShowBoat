@@ -32,6 +32,8 @@ class UI(QtWidgets.QMainWindow):
         self.bandInfoNameLabel = self.findChild(QtWidgets.QLabel, "bandInfoNameLabel")
         self.bandInfoWebsiteLabel = self.findChild(QtWidgets.QLabel, "bandInfoWebsiteLabel")
         self.bandBioHeader_2 = self.findChild(QtWidgets.QLabel, "bandBioHeader_2")
+        self.homeScrollArea = self.findChild(QtWidgets.QScrollArea, "homeScrollArea")
+        self.homeScrollArea.setWidgetResizable(True)
         # self.tourDatesHomeHeader = self.findChild(QtWidgets.QLabel, "tourDatesHomeHeader")
         # self.homeTourDatesLabel = self.findChild(QtWidgets.QLabel, "homeTourDatesLabel")
         
@@ -54,13 +56,13 @@ class UI(QtWidgets.QMainWindow):
 
         # Map
         self.mapMapContainer = self.findChild(QWebEngineView, "mapMapContainer")
-        self.mapHomeCityLineEdit = self.findChild(QtWidgets.QLineEdit, "mapHomeCityLineEdit")
-        self.mapSetRadiusSlider = self.findChild(QtWidgets.QSlider, "mapSetRadiusSlider")
-        self.mapSetCityButton = self.findChild(QtWidgets.QPushButton, "mapSetCityButton")
-        self.mapDateDisplayLabel = self.findChild(QtWidgets.QLabel, "mapDateDisplayLabel")
-        self.mapVenueDisplayLabel = self.findChild(QtWidgets.QLabel, "mapVenueDisplayLabel")
-        self.mapCityDisplayLabel = self.findChild(QtWidgets.QLabel, "mapCityDisplayLabel")
-        self.mapTicketsDisplayLabel = self.findChild(QtWidgets.QLabel, "mapTicketsDisplayLabel")
+        # self.mapHomeCityLineEdit = self.findChild(QtWidgets.QLineEdit, "mapHomeCityLineEdit")
+        # self.mapSetRadiusSlider = self.findChild(QtWidgets.QSlider, "mapSetRadiusSlider")
+        # self.mapSetCityButton = self.findChild(QtWidgets.QPushButton, "mapSetCityButton")
+        # self.mapDateDisplayLabel = self.findChild(QtWidgets.QLabel, "mapDateDisplayLabel")
+        # self.mapVenueDisplayLabel = self.findChild(QtWidgets.QLabel, "mapVenueDisplayLabel")
+        # self.mapCityDisplayLabel = self.findChild(QtWidgets.QLabel, "mapCityDisplayLabel")
+        # self.mapTicketsDisplayLabel = self.findChild(QtWidgets.QLabel, "mapTicketsDisplayLabel")
 
         coordinates = (39.70495909177235, -101.79370097549975)
         self.map = folium.Map(
@@ -92,7 +94,7 @@ class UI(QtWidgets.QMainWindow):
         # Functionality
 
         self.searchButton.clicked.connect(self.artist_search)
-        self.mapSetCityButton.clicked.connect(self.city_search_test)
+        # self.mapSetCityButton.clicked.connect(self.city_search_test)
 
     
         # show the app
@@ -105,16 +107,20 @@ class UI(QtWidgets.QMainWindow):
         obj = {"artist_search": value}
         response = requests.post('http://127.0.0.1:5000/artist-search', data=obj)
         data = response.json()
-        pprint.pprint(data)
-        self.bandInfoNameLabel.setText(data['artist'])
-        self.bandBioLabel.setText(data["bio"])
-        self.bandInfoWebsiteLabel.setText(f"<a href='{data['website']}'>{data['website']}</a>")
-        
-        self.set_photo(data['img_url'])
-        self.tour_search(data['artist'])
-        self.video_search(data['id'])
+        if data['artist']:
+            self.bandInfoNameLabel.setText(data['artist'])
+            self.bandBioLabel.setText(data["bio"])
+            self.bandInfoWebsiteLabel.setText(f"<a href='{data['website']}'>{data['website']}</a>")
+            self.set_photo(data['img_url'])
+            self.tour_search(data['artist'])
+            self.video_search(data['id'])
+        else:
+            msg = QtWidgets.QMessageBox()
+            msg.setWindowTitle("Error")
+            msg.setText("Artist not found")
+            x = msg.exec_()
             
-        # self.bandSearchLineEdit.setText("")
+        self.bandSearchLineEdit.setText("")
 
     def video_search(self, id):
         obj = {"artist_id": id}
@@ -163,7 +169,7 @@ class UI(QtWidgets.QMainWindow):
         for obj in data["events"]:
             lat = obj['location']['lat']
             lng = obj['location']['lng']
-            iframe = folium.IFrame(f"<section height='100' width='100'><p>{obj['venue']['displayName']}</p><p>{obj['start']['date']}</p><p>{obj['location']['city']}</p><p><a href='{obj['venue']['uri']}'>Tickets</a></p></section>")
+            iframe = folium.IFrame(f"<section height='100' width='100'><p>{obj['venue']['displayName']}</p><p>{obj['start']['date']}</p><p>{obj['location']['city']}</p><p><a href='{obj['venue']['uri']} target='_blank'>Tickets</a></p></section>")
             popup = folium.Popup(iframe, min_width=300, max_width=300)
             folium.Marker(
                 location=(lat, lng),

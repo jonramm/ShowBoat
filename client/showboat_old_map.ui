@@ -27,7 +27,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>0</number>
+     <number>2</number>
     </property>
     <widget class="QWidget" name="homeTab">
      <attribute name="icon">
@@ -303,9 +303,9 @@ color: rgb(0, 91, 203);
      <widget class="QLabel" name="label">
       <property name="geometry">
        <rect>
-        <x>30</x>
+        <x>10</x>
         <y>20</y>
-        <width>471</width>
+        <width>481</width>
         <height>61</height>
        </rect>
       </property>
@@ -472,7 +472,7 @@ border-bottom: 3px solid rgb(198, 140, 41);</string>
      <widget class="QLabel" name="tourDatesCityLabel">
       <property name="geometry">
        <rect>
-        <x>540</x>
+        <x>560</x>
         <y>20</y>
         <width>141</width>
         <height>51</height>
@@ -666,6 +666,9 @@ border-radius: 10px;</string>
       <property name="alignment">
        <set>Qt::AlignHCenter|Qt::AlignTop</set>
       </property>
+      <property name="openExternalLinks">
+       <bool>true</bool>
+      </property>
      </widget>
     </widget>
     <widget class="QWidget" name="mapTab">
@@ -675,10 +678,10 @@ border-radius: 10px;</string>
      <widget class="QWebEngineView" name="mapMapContainer" native="true">
       <property name="geometry">
        <rect>
-        <x>20</x>
-        <y>20</y>
-        <width>1001</width>
-        <height>501</height>
+        <x>10</x>
+        <y>50</y>
+        <width>571</width>
+        <height>451</height>
        </rect>
       </property>
       <property name="styleSheet">
@@ -686,12 +689,369 @@ border-radius: 10px;</string>
 border-radius: 10px;</string>
       </property>
      </widget>
+     <widget class="QLabel" name="mapHomeCityLabel">
+      <property name="geometry">
+       <rect>
+        <x>600</x>
+        <y>20</y>
+        <width>131</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>Britannic Bold</family>
+        <pointsize>10</pointsize>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">color: rgb(198, 140, 41);</string>
+      </property>
+      <property name="text">
+       <string>Enter home city:</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="mapHomeCityLineEdit">
+      <property name="geometry">
+       <rect>
+        <x>730</x>
+        <y>20</y>
+        <width>301</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>10</pointsize>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-color: rgb(255, 255, 255);</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="mapSetCityButton">
+      <property name="geometry">
+       <rect>
+        <x>800</x>
+        <y>70</y>
+        <width>171</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>Britannic Bold</family>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-color: rgb(202, 202, 202);
+color: rgb(0, 91, 203);</string>
+      </property>
+      <property name="text">
+       <string>Set Home City</string>
+      </property>
+     </widget>
+     <widget class="QSlider" name="mapSetRadiusSlider">
+      <property name="geometry">
+       <rect>
+        <x>600</x>
+        <y>80</y>
+        <width>160</width>
+        <height>22</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-color: rgb(202, 202, 202);</string>
+      </property>
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
+      </property>
+     </widget>
+     <widget class="QLabel" name="mapSetSearchRadiusLabel">
+      <property name="geometry">
+       <rect>
+        <x>600</x>
+        <y>100</y>
+        <width>161</width>
+        <height>20</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>Britannic Bold</family>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">color: rgb(198, 140, 41);</string>
+      </property>
+      <property name="text">
+       <string>Set Search Radius</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
+     </widget>
+     <widget class="QLabel" name="mapDateLabel">
+      <property name="geometry">
+       <rect>
+        <x>600</x>
+        <y>140</y>
+        <width>431</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>Britannic Bold</family>
+        <pointsize>14</pointsize>
+        <weight>75</weight>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">color: rgb(198, 140, 41);</string>
+      </property>
+      <property name="text">
+       <string>Date:</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
+     </widget>
+     <widget class="QLabel" name="mapDateDisplayLabel">
+      <property name="geometry">
+       <rect>
+        <x>600</x>
+        <y>190</y>
+        <width>431</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>14</pointsize>
+        <weight>75</weight>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-color: rgb(255, 255, 255);
+border-radius: 10px;</string>
+      </property>
+      <property name="frameShape">
+       <enum>QFrame::StyledPanel</enum>
+      </property>
+      <property name="frameShadow">
+       <enum>QFrame::Sunken</enum>
+      </property>
+      <property name="lineWidth">
+       <number>3</number>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
+     </widget>
+     <widget class="QLabel" name="mapVenueLabel">
+      <property name="geometry">
+       <rect>
+        <x>600</x>
+        <y>240</y>
+        <width>431</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>Britannic Bold</family>
+        <pointsize>14</pointsize>
+        <weight>75</weight>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">color: rgb(198, 140, 41);</string>
+      </property>
+      <property name="text">
+       <string>Venue:</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
+     </widget>
+     <widget class="QLabel" name="mapVenueDisplayLabel">
+      <property name="geometry">
+       <rect>
+        <x>600</x>
+        <y>290</y>
+        <width>431</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>14</pointsize>
+        <weight>75</weight>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-color: rgb(255, 255, 255);
+border-radius: 10px;</string>
+      </property>
+      <property name="frameShape">
+       <enum>QFrame::StyledPanel</enum>
+      </property>
+      <property name="frameShadow">
+       <enum>QFrame::Sunken</enum>
+      </property>
+      <property name="lineWidth">
+       <number>3</number>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
+     </widget>
+     <widget class="QLabel" name="mapTicketsDisplayLabel">
+      <property name="geometry">
+       <rect>
+        <x>600</x>
+        <y>500</y>
+        <width>431</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>14</pointsize>
+        <weight>75</weight>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-color: rgb(255, 255, 255);
+border-radius: 10px;</string>
+      </property>
+      <property name="frameShape">
+       <enum>QFrame::StyledPanel</enum>
+      </property>
+      <property name="frameShadow">
+       <enum>QFrame::Sunken</enum>
+      </property>
+      <property name="lineWidth">
+       <number>3</number>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
+     </widget>
+     <widget class="QLabel" name="mapCityLabel">
+      <property name="geometry">
+       <rect>
+        <x>600</x>
+        <y>350</y>
+        <width>431</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>Britannic Bold</family>
+        <pointsize>14</pointsize>
+        <weight>75</weight>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">color: rgb(198, 140, 41);</string>
+      </property>
+      <property name="text">
+       <string>City:</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
+     </widget>
+     <widget class="QLabel" name="mapTicketsLabel">
+      <property name="geometry">
+       <rect>
+        <x>600</x>
+        <y>450</y>
+        <width>431</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>Britannic Bold</family>
+        <pointsize>14</pointsize>
+        <weight>75</weight>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">color: rgb(198, 140, 41);</string>
+      </property>
+      <property name="text">
+       <string>Tickets:</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
+     </widget>
+     <widget class="QLabel" name="mapCityDisplayLabel">
+      <property name="geometry">
+       <rect>
+        <x>600</x>
+        <y>400</y>
+        <width>431</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>14</pointsize>
+        <weight>75</weight>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-color: rgb(255, 255, 255);
+border-radius: 10px;</string>
+      </property>
+      <property name="frameShape">
+       <enum>QFrame::StyledPanel</enum>
+      </property>
+      <property name="frameShadow">
+       <enum>QFrame::Sunken</enum>
+      </property>
+      <property name="lineWidth">
+       <number>3</number>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
+     </widget>
      <widget class="QLabel" name="mapMapHeaderLabel">
       <property name="geometry">
        <rect>
         <x>10</x>
-        <y>530</y>
-        <width>1001</width>
+        <y>510</y>
+        <width>571</width>
         <height>71</height>
        </rect>
       </property>
