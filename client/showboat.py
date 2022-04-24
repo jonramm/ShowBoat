@@ -143,24 +143,37 @@ class UI(QtWidgets.QMainWindow):
 
     def tour_search(self, artist):
 
-        obj = {"artist_search": artist}
-        response = requests.post('http://127.0.0.1:5000/tour-search', data=obj)
-        data = response.json()
-
-        pprint.pprint(data)
-
-        for obj in data["events"]:
-            lat = obj['location']['lat']
-            lng = obj['location']['lng']
-            folium.Marker(
-                location=(lat, lng),
-                popup=obj['venue']['displayName'],
-            ).add_to(self.map)
-
+        # clear map
+        coordinates = (39.70495909177235, -101.79370097549975)
+        self.map = folium.Map(
+            title='',
+            zoom_start=3,
+            location=coordinates
+        )
         map_data = io.BytesIO()
         self.map.save(map_data, close_file=False)
         self.mapMapContainer.setHtml(map_data.getvalue().decode())
 
+        # get tour dates
+        obj = {"artist_search": artist}
+        response = requests.post('http://127.0.0.1:5000/tour-search', data=obj)
+        data = response.json()
+
+        # add dates to map
+        for obj in data["events"]:
+            lat = obj['location']['lat']
+            lng = obj['location']['lng']
+            iframe = folium.IFrame(f"<section height='100' width='100'><p>{obj['venue']['displayName']}</p><p>{obj['start']['date']}</p><p>{obj['location']['city']}</p><p><a href='{obj['venue']['uri']}'>Tickets</a></p></section>")
+            popup = folium.Popup(iframe, min_width=300, max_width=300)
+            folium.Marker(
+                location=(lat, lng),
+                popup=popup,
+            ).add_to(self.map)
+        map_data = io.BytesIO()
+        self.map.save(map_data, close_file=False)
+        self.mapMapContainer.setHtml(map_data.getvalue().decode())
+
+        # create data strings for display
         dates = ""
         tourDates = ""
         tourVenues = ""
@@ -168,14 +181,16 @@ class UI(QtWidgets.QMainWindow):
         tourCities = ""
         tourStates = ""
 
+        # loop through events to construct data strings
         for date in data["events"]:
             dates += f"{date['start']['date']}" + " " + f"{date['venue']['displayName']}" + " " + f"<a href='{date['venue']['uri']}'>{date['venue']['uri']}</a>" + "<br><br>"
             tourDates += f"{date['start']['date']} <br><br>"
             tourVenues += f"{date['venue']['displayName']} <br><br>" 
-            tourTickets += f"<a href='{date['venue']['uri']}'>{date['venue']['uri']}</a>" + "<br><br>"
+            tourTickets += f"<a href='{date['venue']['uri']}'>Tickets</a>" + "<br><br>"
             tourCities += f"{date['location']['city']} <br><br>" 
             # tourStates += f"{date['state']} <br><br>" 
 
+        # update widgets with display data
         self.homeTourDatesLabel.setText(dates)
         self.tourDatesDateListLabel.setText(tourDates)
         self.tourDatesVenueListLabel.setText(tourVenues)
@@ -190,19 +205,6 @@ class UI(QtWidgets.QMainWindow):
         pixmap.loadFromData(data)
         self.bandPhotoLabel.setPixmap(pixmap)
         self.bandPhotoLabel.setScaledContents(True)
-
-    def load_photo(self, img_url):
-        data = urllib.request.urlopen(img_url).read()
-        pixmap = QPixmap()
-        pixmap.loadFromData(data)
-        self.bandPhotoLabel.setPixmap(pixmap)
-        self.bandPhotoLabel.setScaledContents(True)
-
-    def load_artist_name(self, name):
-        self.bandInfoNameLabel.setText(name)
-
-    def load_artist_bio(self, bio):
-        self.bandBioLabel.setText(bio)
 
     def get_artist_name(self, search_string):
         url = f"http://ws.audioscrobbler.com/2.0/?method=artist.getinfo&artist={search_string}&api_key={self.API_KEY}&format=json"
