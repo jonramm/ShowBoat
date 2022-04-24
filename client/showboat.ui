@@ -40,10 +40,10 @@
      <widget class="QLabel" name="bandPhotoLabel">
       <property name="geometry">
        <rect>
-        <x>20</x>
-        <y>20</y>
-        <width>491</width>
-        <height>291</height>
+        <x>50</x>
+        <y>100</y>
+        <width>423</width>
+        <height>423</height>
        </rect>
       </property>
       <property name="sizePolicy">
@@ -81,8 +81,8 @@ border-radius: 10px;</string>
      <widget class="QLabel" name="bandBioHeader">
       <property name="geometry">
        <rect>
-        <x>180</x>
-        <y>380</y>
+        <x>690</x>
+        <y>240</y>
         <width>171</width>
         <height>41</height>
        </rect>
@@ -108,10 +108,10 @@ border-bottom: 3px solid rgb(198, 140, 41);</string>
      <widget class="QLabel" name="bandBioLabel">
       <property name="geometry">
        <rect>
-        <x>20</x>
-        <y>430</y>
+        <x>530</x>
+        <y>300</y>
         <width>491</width>
-        <height>171</height>
+        <height>301</height>
        </rect>
       </property>
       <property name="font">
@@ -150,7 +150,7 @@ border-radius: 10px;</string>
       <property name="geometry">
        <rect>
         <x>20</x>
-        <y>330</y>
+        <y>540</y>
         <width>231</width>
         <height>41</height>
        </rect>
@@ -187,8 +187,8 @@ border-radius: 10px;</string>
      <widget class="QLabel" name="bandInfoWebsiteLabel">
       <property name="geometry">
        <rect>
-        <x>280</x>
-        <y>330</y>
+        <x>270</x>
+        <y>540</y>
         <width>231</width>
         <height>41</height>
        </rect>
@@ -225,79 +225,11 @@ border-radius: 10px;</string>
        <bool>true</bool>
       </property>
      </widget>
-     <widget class="QLabel" name="tourDatesHomeHeader">
-      <property name="geometry">
-       <rect>
-        <x>620</x>
-        <y>310</y>
-        <width>301</width>
-        <height>41</height>
-       </rect>
-      </property>
-      <property name="font">
-       <font>
-        <family>Britannic Bold</family>
-        <pointsize>19</pointsize>
-       </font>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">color: rgb(198, 140, 41);
-
-border-bottom: 3px solid rgb(198, 140, 41);</string>
-      </property>
-      <property name="text">
-       <string>Upcoming Tour Dates</string>
-      </property>
-      <property name="alignment">
-       <set>Qt::AlignCenter</set>
-      </property>
-     </widget>
-     <widget class="QLabel" name="homeTourDatesLabel">
-      <property name="geometry">
-       <rect>
-        <x>540</x>
-        <y>370</y>
-        <width>481</width>
-        <height>231</height>
-       </rect>
-      </property>
-      <property name="font">
-       <font>
-        <family>Tahoma</family>
-        <pointsize>8</pointsize>
-        <weight>75</weight>
-        <bold>true</bold>
-       </font>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">background-color: rgb(255, 255, 255);
-
-border-radius: 10px;</string>
-      </property>
-      <property name="frameShape">
-       <enum>QFrame::StyledPanel</enum>
-      </property>
-      <property name="frameShadow">
-       <enum>QFrame::Sunken</enum>
-      </property>
-      <property name="lineWidth">
-       <number>3</number>
-      </property>
-      <property name="text">
-       <string/>
-      </property>
-      <property name="alignment">
-       <set>Qt::AlignCenter</set>
-      </property>
-      <property name="wordWrap">
-       <bool>true</bool>
-      </property>
-     </widget>
      <widget class="QGroupBox" name="searchBarContainer">
       <property name="geometry">
        <rect>
         <x>530</x>
-        <y>100</y>
+        <y>20</y>
         <width>501</width>
         <height>201</height>
        </rect>
@@ -412,7 +344,7 @@ color: rgb(0, 91, 203);
      <widget class="QLabel" name="label">
       <property name="geometry">
        <rect>
-        <x>540</x>
+        <x>10</x>
         <y>20</y>
         <width>481</width>
         <height>61</height>
@@ -485,7 +417,7 @@ border-bottom: 3px solid rgb(198, 140, 41);</string>
      <widget class="QLabel" name="tourDatesVenueLabel">
       <property name="geometry">
        <rect>
-        <x>240</x>
+        <x>260</x>
         <y>20</y>
         <width>101</width>
         <height>51</height>
@@ -511,9 +443,9 @@ border-bottom: 3px solid rgb(198, 140, 41);</string>
      <widget class="QLabel" name="tourDatesCityLabel">
       <property name="geometry">
        <rect>
-        <x>420</x>
+        <x>510</x>
         <y>20</y>
-        <width>71</width>
+        <width>141</width>
         <height>51</height>
        </rect>
       </property>
@@ -529,33 +461,7 @@ border-bottom: 3px solid rgb(198, 140, 41);</string>
 border-bottom: 3px solid rgb(198, 140, 41);</string>
       </property>
       <property name="text">
-       <string>City</string>
-      </property>
-      <property name="alignment">
-       <set>Qt::AlignCenter</set>
-      </property>
-     </widget>
-     <widget class="QLabel" name="tourDatesStateLabel">
-      <property name="geometry">
-       <rect>
-        <x>570</x>
-        <y>20</y>
-        <width>81</width>
-        <height>51</height>
-       </rect>
-      </property>
-      <property name="font">
-       <font>
-        <family>Britannic Bold</family>
-        <pointsize>20</pointsize>
-       </font>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">color: rgb(198, 140, 41);
-border-bottom: 3px solid rgb(198, 140, 41);</string>
-      </property>
-      <property name="text">
-       <string>State</string>
+       <string>Location</string>
       </property>
       <property name="alignment">
        <set>Qt::AlignCenter</set>
@@ -564,7 +470,7 @@ border-bottom: 3px solid rgb(198, 140, 41);</string>
      <widget class="QLabel" name="tourDatesTicketInfoLabel">
       <property name="geometry">
        <rect>
-        <x>750</x>
+        <x>770</x>
         <y>20</y>
         <width>161</width>
         <height>51</height>
@@ -590,9 +496,9 @@ border-bottom: 3px solid rgb(198, 140, 41);</string>
      <widget class="QLabel" name="tourDatesDateListLabel">
       <property name="geometry">
        <rect>
-        <x>23</x>
+        <x>30</x>
         <y>90</y>
-        <width>141</width>
+        <width>111</width>
         <height>501</height>
        </rect>
       </property>
@@ -626,9 +532,9 @@ border-radius: 10px;</string>
      <widget class="QLabel" name="tourDatesVenueListLabel">
       <property name="geometry">
        <rect>
-        <x>200</x>
+        <x>190</x>
         <y>90</y>
-        <width>161</width>
+        <width>231</width>
         <height>501</height>
        </rect>
       </property>
@@ -662,45 +568,9 @@ border-radius: 10px;</string>
      <widget class="QLabel" name="tourDatesCityListLabel">
       <property name="geometry">
        <rect>
-        <x>390</x>
+        <x>470</x>
         <y>90</y>
-        <width>141</width>
-        <height>501</height>
-       </rect>
-      </property>
-      <property name="font">
-       <font>
-        <family>Tahoma</family>
-        <weight>75</weight>
-        <bold>true</bold>
-       </font>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">background-color: rgb(255, 255, 255);
-border-radius: 10px;</string>
-      </property>
-      <property name="frameShape">
-       <enum>QFrame::StyledPanel</enum>
-      </property>
-      <property name="frameShadow">
-       <enum>QFrame::Sunken</enum>
-      </property>
-      <property name="lineWidth">
-       <number>3</number>
-      </property>
-      <property name="text">
-       <string/>
-      </property>
-      <property name="alignment">
-       <set>Qt::AlignHCenter|Qt::AlignTop</set>
-      </property>
-     </widget>
-     <widget class="QLabel" name="tourDatesStateListLabel">
-      <property name="geometry">
-       <rect>
-        <x>570</x>
-        <y>90</y>
-        <width>81</width>
+        <width>221</width>
         <height>501</height>
        </rect>
       </property>
@@ -734,9 +604,9 @@ border-radius: 10px;</string>
      <widget class="QLabel" name="tourDatesTicketListLabel">
       <property name="geometry">
        <rect>
-        <x>690</x>
+        <x>740</x>
         <y>90</y>
-        <width>281</width>
+        <width>231</width>
         <height>501</height>
        </rect>
       </property>

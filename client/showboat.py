@@ -32,8 +32,8 @@ class UI(QtWidgets.QMainWindow):
         self.bandInfoNameLabel = self.findChild(QtWidgets.QLabel, "bandInfoNameLabel")
         self.bandInfoWebsiteLabel = self.findChild(QtWidgets.QLabel, "bandInfoWebsiteLabel")
         self.bandBioHeader_2 = self.findChild(QtWidgets.QLabel, "bandBioHeader_2")
-        self.tourDatesHomeHeader = self.findChild(QtWidgets.QLabel, "tourDatesHomeHeader")
-        self.homeTourDatesLabel = self.findChild(QtWidgets.QLabel, "homeTourDatesLabel")
+        # self.tourDatesHomeHeader = self.findChild(QtWidgets.QLabel, "tourDatesHomeHeader")
+        # self.homeTourDatesLabel = self.findChild(QtWidgets.QLabel, "homeTourDatesLabel")
         
         self.bandSearchLineEdit = self.findChild(QtWidgets.QLineEdit, "bandSearchLineEdit")
 
@@ -44,12 +44,12 @@ class UI(QtWidgets.QMainWindow):
         self.tourDatesDateLabel = self.findChild(QtWidgets.QLabel, "tourDatesDateLabel")
         self.tourDatesVenueLabel = self.findChild(QtWidgets.QLabel, "tourDatesVenueLabel")
         self.tourDatesCityLabel = self.findChild(QtWidgets.QLabel, "tourDatesCityLabel")
-        self.tourDatesStateLabel = self.findChild(QtWidgets.QLabel, "tourDatesStateLabel")
+        # self.tourDatesStateLabel = self.findChild(QtWidgets.QLabel, "tourDatesStateLabel")
         self.tourDatesTicketInfoLabel = self.findChild(QtWidgets.QLabel, "tourDatesTicketInfoLabel")
         self.tourDatesDateListLabel = self.findChild(QtWidgets.QLabel, "tourDatesDateListLabel")
         self.tourDatesVenueListLabel = self.findChild(QtWidgets.QLabel, "tourDatesVenueListLabel")
         self.tourDatesCityListLabel = self.findChild(QtWidgets.QLabel, "tourDatesCityListLabel")
-        self.tourDatesStateListLabel = self.findChild(QtWidgets.QLabel, "tourDatesStateListLabel")
+        # self.tourDatesStateListLabel = self.findChild(QtWidgets.QLabel, "tourDatesStateListLabel")
         self.tourDatesTicketListLabel = self.findChild(QtWidgets.QLabel, "tourDatesTicketListLabel")
 
         # Map
@@ -183,7 +183,7 @@ class UI(QtWidgets.QMainWindow):
 
         # loop through events to construct data strings
         for date in data["events"]:
-            dates += f"{date['start']['date']}" + " " + f"{date['venue']['displayName']}" + " " + f"<a href='{date['venue']['uri']}'>{date['venue']['uri']}</a>" + "<br><br>"
+            # dates += f"{date['start']['date']}" + " " + f"{date['venue']['displayName']}" + " " + f"<a href='{date['venue']['uri']}'>{date['venue']['uri']}</a>" + "<br><br>"
             tourDates += f"{date['start']['date']} <br><br>"
             tourVenues += f"{date['venue']['displayName']} <br><br>" 
             tourTickets += f"<a href='{date['venue']['uri']}'>Tickets</a>" + "<br><br>"
@@ -191,7 +191,7 @@ class UI(QtWidgets.QMainWindow):
             # tourStates += f"{date['state']} <br><br>" 
 
         # update widgets with display data
-        self.homeTourDatesLabel.setText(dates)
+        # self.homeTourDatesLabel.setText(dates)
         self.tourDatesDateListLabel.setText(tourDates)
         self.tourDatesVenueListLabel.setText(tourVenues)
         self.tourDatesTicketListLabel.setText(tourTickets)
