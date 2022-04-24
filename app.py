@@ -23,71 +23,25 @@ def artist_search():
 
 @app.route("/tour-search", methods=['GET', 'POST'])
 def tour_search():
-    if request.method == 'POST':    
-        data = [{
-            "band": "Radiohead",
-            "bio": "Radiohead is an excellent band with a weird looking front man.",
-            "dates": [{
-                "date": "05/04/2022",
-                "city": "Seattle",
-                "state": "WA",
-                "coords": (47.61016575715863, -122.33039845454395),
-                "venue": "Doo-doo Arena",
-                "tickets": "www.tickets.com"
-            },
-                {
-                "date": "05/06/2022",
-                "city": "Phoenix",
-                "state": "AZ",
-                "coords": (33.450551235340384, -112.05504789994673),
-                "venue": "Scrimshaw Center",
-                "tickets": "www.getyourtix.com"
-            },
-                {
-                "date": "05/08/2022",
-                "city": "Asheville",
-                "state": "NC",
-                "coords": (35.59638039236993, -82.55374094217699),
-                "venue": "Big Outdoor Venue",
-                "tickets": "www.tickytickets.com"
-            }],
-            "website": "www.radiohead.com",
-            "image_url": "https://i.guim.co.uk/img/media/c174daa9a205ff9ad68c155bad9003fd946bbf85/0_178_2048_1228/master/2048.jpg?width=1200&height=1200&quality=85&auto=format&fit=crop&s=d0ec33bb206217ddc78f8701fe6a32c4"
-        },
-        {
-            "band": "Kendrick Lamar",
-            "bio": "Kendrick Lamar is a great rapper with some certified bangers.",
-            "dates": [{
-                "date": "05/04/2022",
-                "city": "Seattle",
-                "state": "WA",
-                "coords": (47.61016575715863, -122.33039845454395),
-                "venue": "Doo-doo Arena",
-                "tickets": "www.tickets.com"
-            },
-                {
-                "date": "05/06/2022",
-                "city": "Phoenix",
-                "state": "AZ",
-                "coords": (33.450551235340384, -112.05504789994673),
-                "venue": "Scrimshaw Center",
-                "tickets": "www.getyourtix.com"
-            },
-                {
-                "date": "05/08/2022",
-                "city": "Asheville",
-                "state": "NC",
-                "coords": (35.59638039236993, -82.55374094217699),
-                "venue": "Big Outdoor Venue",
-                "tickets": "www.tickytickets.com"
-            }],
-            "website": "www.kendricklamar.com",
-            "image_url": "https://yt3.ggpht.com/ytc/AKedOLR_U3rEZI1YgAe7YlSAeyr2XOwN1MLfH2G9ZPorDw=s900-c-k-c0x00ffffff-no-rj"
-        }]
+    if request.method == 'POST':
+        id_url = f"https://api.songkick.com/api/3.0/search/artists.json?apikey={os.getenv('SONGKICK_API_KEY')}&query={request.form.get('artist_search')}"
+        response = requests.get(id_url)
+        id_data = response.json()
 
-        for el in data:
-            if el["band"] == request.form.get('band_search'):
-                return el
+        id = id_data['resultsPage']['results']['artist'][0]['id']
+
+        tour_url = f"https://api.songkick.com/api/3.0/artists/{id}/calendar.json?apikey={os.getenv('SONGKICK_API_KEY')}"
+        response = requests.get(tour_url)
+        tour_data = response.json()
+
+        events = tour_data['resultsPage']['results']['event']
+
+        obj = {
+            'events': events
+        }
+
+        return obj
+        
 
 
 @app.route("/city-search", methods=['GET', 'POST'])
@@ -124,3 +78,69 @@ def video_search():
             'video_urls': video_urls
         }
         return obj
+
+
+# data = [{
+#             "band": "Radiohead",
+#             "bio": "Radiohead is an excellent band with a weird looking front man.",
+#             "dates": [{
+#                 "date": "05/04/2022",
+#                 "city": "Seattle",
+#                 "state": "WA",
+#                 "coords": (47.61016575715863, -122.33039845454395),
+#                 "venue": "Doo-doo Arena",
+#                 "tickets": "www.tickets.com"
+#             },
+#                 {
+#                 "date": "05/06/2022",
+#                 "city": "Phoenix",
+#                 "state": "AZ",
+#                 "coords": (33.450551235340384, -112.05504789994673),
+#                 "venue": "Scrimshaw Center",
+#                 "tickets": "www.getyourtix.com"
+#             },
+#                 {
+#                 "date": "05/08/2022",
+#                 "city": "Asheville",
+#                 "state": "NC",
+#                 "coords": (35.59638039236993, -82.55374094217699),
+#                 "venue": "Big Outdoor Venue",
+#                 "tickets": "www.tickytickets.com"
+#             }],
+#             "website": "www.radiohead.com",
+#             "image_url": "https://i.guim.co.uk/img/media/c174daa9a205ff9ad68c155bad9003fd946bbf85/0_178_2048_1228/master/2048.jpg?width=1200&height=1200&quality=85&auto=format&fit=crop&s=d0ec33bb206217ddc78f8701fe6a32c4"
+#         },
+#         {
+#             "band": "Kendrick Lamar",
+#             "bio": "Kendrick Lamar is a great rapper with some certified bangers.",
+#             "dates": [{
+#                 "date": "05/04/2022",
+#                 "city": "Seattle",
+#                 "state": "WA",
+#                 "coords": (47.61016575715863, -122.33039845454395),
+#                 "venue": "Doo-doo Arena",
+#                 "tickets": "www.tickets.com"
+#             },
+#                 {
+#                 "date": "05/06/2022",
+#                 "city": "Phoenix",
+#                 "state": "AZ",
+#                 "coords": (33.450551235340384, -112.05504789994673),
+#                 "venue": "Scrimshaw Center",
+#                 "tickets": "www.getyourtix.com"
+#             },
+#                 {
+#                 "date": "05/08/2022",
+#                 "city": "Asheville",
+#                 "state": "NC",
+#                 "coords": (35.59638039236993, -82.55374094217699),
+#                 "venue": "Big Outdoor Venue",
+#                 "tickets": "www.tickytickets.com"
+#             }],
+#             "website": "www.kendricklamar.com",
+#             "image_url": "https://yt3.ggpht.com/ytc/AKedOLR_U3rEZI1YgAe7YlSAeyr2XOwN1MLfH2G9ZPorDw=s900-c-k-c0x00ffffff-no-rj"
+#         }]
+
+#         for el in data:
+#             if el["band"] == request.form.get('band_search'):
+#                 return el

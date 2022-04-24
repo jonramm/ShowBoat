@@ -111,8 +111,7 @@ class UI(QtWidgets.QMainWindow):
         self.bandInfoWebsiteLabel.setText(f"<a href='{data['website']}'>{data['website']}</a>")
         
         self.set_photo(data['img_url'])
-        # self.tour_search(data)
-        
+        self.tour_search(data['artist'])
         self.video_search(data['id'])
             
         # self.bandSearchLineEdit.setText("")
@@ -142,11 +141,20 @@ class UI(QtWidgets.QMainWindow):
         map.save(data, close_file=False)
         self.mapMapContainer.setHtml(data.getvalue().decode())
 
-    def tour_search(self, data):
-        for obj in data["dates"]:
+    def tour_search(self, artist):
+
+        obj = {"artist_search": artist}
+        response = requests.post('http://127.0.0.1:5000/tour-search', data=obj)
+        data = response.json()
+
+        pprint.pprint(data)
+
+        for obj in data["events"]:
+            lat = obj['location']['lat']
+            lng = obj['location']['lng']
             folium.Marker(
-                location=obj["coords"],
-                popup=obj["venue"],
+                location=(lat, lng),
+                popup=obj['venue']['displayName'],
             ).add_to(self.map)
 
         map_data = io.BytesIO()
@@ -160,19 +168,19 @@ class UI(QtWidgets.QMainWindow):
         tourCities = ""
         tourStates = ""
 
-        for date in data["dates"]:
-            dates += f"{date['date']}" + " " + f"{date['venue']}" + " " + f"<a href='{date['tickets']}'>{date['tickets']}</a>" + "<br><br>"
-            tourDates += f"{date['date']} <br><br>"
-            tourVenues += f"{date['venue']} <br><br>" 
-            tourTickets += f"<a href='{date['tickets']}'>{date['tickets']}</a> <br><br>"
-            tourCities += f"{date['city']} <br><br>" 
-            tourStates += f"{date['state']} <br><br>" 
+        for date in data["events"]:
+            dates += f"{date['start']['date']}" + " " + f"{date['venue']['displayName']}" + " " + f"<a href='{date['venue']['uri']}'>{date['venue']['uri']}</a>" + "<br><br>"
+            tourDates += f"{date['start']['date']} <br><br>"
+            tourVenues += f"{date['venue']['displayName']} <br><br>" 
+            tourTickets += f"<a href='{date['venue']['uri']}'>{date['venue']['uri']}</a>" + "<br><br>"
+            tourCities += f"{date['location']['city']} <br><br>" 
+            # tourStates += f"{date['state']} <br><br>" 
 
         self.homeTourDatesLabel.setText(dates)
         self.tourDatesDateListLabel.setText(tourDates)
         self.tourDatesVenueListLabel.setText(tourVenues)
         self.tourDatesTicketListLabel.setText(tourTickets)
-        self.tourDatesStateListLabel.setText(tourStates)
+        # self.tourDatesStateListLabel.setText(tourStates)
         self.tourDatesCityListLabel.setText(tourCities)
         
 
