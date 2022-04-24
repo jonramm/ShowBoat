@@ -63,15 +63,15 @@ class UI(QtWidgets.QMainWindow):
         self.mapTicketsDisplayLabel = self.findChild(QtWidgets.QLabel, "mapTicketsDisplayLabel")
 
         coordinates = (39.70495909177235, -101.79370097549975)
-        map = folium.Map(
-            title='Santa Fe',
+        self.map = folium.Map(
+            title='',
             zoom_start=3,
             location=coordinates
         )
 
         # save map data to data object
         data = io.BytesIO()
-        map.save(data, close_file=False)
+        self.map.save(data, close_file=False)
 
         self.mapMapContainer.setHtml(data.getvalue().decode())
 
@@ -87,28 +87,41 @@ class UI(QtWidgets.QMainWindow):
             "video2": self.video2
         }
 
-        # url = "https://www.youtube.com/watch?v=JQbjS0_ZfJ0?autoplay=0"
-        # self.video_dict["video0"].setUrl(QtCore.QUrl(url))
-
         self.videoSeeMoreButton = self.findChild(QtWidgets.QPushButton, "videoSeeMoreButton")
 
         # Functionality
 
-        self.searchButton.clicked.connect(self.artist_search_test)
+        self.searchButton.clicked.connect(self.artist_search)
         self.mapSetCityButton.clicked.connect(self.city_search_test)
 
-        
-
+    
         # show the app
         self.show()
 
     # Functions
 
-    def video_search_test(self, artist):
-        obj = {"artist": artist}
+    def artist_search(self):
+        value = self.bandSearchLineEdit.text()
+        obj = {"artist_search": value}
+        response = requests.post('http://127.0.0.1:5000/artist-search', data=obj)
+        data = response.json()
+        pprint.pprint(data)
+        self.bandInfoNameLabel.setText(data['artist'])
+        self.bandBioLabel.setText(data["bio"])
+        self.bandInfoWebsiteLabel.setText(f"<a href='{data['website']}'>{data['website']}</a>")
+        
+        self.set_photo(data['img_url'])
+        # self.tour_search(data)
+        
+        self.video_search(data['id'])
+            
+        # self.bandSearchLineEdit.setText("")
+
+    def video_search(self, id):
+        obj = {"artist_id": id}
         response = requests.post('http://127.0.0.1:5000/video-search', data=obj)
         data = response.json()
-
+        pprint.pprint(data)
         for i, url in enumerate(data["video_urls"]):
             self.video_dict[f"video{i}"].setUrl(QtCore.QUrl(url))
 
@@ -121,7 +134,7 @@ class UI(QtWidgets.QMainWindow):
         coords = data["coords"]
 
         map = folium.Map(
-            title='Santa Fe',
+            title=city,
             zoom_start=6,
             location=coords
         )
@@ -129,14 +142,16 @@ class UI(QtWidgets.QMainWindow):
         map.save(data, close_file=False)
         self.mapMapContainer.setHtml(data.getvalue().decode())
 
+    def tour_search(self, data):
+        for obj in data["dates"]:
+            folium.Marker(
+                location=obj["coords"],
+                popup=obj["venue"],
+            ).add_to(self.map)
 
-    def artist_search_test(self):
-        value = self.bandSearchLineEdit.text()
-        obj = {"band_search": value}
-        response = requests.post('http://127.0.0.1:5000/artist-search', data=obj)
-        data = response.json()
-        self.bandInfoNameLabel.setText(data["band"])
-        self.bandBioLabel.setText(data["bio"])
+        map_data = io.BytesIO()
+        self.map.save(map_data, close_file=False)
+        self.mapMapContainer.setHtml(map_data.getvalue().decode())
 
         dates = ""
         tourDates = ""
@@ -159,48 +174,14 @@ class UI(QtWidgets.QMainWindow):
         self.tourDatesTicketListLabel.setText(tourTickets)
         self.tourDatesStateListLabel.setText(tourStates)
         self.tourDatesCityListLabel.setText(tourCities)
-        self.bandInfoWebsiteLabel.setText(f"<a href='{data['website']}'>{data['website']}</a>")
+        
 
-        img_url = data["image_url"]
-        data = urllib.request.urlopen(img_url).read()
-        pixmap = QPixmap()
-        pixmap.loadFromData(data)
-
-        self.bandPhotoLabel.setPixmap(pixmap)
-        self.bandPhotoLabel.setScaledContents(True)
-
-        self.video_search_test(value)
-            
-        self.bandSearchLineEdit.setText("")
-
-    def get_photo(self):
-        response = requests.get('http://127.0.0.1:5000/band-photo')
-        img_url = response.json()["url"]
+    def set_photo(self, img_url):
         data = urllib.request.urlopen(img_url).read()
         pixmap = QPixmap()
         pixmap.loadFromData(data)
         self.bandPhotoLabel.setPixmap(pixmap)
         self.bandPhotoLabel.setScaledContents(True)
-
-    def artist_search(self):
-        search_string = urllib.parse.quote(self.bandSearchLineEdit.text())
-        # url = f"https://api.spotify.com/v1/search?q=artist%3A{search_string}&type=artist"
-        # headers = {
-        #     "Accept": "application/json",
-        #     "Content-Type": "application/json",
-        #     "Authorization": "Bearer BQD0MtwAM3RNohVy8G61SlaqJt7LfT0L-z7Z2g566kwGXt-YaZoYMPl2w3cqyStytxRhbAF5cKNjHLF3nMni91IzQR0EIh6hgSn30e0xzoVdvF50vDcpeDsKt3jJaF0xDNNq8oYIqCo3rf8"
-        # }
-        # response = requests.get(url, headers=headers)
-        # pprint.pprint(response.json())
-        # id = response.json()["artists"]["items"][0]["id"]
-        # name = response.json()["artists"]["items"][0]["name"]
-        # img_url = response.json()["artists"]["items"][0]["images"][0]["url"]
-
-        bio = self.get_artist_bio(search_string)
-        self.load_artist_bio(bio)
-        # name = self.get_artist_name(search_string)
-        # self.load_photo(img_url)
-        # self.load_artist_name(name)
 
     def load_photo(self, img_url):
         data = urllib.request.urlopen(img_url).read()

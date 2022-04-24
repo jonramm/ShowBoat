@@ -52,63 +52,15 @@
         <verstretch>0</verstretch>
        </sizepolicy>
       </property>
-      <property name="styleSheet">
-       <string notr="true">background-color: rgb(255, 255, 255);</string>
-      </property>
-      <property name="frameShape">
-       <enum>QFrame::StyledPanel</enum>
-      </property>
-      <property name="frameShadow">
-       <enum>QFrame::Sunken</enum>
-      </property>
-      <property name="lineWidth">
-       <number>3</number>
-      </property>
-      <property name="text">
-       <string/>
-      </property>
-     </widget>
-     <widget class="QLabel" name="bandBioHeader">
-      <property name="geometry">
-       <rect>
-        <x>210</x>
-        <y>380</y>
-        <width>111</width>
-        <height>41</height>
-       </rect>
-      </property>
       <property name="font">
        <font>
-        <family>Impact</family>
-        <pointsize>19</pointsize>
+        <family>Britannic Bold</family>
        </font>
       </property>
       <property name="styleSheet">
-       <string notr="true">color: rgb(198, 140, 41);</string>
-      </property>
-      <property name="text">
-       <string>Band Bio:</string>
-      </property>
-     </widget>
-     <widget class="QLabel" name="bandBioLabel">
-      <property name="geometry">
-       <rect>
-        <x>20</x>
-        <y>430</y>
-        <width>491</width>
-        <height>171</height>
-       </rect>
-      </property>
-      <property name="font">
-       <font>
-        <family>MS Shell Dlg 2</family>
-        <pointsize>8</pointsize>
-        <weight>50</weight>
-        <bold>false</bold>
-       </font>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">background-color: rgb(255, 255, 255);</string>
+       <string notr="true">background-color: rgb(255, 255, 255);
+
+border-radius: 10px;</string>
       </property>
       <property name="frameShape">
        <enum>QFrame::StyledPanel</enum>
@@ -123,7 +75,72 @@
        <string/>
       </property>
       <property name="alignment">
-       <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+       <set>Qt::AlignCenter</set>
+      </property>
+     </widget>
+     <widget class="QLabel" name="bandBioHeader">
+      <property name="geometry">
+       <rect>
+        <x>180</x>
+        <y>380</y>
+        <width>171</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>Britannic Bold</family>
+        <pointsize>19</pointsize>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">color: rgb(198, 140, 41);
+
+border-bottom: 3px solid rgb(198, 140, 41);</string>
+      </property>
+      <property name="text">
+       <string>Band Bio:</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
+     </widget>
+     <widget class="QLabel" name="bandBioLabel">
+      <property name="geometry">
+       <rect>
+        <x>20</x>
+        <y>430</y>
+        <width>491</width>
+        <height>171</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>Tahoma</family>
+        <pointsize>8</pointsize>
+        <weight>50</weight>
+        <bold>false</bold>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-color: rgb(255, 255, 255);
+
+border-radius: 10px;</string>
+      </property>
+      <property name="frameShape">
+       <enum>QFrame::StyledPanel</enum>
+      </property>
+      <property name="frameShadow">
+       <enum>QFrame::Sunken</enum>
+      </property>
+      <property name="lineWidth">
+       <number>3</number>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
       </property>
       <property name="wordWrap">
        <bool>true</bool>
@@ -140,14 +157,16 @@
       </property>
       <property name="font">
        <font>
-        <family>MS Shell Dlg 2</family>
-        <pointsize>8</pointsize>
-        <weight>75</weight>
-        <bold>true</bold>
+        <family>Britannic Bold</family>
+        <pointsize>10</pointsize>
+        <weight>50</weight>
+        <bold>false</bold>
        </font>
       </property>
       <property name="styleSheet">
-       <string notr="true">background-color: rgb(255, 255, 255);</string>
+       <string notr="true">background-color: rgb(255, 255, 255);
+
+border-radius: 10px;</string>
       </property>
       <property name="frameShape">
        <enum>QFrame::StyledPanel</enum>
@@ -176,14 +195,16 @@
       </property>
       <property name="font">
        <font>
-        <family>MS Shell Dlg 2</family>
-        <pointsize>9</pointsize>
-        <weight>75</weight>
-        <bold>true</bold>
+        <family>Britannic Bold</family>
+        <pointsize>10</pointsize>
+        <weight>50</weight>
+        <bold>false</bold>
        </font>
       </property>
       <property name="styleSheet">
-       <string notr="true">background-color: rgb(255, 255, 255);</string>
+       <string notr="true">background-color: rgb(255, 255, 255);
+
+border-radius: 10px;</string>
       </property>
       <property name="frameShape">
        <enum>QFrame::StyledPanel</enum>
@@ -204,107 +225,25 @@
        <bool>true</bool>
       </property>
      </widget>
-     <widget class="QLabel" name="bandBioHeader_2">
-      <property name="geometry">
-       <rect>
-        <x>640</x>
-        <y>30</y>
-        <width>291</width>
-        <height>41</height>
-       </rect>
-      </property>
-      <property name="font">
-       <font>
-        <family>Impact</family>
-        <pointsize>24</pointsize>
-       </font>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">color: rgb(198, 140, 41);</string>
-      </property>
-      <property name="text">
-       <string>Band Search:</string>
-      </property>
-      <property name="alignment">
-       <set>Qt::AlignCenter</set>
-      </property>
-     </widget>
-     <widget class="QLineEdit" name="bandSearchLineEdit">
-      <property name="geometry">
-       <rect>
-        <x>542</x>
-        <y>89</y>
-        <width>481</width>
-        <height>41</height>
-       </rect>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">background-color: rgb(255, 255, 255);</string>
-      </property>
-     </widget>
-     <widget class="QPushButton" name="lastSearchButton">
-      <property name="geometry">
-       <rect>
-        <x>540</x>
-        <y>150</y>
-        <width>231</width>
-        <height>51</height>
-       </rect>
-      </property>
-      <property name="font">
-       <font>
-        <family>Impact</family>
-        <pointsize>12</pointsize>
-       </font>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">background-color: rgb(202, 202, 202);
-color: rgb(90, 42, 194);</string>
-      </property>
-      <property name="text">
-       <string>Last Search</string>
-      </property>
-     </widget>
-     <widget class="QPushButton" name="searchButton">
-      <property name="geometry">
-       <rect>
-        <x>790</x>
-        <y>150</y>
-        <width>231</width>
-        <height>51</height>
-       </rect>
-      </property>
-      <property name="font">
-       <font>
-        <family>Impact</family>
-        <pointsize>12</pointsize>
-       </font>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">background-color: rgb(202, 202, 202);
-color: rgb(90, 42, 194);</string>
-      </property>
-      <property name="text">
-       <string>Search Band</string>
-      </property>
-     </widget>
      <widget class="QLabel" name="tourDatesHomeHeader">
       <property name="geometry">
        <rect>
-        <x>610</x>
-        <y>230</y>
-        <width>351</width>
+        <x>620</x>
+        <y>310</y>
+        <width>301</width>
         <height>41</height>
        </rect>
       </property>
       <property name="font">
        <font>
-        <family>Impact</family>
+        <family>Britannic Bold</family>
         <pointsize>19</pointsize>
        </font>
       </property>
       <property name="styleSheet">
-       <string notr="true">color: rgb(198, 140, 41);</string>
+       <string notr="true">color: rgb(198, 140, 41);
+
+border-bottom: 3px solid rgb(198, 140, 41);</string>
       </property>
       <property name="text">
        <string>Upcoming Tour Dates</string>
@@ -317,20 +256,23 @@ color: rgb(90, 42, 194);</string>
       <property name="geometry">
        <rect>
         <x>540</x>
-        <y>280</y>
+        <y>370</y>
         <width>481</width>
-        <height>321</height>
+        <height>231</height>
        </rect>
       </property>
       <property name="font">
        <font>
+        <family>Tahoma</family>
         <pointsize>8</pointsize>
-        <weight>50</weight>
-        <bold>false</bold>
+        <weight>75</weight>
+        <bold>true</bold>
        </font>
       </property>
       <property name="styleSheet">
-       <string notr="true">background-color: rgb(255, 255, 255);</string>
+       <string notr="true">background-color: rgb(255, 255, 255);
+
+border-radius: 10px;</string>
       </property>
       <property name="frameShape">
        <enum>QFrame::StyledPanel</enum>
@@ -345,10 +287,150 @@ color: rgb(90, 42, 194);</string>
        <string/>
       </property>
       <property name="alignment">
-       <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+       <set>Qt::AlignCenter</set>
       </property>
       <property name="wordWrap">
        <bool>true</bool>
+      </property>
+     </widget>
+     <widget class="QGroupBox" name="searchBarContainer">
+      <property name="geometry">
+       <rect>
+        <x>530</x>
+        <y>100</y>
+        <width>501</width>
+        <height>201</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-color: rgb(0, 0, 0);
+background-color: rgb(17, 116, 0);</string>
+      </property>
+      <property name="title">
+       <string/>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
+      <widget class="QPushButton" name="searchButton">
+       <property name="geometry">
+        <rect>
+         <x>260</x>
+         <y>130</y>
+         <width>231</width>
+         <height>51</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <family>Impact</family>
+         <pointsize>12</pointsize>
+        </font>
+       </property>
+       <property name="toolTip">
+        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Search by artist name&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background-color: rgb(202, 202, 202);
+color: rgb(0, 91, 203);</string>
+       </property>
+       <property name="text">
+        <string>Search Band</string>
+       </property>
+      </widget>
+      <widget class="QLineEdit" name="bandSearchLineEdit">
+       <property name="geometry">
+        <rect>
+         <x>12</x>
+         <y>69</y>
+         <width>481</width>
+         <height>41</height>
+        </rect>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background-color: rgb(255, 255, 255);</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="bandBioHeader_2">
+       <property name="geometry">
+        <rect>
+         <x>130</x>
+         <y>10</y>
+         <width>241</width>
+         <height>41</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <family>Britannic Bold</family>
+         <pointsize>24</pointsize>
+        </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">color: rgb(198, 140, 41);
+
+border-bottom: 3px solid rgb(198, 140, 41);</string>
+       </property>
+       <property name="text">
+        <string>Band Search</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="lastSearchButton">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>130</y>
+         <width>231</width>
+         <height>51</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <family>Impact</family>
+         <pointsize>12</pointsize>
+        </font>
+       </property>
+       <property name="toolTip">
+        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Click to execute last search&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background-color: rgb(202, 202, 202);
+color: rgb(0, 91, 203);
+</string>
+       </property>
+       <property name="text">
+        <string>Last Search</string>
+       </property>
+       <property name="checkable">
+        <bool>false</bool>
+       </property>
+      </widget>
+     </widget>
+     <widget class="QLabel" name="label">
+      <property name="geometry">
+       <rect>
+        <x>540</x>
+        <y>20</y>
+        <width>481</width>
+        <height>61</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>Segoe UI Black</family>
+        <pointsize>36</pointsize>
+        <weight>75</weight>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="text">
+       <string>ShowBoat</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
       </property>
      </widget>
     </widget>
@@ -375,19 +457,23 @@ color: rgb(90, 42, 194);</string>
      <widget class="QLabel" name="tourDatesDateLabel">
       <property name="geometry">
        <rect>
-        <x>20</x>
+        <x>50</x>
         <y>20</y>
-        <width>141</width>
+        <width>81</width>
         <height>51</height>
        </rect>
       </property>
       <property name="font">
        <font>
+        <family>Britannic Bold</family>
         <pointsize>20</pointsize>
        </font>
       </property>
       <property name="styleSheet">
-       <string notr="true">color: rgb(198, 140, 41);</string>
+       <string notr="true">color: rgb(198, 140, 41);
+
+
+border-bottom: 3px solid rgb(198, 140, 41);</string>
       </property>
       <property name="text">
        <string>Date</string>
@@ -399,19 +485,21 @@ color: rgb(90, 42, 194);</string>
      <widget class="QLabel" name="tourDatesVenueLabel">
       <property name="geometry">
        <rect>
-        <x>200</x>
+        <x>240</x>
         <y>20</y>
-        <width>141</width>
+        <width>101</width>
         <height>51</height>
        </rect>
       </property>
       <property name="font">
        <font>
+        <family>Britannic Bold</family>
         <pointsize>20</pointsize>
        </font>
       </property>
       <property name="styleSheet">
-       <string notr="true">color: rgb(198, 140, 41);</string>
+       <string notr="true">color: rgb(198, 140, 41);
+border-bottom: 3px solid rgb(198, 140, 41);</string>
       </property>
       <property name="text">
        <string>Venue</string>
@@ -423,19 +511,22 @@ color: rgb(90, 42, 194);</string>
      <widget class="QLabel" name="tourDatesCityLabel">
       <property name="geometry">
        <rect>
-        <x>400</x>
+        <x>420</x>
         <y>20</y>
-        <width>111</width>
+        <width>71</width>
         <height>51</height>
        </rect>
       </property>
       <property name="font">
        <font>
+        <family>Britannic Bold</family>
         <pointsize>20</pointsize>
        </font>
       </property>
       <property name="styleSheet">
-       <string notr="true">color: rgb(198, 140, 41);</string>
+       <string notr="true">color: rgb(198, 140, 41);
+
+border-bottom: 3px solid rgb(198, 140, 41);</string>
       </property>
       <property name="text">
        <string>City</string>
@@ -447,19 +538,21 @@ color: rgb(90, 42, 194);</string>
      <widget class="QLabel" name="tourDatesStateLabel">
       <property name="geometry">
        <rect>
-        <x>560</x>
+        <x>570</x>
         <y>20</y>
-        <width>101</width>
+        <width>81</width>
         <height>51</height>
        </rect>
       </property>
       <property name="font">
        <font>
+        <family>Britannic Bold</family>
         <pointsize>20</pointsize>
        </font>
       </property>
       <property name="styleSheet">
-       <string notr="true">color: rgb(198, 140, 41);</string>
+       <string notr="true">color: rgb(198, 140, 41);
+border-bottom: 3px solid rgb(198, 140, 41);</string>
       </property>
       <property name="text">
        <string>State</string>
@@ -471,19 +564,21 @@ color: rgb(90, 42, 194);</string>
      <widget class="QLabel" name="tourDatesTicketInfoLabel">
       <property name="geometry">
        <rect>
-        <x>690</x>
+        <x>750</x>
         <y>20</y>
-        <width>261</width>
+        <width>161</width>
         <height>51</height>
        </rect>
       </property>
       <property name="font">
        <font>
+        <family>Britannic Bold</family>
         <pointsize>20</pointsize>
        </font>
       </property>
       <property name="styleSheet">
-       <string notr="true">color: rgb(198, 140, 41);</string>
+       <string notr="true">color: rgb(198, 140, 41);
+border-bottom: 3px solid rgb(198, 140, 41);</string>
       </property>
       <property name="text">
        <string>Ticket Info</string>
@@ -503,12 +598,14 @@ color: rgb(90, 42, 194);</string>
       </property>
       <property name="font">
        <font>
+        <family>Tahoma</family>
         <weight>75</weight>
         <bold>true</bold>
        </font>
       </property>
       <property name="styleSheet">
-       <string notr="true">background-color: rgb(255, 255, 255);</string>
+       <string notr="true">background-color: rgb(255, 255, 255);
+border-radius: 10px;</string>
       </property>
       <property name="frameShape">
        <enum>QFrame::StyledPanel</enum>
@@ -537,12 +634,14 @@ color: rgb(90, 42, 194);</string>
       </property>
       <property name="font">
        <font>
+        <family>Tahoma</family>
         <weight>75</weight>
         <bold>true</bold>
        </font>
       </property>
       <property name="styleSheet">
-       <string notr="true">background-color: rgb(255, 255, 255);</string>
+       <string notr="true">background-color: rgb(255, 255, 255);
+border-radius: 10px;</string>
       </property>
       <property name="frameShape">
        <enum>QFrame::StyledPanel</enum>
@@ -571,12 +670,14 @@ color: rgb(90, 42, 194);</string>
       </property>
       <property name="font">
        <font>
+        <family>Tahoma</family>
         <weight>75</weight>
         <bold>true</bold>
        </font>
       </property>
       <property name="styleSheet">
-       <string notr="true">background-color: rgb(255, 255, 255);</string>
+       <string notr="true">background-color: rgb(255, 255, 255);
+border-radius: 10px;</string>
       </property>
       <property name="frameShape">
        <enum>QFrame::StyledPanel</enum>
@@ -605,12 +706,14 @@ color: rgb(90, 42, 194);</string>
       </property>
       <property name="font">
        <font>
+        <family>Tahoma</family>
         <weight>75</weight>
         <bold>true</bold>
        </font>
       </property>
       <property name="styleSheet">
-       <string notr="true">background-color: rgb(255, 255, 255);</string>
+       <string notr="true">background-color: rgb(255, 255, 255);
+border-radius: 10px;</string>
       </property>
       <property name="frameShape">
        <enum>QFrame::StyledPanel</enum>
@@ -639,12 +742,15 @@ color: rgb(90, 42, 194);</string>
       </property>
       <property name="font">
        <font>
-        <weight>75</weight>
-        <bold>true</bold>
+        <family>Tahoma</family>
+        <weight>50</weight>
+        <bold>false</bold>
        </font>
       </property>
       <property name="styleSheet">
-       <string notr="true">background-color: rgb(255, 255, 255);</string>
+       <string notr="true">background-color: rgb(255, 255, 255);
+
+border-radius: 10px;</string>
       </property>
       <property name="frameShape">
        <enum>QFrame::StyledPanel</enum>
@@ -677,7 +783,8 @@ color: rgb(90, 42, 194);</string>
        </rect>
       </property>
       <property name="styleSheet">
-       <string notr="true">background-color: rgb(255, 255, 255);</string>
+       <string notr="true">background-color: rgb(255, 255, 255);
+border-radius: 10px;</string>
       </property>
      </widget>
      <widget class="QLabel" name="mapHomeCityLabel">
@@ -691,6 +798,7 @@ color: rgb(90, 42, 194);</string>
       </property>
       <property name="font">
        <font>
+        <family>Britannic Bold</family>
         <pointsize>10</pointsize>
        </font>
       </property>
@@ -731,9 +839,14 @@ color: rgb(90, 42, 194);</string>
         <height>31</height>
        </rect>
       </property>
+      <property name="font">
+       <font>
+        <family>Britannic Bold</family>
+       </font>
+      </property>
       <property name="styleSheet">
        <string notr="true">background-color: rgb(202, 202, 202);
-color: rgb(90, 42, 194);</string>
+color: rgb(0, 91, 203);</string>
       </property>
       <property name="text">
        <string>Set Home City</string>
@@ -764,6 +877,11 @@ color: rgb(90, 42, 194);</string>
         <height>20</height>
        </rect>
       </property>
+      <property name="font">
+       <font>
+        <family>Britannic Bold</family>
+       </font>
+      </property>
       <property name="styleSheet">
        <string notr="true">color: rgb(198, 140, 41);</string>
       </property>
@@ -785,6 +903,7 @@ color: rgb(90, 42, 194);</string>
       </property>
       <property name="font">
        <font>
+        <family>Britannic Bold</family>
         <pointsize>14</pointsize>
         <weight>75</weight>
         <bold>true</bold>
@@ -817,7 +936,8 @@ color: rgb(90, 42, 194);</string>
        </font>
       </property>
       <property name="styleSheet">
-       <string notr="true">background-color: rgb(255, 255, 255);</string>
+       <string notr="true">background-color: rgb(255, 255, 255);
+border-radius: 10px;</string>
       </property>
       <property name="frameShape">
        <enum>QFrame::StyledPanel</enum>
@@ -846,6 +966,7 @@ color: rgb(90, 42, 194);</string>
       </property>
       <property name="font">
        <font>
+        <family>Britannic Bold</family>
         <pointsize>14</pointsize>
         <weight>75</weight>
         <bold>true</bold>
@@ -878,7 +999,8 @@ color: rgb(90, 42, 194);</string>
        </font>
       </property>
       <property name="styleSheet">
-       <string notr="true">background-color: rgb(255, 255, 255);</string>
+       <string notr="true">background-color: rgb(255, 255, 255);
+border-radius: 10px;</string>
       </property>
       <property name="frameShape">
        <enum>QFrame::StyledPanel</enum>
@@ -913,7 +1035,8 @@ color: rgb(90, 42, 194);</string>
        </font>
       </property>
       <property name="styleSheet">
-       <string notr="true">background-color: rgb(255, 255, 255);</string>
+       <string notr="true">background-color: rgb(255, 255, 255);
+border-radius: 10px;</string>
       </property>
       <property name="frameShape">
        <enum>QFrame::StyledPanel</enum>
@@ -942,6 +1065,7 @@ color: rgb(90, 42, 194);</string>
       </property>
       <property name="font">
        <font>
+        <family>Britannic Bold</family>
         <pointsize>14</pointsize>
         <weight>75</weight>
         <bold>true</bold>
@@ -968,6 +1092,7 @@ color: rgb(90, 42, 194);</string>
       </property>
       <property name="font">
        <font>
+        <family>Britannic Bold</family>
         <pointsize>14</pointsize>
         <weight>75</weight>
         <bold>true</bold>
@@ -1000,7 +1125,8 @@ color: rgb(90, 42, 194);</string>
        </font>
       </property>
       <property name="styleSheet">
-       <string notr="true">background-color: rgb(255, 255, 255);</string>
+       <string notr="true">background-color: rgb(255, 255, 255);
+border-radius: 10px;</string>
       </property>
       <property name="frameShape">
        <enum>QFrame::StyledPanel</enum>
@@ -1029,6 +1155,7 @@ color: rgb(90, 42, 194);</string>
       </property>
       <property name="font">
        <font>
+        <family>Britannic Bold</family>
         <pointsize>12</pointsize>
         <weight>75</weight>
         <bold>true</bold>
@@ -1058,6 +1185,11 @@ color: rgb(90, 42, 194);</string>
         <height>271</height>
        </rect>
       </property>
+      <property name="styleSheet">
+       <string notr="true">background-color: rgb(255, 255, 255);
+
+border-radius: 10px;</string>
+      </property>
      </widget>
      <widget class="QWebEngineView" name="video1" native="true">
       <property name="geometry">
@@ -1068,6 +1200,11 @@ color: rgb(90, 42, 194);</string>
         <height>271</height>
        </rect>
       </property>
+      <property name="styleSheet">
+       <string notr="true">background-color: rgb(255, 255, 255);
+
+border-radius: 10px;</string>
+      </property>
      </widget>
      <widget class="QWebEngineView" name="video2" native="true">
       <property name="geometry">
@@ -1077,6 +1214,11 @@ color: rgb(90, 42, 194);</string>
         <width>461</width>
         <height>271</height>
        </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-color: rgb(255, 255, 255);
+
+border-radius: 10px;</string>
       </property>
      </widget>
      <widget class="QPushButton" name="videoSeeMoreButton">
@@ -1093,9 +1235,13 @@ color: rgb(90, 42, 194);</string>
         <pointsize>18</pointsize>
        </font>
       </property>
+      <property name="toolTip">
+       <string>Travel to artist YouTube page in browser</string>
+      </property>
       <property name="styleSheet">
        <string notr="true">background-color: rgb(202, 202, 202);
-color: rgb(90, 42, 194);</string>
+color: rgb(0, 91, 203);
+</string>
       </property>
       <property name="text">
        <string>See More!</string>
@@ -1109,21 +1255,23 @@ color: rgb(90, 42, 194);</string>
      <widget class="QLabel" name="infoInstructionsLabel">
       <property name="geometry">
        <rect>
-        <x>30</x>
+        <x>170</x>
         <y>20</y>
-        <width>481</width>
+        <width>191</width>
         <height>41</height>
        </rect>
       </property>
       <property name="font">
        <font>
+        <family>Britannic Bold</family>
         <pointsize>18</pointsize>
-        <weight>75</weight>
-        <bold>true</bold>
+        <weight>50</weight>
+        <bold>false</bold>
        </font>
       </property>
       <property name="styleSheet">
-       <string notr="true">color: rgb(198, 140, 41);</string>
+       <string notr="true">color: rgb(198, 140, 41);
+border-bottom: 3px solid rgb(198, 140, 41);</string>
       </property>
       <property name="text">
        <string>Instructions</string>
@@ -1135,21 +1283,23 @@ color: rgb(90, 42, 194);</string>
      <widget class="QLabel" name="infoSupportLabel">
       <property name="geometry">
        <rect>
-        <x>550</x>
+        <x>660</x>
         <y>20</y>
-        <width>461</width>
+        <width>241</width>
         <height>41</height>
        </rect>
       </property>
       <property name="font">
        <font>
+        <family>Britannic Bold</family>
         <pointsize>18</pointsize>
-        <weight>75</weight>
-        <bold>true</bold>
+        <weight>50</weight>
+        <bold>false</bold>
        </font>
       </property>
       <property name="styleSheet">
-       <string notr="true">color: rgb(198, 140, 41);</string>
+       <string notr="true">color: rgb(198, 140, 41);
+border-bottom: 3px solid rgb(198, 140, 41);</string>
       </property>
       <property name="text">
        <string>Support the Arts!</string>
@@ -1161,21 +1311,23 @@ color: rgb(90, 42, 194);</string>
      <widget class="QLabel" name="infoTechLabel">
       <property name="geometry">
        <rect>
-        <x>30</x>
+        <x>160</x>
         <y>330</y>
-        <width>481</width>
+        <width>221</width>
         <height>41</height>
        </rect>
       </property>
       <property name="font">
        <font>
+        <family>Britannic Bold</family>
         <pointsize>18</pointsize>
-        <weight>75</weight>
-        <bold>true</bold>
+        <weight>50</weight>
+        <bold>false</bold>
        </font>
       </property>
       <property name="styleSheet">
-       <string notr="true">color: rgb(198, 140, 41);</string>
+       <string notr="true">color: rgb(198, 140, 41);
+border-bottom: 3px solid rgb(198, 140, 41);</string>
       </property>
       <property name="text">
        <string>Technology Used</string>
@@ -1187,21 +1339,23 @@ color: rgb(90, 42, 194);</string>
      <widget class="QLabel" name="infoCreatedLabel">
       <property name="geometry">
        <rect>
-        <x>550</x>
+        <x>700</x>
         <y>330</y>
-        <width>451</width>
+        <width>161</width>
         <height>41</height>
        </rect>
       </property>
       <property name="font">
        <font>
+        <family>Britannic Bold</family>
         <pointsize>18</pointsize>
-        <weight>75</weight>
-        <bold>true</bold>
+        <weight>50</weight>
+        <bold>false</bold>
        </font>
       </property>
       <property name="styleSheet">
-       <string notr="true">color: rgb(198, 140, 41);</string>
+       <string notr="true">color: rgb(198, 140, 41);
+border-bottom: 3px solid rgb(198, 140, 41);</string>
       </property>
       <property name="text">
        <string>Created By</string>
@@ -1219,11 +1373,30 @@ color: rgb(90, 42, 194);</string>
         <height>211</height>
        </rect>
       </property>
+      <property name="font">
+       <font>
+        <family>Tahoma</family>
+        <pointsize>10</pointsize>
+       </font>
+      </property>
       <property name="styleSheet">
-       <string notr="true">background-color: rgb(255, 255, 255);</string>
+       <string notr="true">background-color: rgb(255, 255, 255);
+
+border-radius: 10px;</string>
       </property>
       <property name="text">
-       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Search by artist to display tour dates &lt;br/&gt;View tour dates and click link for ticket info&lt;/p&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;
+&lt;p&gt;
+&lt;strong&gt;Home:&lt;/strong&gt;&lt;br&gt;
+Search by artist to display tour dates &lt;br/&gt;
+&lt;strong&gt;Tour Dates:&lt;/strong&gt;&lt;br&gt;
+View tour dates and click link for ticket info&lt;br&gt;
+&lt;strong&gt;Map:&lt;/strong&gt;&lt;br&gt;
+Explore tour dates on interactive map, click marker for info&lt;br&gt;
+&lt;strong&gt;Video:&lt;/strong&gt;&lt;br&gt;
+View artist's three most recent YouTube video uploads&lt;br/&gt;
+&lt;/p&gt;
+&lt;/body&gt;&lt;/html&gt;</string>
       </property>
       <property name="alignment">
        <set>Qt::AlignCenter</set>
@@ -1238,14 +1411,30 @@ color: rgb(90, 42, 194);</string>
         <height>211</height>
        </rect>
       </property>
+      <property name="font">
+       <font>
+        <family>Tahoma</family>
+        <pointsize>10</pointsize>
+       </font>
+      </property>
       <property name="styleSheet">
-       <string notr="true">background-color: rgb(255, 255, 255);</string>
+       <string notr="true">background-color: rgb(255, 255, 255);
+
+border-radius: 10px;</string>
       </property>
       <property name="text">
-       <string>Click links below to support artists in need:</string>
+       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;
+&lt;p&gt;&lt;strong&gt;Click links below to support artists in need:&lt;/strong&gt;&lt;br/&gt;&lt;br/&gt;
+&lt;a href='https://www.musicares.org/donations'&gt;musicares.org&lt;/a&gt;&lt;br&gt;
+&lt;a href='https://www.sweetrelief.org/general-fund.html'&gt;sweetrelief.org&lt;/a&gt;&lt;br&gt;
+&lt;a href='https://neworleansmusiciansclinic.org/get-involved/donate/'&gt;neworleansmusiciansclinic.org&lt;/a&gt;
+&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
       </property>
       <property name="alignment">
        <set>Qt::AlignCenter</set>
+      </property>
+      <property name="openExternalLinks">
+       <bool>true</bool>
       </property>
      </widget>
      <widget class="QLabel" name="infoTechDisplayLabel">
@@ -1257,11 +1446,24 @@ color: rgb(90, 42, 194);</string>
         <height>211</height>
        </rect>
       </property>
+      <property name="font">
+       <font>
+        <family>Tahoma</family>
+        <pointsize>10</pointsize>
+       </font>
+      </property>
       <property name="styleSheet">
-       <string notr="true">background-color: rgb(255, 255, 255);</string>
+       <string notr="true">background-color: rgb(255, 255, 255);
+
+border-radius: 10px;</string>
       </property>
       <property name="text">
-       <string>Python, Flask, PyQt5</string>
+       <string>&lt;strong&gt;
+Python&lt;br&gt;
+Flask&lt;br&gt;
+PyQt5&lt;br&gt;
+Folium map library&lt;br&gt;
+&lt;/strong&gt;</string>
       </property>
       <property name="alignment">
        <set>Qt::AlignCenter</set>
@@ -1276,11 +1478,23 @@ color: rgb(90, 42, 194);</string>
         <height>211</height>
        </rect>
       </property>
+      <property name="font">
+       <font>
+        <family>Tahoma</family>
+        <pointsize>10</pointsize>
+       </font>
+      </property>
       <property name="styleSheet">
-       <string notr="true">background-color: rgb(255, 255, 255);</string>
+       <string notr="true">background-color: rgb(255, 255, 255);
+
+border-radius: 10px;</string>
       </property>
       <property name="text">
-       <string>Jon Ramm</string>
+       <string>&lt;strong&gt;Jon Ramm&lt;/strong&gt;&lt;br&gt;
+&lt;p&gt;
+A short bio.
+&lt;/p&gt;
+</string>
       </property>
       <property name="alignment">
        <set>Qt::AlignCenter</set>

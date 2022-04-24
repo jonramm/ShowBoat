@@ -8,6 +8,7 @@ flask = "*"
 pyqt5 = "*"
 requests = "*"
 urllib3 = "*"
+python-dotenv = "*"
 
 [dev-packages]
 

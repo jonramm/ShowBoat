@@ -1,11 +1,28 @@
-
+import os
 from flask import Flask, request, jsonify
+import requests
+import pprint
 
 app = Flask(__name__)
 
 @app.route("/artist-search", methods=['GET', 'POST'])
 def artist_search():
-    
+    if request.method == 'POST':
+        url = f"https://www.theaudiodb.com/api/v1/json/2/search.php?s={request.form.get('artist_search')}"
+        response = requests.get(url)
+        data = response.json()
+        obj = {
+            'artist': data['artists'][0]['strArtist'],
+            'bio': data['artists'][0]['strBiographyEN'],
+            'img_url': data['artists'][0]['strArtistThumb'],
+            'website': data['artists'][0]['strWebsite'],
+            'id': data['artists'][0]['idArtist']
+        }
+        return obj
+
+
+@app.route("/tour-search", methods=['GET', 'POST'])
+def tour_search():
     if request.method == 'POST':    
         data = [{
             "band": "Radiohead",
@@ -14,6 +31,7 @@ def artist_search():
                 "date": "05/04/2022",
                 "city": "Seattle",
                 "state": "WA",
+                "coords": (47.61016575715863, -122.33039845454395),
                 "venue": "Doo-doo Arena",
                 "tickets": "www.tickets.com"
             },
@@ -21,6 +39,7 @@ def artist_search():
                 "date": "05/06/2022",
                 "city": "Phoenix",
                 "state": "AZ",
+                "coords": (33.450551235340384, -112.05504789994673),
                 "venue": "Scrimshaw Center",
                 "tickets": "www.getyourtix.com"
             },
@@ -28,6 +47,7 @@ def artist_search():
                 "date": "05/08/2022",
                 "city": "Asheville",
                 "state": "NC",
+                "coords": (35.59638039236993, -82.55374094217699),
                 "venue": "Big Outdoor Venue",
                 "tickets": "www.tickytickets.com"
             }],
@@ -38,23 +58,26 @@ def artist_search():
             "band": "Kendrick Lamar",
             "bio": "Kendrick Lamar is a great rapper with some certified bangers.",
             "dates": [{
-                "date": "06/08/2022",
+                "date": "05/04/2022",
                 "city": "Seattle",
                 "state": "WA",
+                "coords": (47.61016575715863, -122.33039845454395),
                 "venue": "Doo-doo Arena",
                 "tickets": "www.tickets.com"
             },
                 {
-                "date": "06/10/2022",
+                "date": "05/06/2022",
                 "city": "Phoenix",
                 "state": "AZ",
+                "coords": (33.450551235340384, -112.05504789994673),
                 "venue": "Scrimshaw Center",
                 "tickets": "www.getyourtix.com"
             },
                 {
-                "date": "056/12/2022",
+                "date": "05/08/2022",
                 "city": "Asheville",
                 "state": "NC",
+                "coords": (35.59638039236993, -82.55374094217699),
                 "venue": "Big Outdoor Venue",
                 "tickets": "www.tickytickets.com"
             }],
@@ -65,6 +88,7 @@ def artist_search():
         for el in data:
             if el["band"] == request.form.get('band_search'):
                 return el
+
 
 @app.route("/city-search", methods=['GET', 'POST'])
 def city_search():
@@ -89,24 +113,14 @@ def city_search():
 def video_search():
 
     if request.method == 'POST':
-        data = [{
-            "artist": "Radiohead",
-            "video_urls": [
-                "https://www.youtube.com/watch?v=AOinMjQ9jo8?autoplay=0",
-                "https://www.youtube.com/watch?v=lcmbLpCXUGk?autoplay=0",
-                "https://www.youtube.com/watch?v=nrxWiU_v9Qs?autoplay=0"
-                ]
-            },
-            {
-            "artist": "Kendrick Lamar",
-            "video_urls": [
-                "https://www.youtube.com/watch?v=JQbjS0_ZfJ0?autoplay=0",
-                "https://www.youtube.com/watch?v=K5xERXE7pxI?autoplay=0",
-                "https://www.youtube.com/watch?v=GfCqMv--ncA?autoplay=0"
-                ]
-            },
-        ]
-
-        for el in data:
-            if el["artist"] == request.form.get('artist'):
-                return el
+        url = f"https://theaudiodb.com/api/v1/json/2/mvid.php?i={request.form.get('artist_id')}"
+        response = requests.get(url)
+        data = response.json()
+        video_urls = []
+        for i in range(3):
+            if data['mvids']:
+                video_urls.append(data['mvids'][i]['strMusicVid'])
+        obj = {
+            'video_urls': video_urls
+        }
+        return obj
