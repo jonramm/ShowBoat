@@ -124,7 +124,6 @@ border-bottom: 3px solid rgb(198, 140, 41);</string>
       </property>
       <property name="styleSheet">
        <string notr="true">background-color: rgb(255, 255, 255);
-
 border-radius: 10px;</string>
       </property>
       <property name="frameShape">
@@ -317,6 +316,9 @@ color: rgb(0, 91, 203);
         <bold>true</bold>
        </font>
       </property>
+      <property name="styleSheet">
+       <string notr="true">color: rgb(200, 47, 101);</string>
+      </property>
       <property name="text">
        <string>ShowBoat</string>
       </property>
@@ -356,8 +358,8 @@ color: rgb(0, 91, 203);
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>491</width>
-          <height>621</height>
+          <width>481</width>
+          <height>301</height>
          </rect>
         </property>
         <property name="font">
@@ -397,7 +399,7 @@ border-radius: 10px;</string>
     </widget>
     <widget class="QWidget" name="tourDatesTab">
      <attribute name="title">
-      <string>Tour Dates</string>
+      <string>Shows</string>
      </attribute>
      <widget class="QScrollBar" name="tourDatesScrollBar">
       <property name="geometry">
