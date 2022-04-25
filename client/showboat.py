@@ -14,7 +14,7 @@ class UI(QtWidgets.QMainWindow):
         super(UI, self).__init__()
 
         # load UI file
-        uic.loadUi("./client/showboat.ui", self)
+        uic.loadUi("./client/showboat_textBrowser.ui", self)
 
         # define our widgets
 
@@ -44,6 +44,7 @@ class UI(QtWidgets.QMainWindow):
         self.tourDatesVenueListLabel = self.findChild(QtWidgets.QLabel, "tourDatesVenueListLabel")
         self.tourDatesCityListLabel = self.findChild(QtWidgets.QLabel, "tourDatesCityListLabel")
         self.tourDatesTicketListLabel = self.findChild(QtWidgets.QLabel, "tourDatesTicketListLabel")
+        self.ticketTextBrowser = self.findChild(QtWidgets.QTextBrowser, "ticketTextBrowser")
 
         # Map
         self.mapMapContainer = self.findChild(QWebEngineView, "mapMapContainer")
@@ -72,6 +73,7 @@ class UI(QtWidgets.QMainWindow):
 
         # Functionality
         self.searchButton.clicked.connect(self.artist_search)
+        self.ticketTextBrowser.anchorClicked.connect(self.link_clicked)
 
         # show the app
         self.show()
@@ -93,6 +95,7 @@ class UI(QtWidgets.QMainWindow):
         data = response.json()
         if data['artist']:
             self.bandInfoNameLabel.setText(data['artist'])
+            self.homeBioPlainTextEdit.clear()
             self.homeBioPlainTextEdit.insertPlainText(data['bio'])
             self.bandInfoWebsiteLabel.setText(f"<a href='{data['website']}'>{data['website']}</a>")
             self.set_photo(data['img_url'])
@@ -151,18 +154,36 @@ class UI(QtWidgets.QMainWindow):
         tourDates = ""
         tourVenues = ""
         tourTickets = ""
+        tourTicketsArr = []
         tourCities = ""
         # loop through events to construct data strings
         for date in data["events"]:
             tourDates += f"{date['start']['date']} <br><br>"
             tourVenues += f"{date['venue']['displayName']} <br><br>" 
             tourTickets += f"<a href='{date['venue']['uri']}'>Tickets</a>" + "<br><br>"
+            tourTicketsArr.append(f"<a href='{date['venue']['uri']}'>Tickets</a>" + "<br><br>")
             tourCities += f"{date['location']['city']} <br><br>" 
         # add content to widgets
         self.tourDatesDateListLabel.setText(tourDates)
         self.tourDatesVenueListLabel.setText(tourVenues)
-        self.tourDatesTicketListLabel.setText(tourTickets)
         self.tourDatesCityListLabel.setText(tourCities)
+        # self.tourDatesTicketListLabel.setText(tourTickets)
+        # for url in tourTicketsArr:
+        #     self.ticketTextBrowser.append(url)
+        self.ticketTextBrowser.append(tourTickets)
+
+    def link_clicked(self, url):
+        confirm = QtWidgets.QMessageBox()
+        confirm.setText('Link will open in your browser...do you wish to proceed?')
+        confirm.setStandardButtons(QtWidgets.QMessageBox.Yes | QtWidgets.QMessageBox.No)
+        confirm.exec_()
+        
+        if confirm.standardButton(confirm.clickedButton()) == QtWidgets.QMessageBox.Yes:
+            self.confirmation = 1
+            QtGui.QDesktopServices.openUrl(url)
+        else:
+            self.confirmation = 0
+        
         
     def set_photo(self, img_url):
         data = urllib.request.urlopen(img_url).read()
@@ -170,6 +191,9 @@ class UI(QtWidgets.QMainWindow):
         pixmap.loadFromData(data)
         self.bandPhotoLabel.setPixmap(pixmap)
         self.bandPhotoLabel.setScaledContents(True)
+
+    def confirm_msg(self):
+        print("confirm message")
 
     # def city_search_test(self):
     #     value = self.mapHomeCityLineEdit.text()

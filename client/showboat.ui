@@ -41,7 +41,7 @@
       <property name="geometry">
        <rect>
         <x>50</x>
-        <y>100</y>
+        <y>120</y>
         <width>423</width>
         <height>423</height>
        </rect>
@@ -112,7 +112,7 @@ border-bottom: 3px solid rgb(198, 140, 41);</string>
       <property name="geometry">
        <rect>
         <x>20</x>
-        <y>540</y>
+        <y>560</y>
         <width>231</width>
         <height>41</height>
        </rect>
@@ -149,7 +149,7 @@ border-radius: 10px;</string>
       <property name="geometry">
        <rect>
         <x>270</x>
-        <y>540</y>
+        <y>560</y>
         <width>231</width>
         <height>41</height>
        </rect>
@@ -224,10 +224,10 @@ border-radius: 10px;</string>
        </property>
        <property name="styleSheet">
         <string notr="true">background-color: rgb(202, 202, 202);
-color: rgb(0, 91, 203);</string>
+color: rgb(200, 47, 101);</string>
        </property>
        <property name="text">
-        <string>Search Band</string>
+        <string>Find Shows</string>
        </property>
       </widget>
       <widget class="QLineEdit" name="bandSearchLineEdit">
@@ -243,7 +243,7 @@ color: rgb(0, 91, 203);</string>
         <string notr="true">background-color: rgb(255, 255, 255);</string>
        </property>
        <property name="placeholderText">
-        <string>Enter the name of an artist or band!</string>
+        <string>Enter the name of an artist or band to find shows</string>
        </property>
       </widget>
       <widget class="QLabel" name="bandBioHeader_2">
@@ -293,11 +293,11 @@ border-bottom: 3px solid rgb(198, 140, 41);</string>
        </property>
        <property name="styleSheet">
         <string notr="true">background-color: rgb(202, 202, 202);
-color: rgb(0, 91, 203);
+color: rgb(200, 47, 101);
 </string>
        </property>
        <property name="text">
-        <string>Last Search</string>
+        <string>Previous Search</string>
        </property>
        <property name="checkable">
         <bool>false</bool>
@@ -352,6 +352,36 @@ border-radius: 10px;
 padding: 12px;</string>
       </property>
       <property name="readOnly">
+       <bool>true</bool>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_2">
+      <property name="geometry">
+       <rect>
+        <x>40</x>
+        <y>80</y>
+        <width>451</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>Tahoma</family>
+        <pointsize>10</pointsize>
+        <weight>75</weight>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">color: rgb(94, 94, 94);</string>
+      </property>
+      <property name="text">
+       <string>Find out where your favorite bands are playing and get tickets, all with one click!</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
+      <property name="wordWrap">
        <bool>true</bool>
       </property>
      </widget>
@@ -597,20 +627,18 @@ padding-top: 5px;</string>
        <set>Qt::AlignHCenter|Qt::AlignTop</set>
       </property>
      </widget>
-     <widget class="QLabel" name="tourDatesTicketListLabel">
+     <widget class="QTextBrowser" name="ticketTextBrowser">
       <property name="geometry">
        <rect>
         <x>740</x>
         <y>90</y>
-        <width>231</width>
+        <width>221</width>
         <height>501</height>
        </rect>
       </property>
       <property name="font">
        <font>
         <family>Tahoma</family>
-        <weight>50</weight>
-        <bold>false</bold>
        </font>
       </property>
       <property name="styleSheet">
@@ -619,20 +647,18 @@ border-radius: 10px;
 
 padding-top: 5px;</string>
       </property>
-      <property name="frameShape">
-       <enum>QFrame::StyledPanel</enum>
+      <property name="verticalScrollBarPolicy">
+       <enum>Qt::ScrollBarAsNeeded</enum>
       </property>
-      <property name="frameShadow">
-       <enum>QFrame::Sunken</enum>
+      <property name="html">
+       <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Tahoma'; font-size:8.15094pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p align=&quot;center&quot; style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:8.15094pt;&quot;&gt;&lt;br /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
       </property>
-      <property name="lineWidth">
-       <number>3</number>
-      </property>
-      <property name="text">
-       <string/>
-      </property>
-      <property name="alignment">
-       <set>Qt::AlignHCenter|Qt::AlignTop</set>
+      <property name="openLinks">
+       <bool>false</bool>
       </property>
      </widget>
     </widget>
@@ -666,16 +692,16 @@ border-radius: 10px;</string>
       <property name="font">
        <font>
         <family>Britannic Bold</family>
-        <pointsize>12</pointsize>
-        <weight>75</weight>
-        <bold>true</bold>
+        <pointsize>18</pointsize>
+        <weight>50</weight>
+        <bold>false</bold>
        </font>
       </property>
       <property name="styleSheet">
        <string notr="true">color: rgb(198, 140, 41);</string>
       </property>
       <property name="text">
-       <string>Click a tour date on the map to view details</string>
+       <string>Click a marker on the map to see show details</string>
       </property>
       <property name="alignment">
        <set>Qt::AlignCenter</set>
@@ -750,8 +776,7 @@ border-radius: 10px;</string>
       </property>
       <property name="styleSheet">
        <string notr="true">background-color: rgb(202, 202, 202);
-color: rgb(0, 91, 203);
-</string>
+color: rgb(200, 47, 101);</string>
       </property>
       <property name="text">
        <string>See More!</string>
