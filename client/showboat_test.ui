@@ -340,16 +340,8 @@ color: rgb(0, 91, 203);
         <height>311</height>
        </rect>
       </property>
-      <property name="font">
-       <font>
-        <family>Tahoma</family>
-        <pointsize>10</pointsize>
-       </font>
-      </property>
       <property name="styleSheet">
-       <string notr="true">background-color: rgb(255, 255, 255);
-border-radius: 10px;
-padding: 12px;</string>
+       <string notr="true">background-color: rgb(255, 255, 255);</string>
       </property>
       <property name="readOnly">
        <bool>true</bool>
@@ -501,9 +493,7 @@ border-bottom: 3px solid rgb(198, 140, 41);</string>
       </property>
       <property name="styleSheet">
        <string notr="true">background-color: rgb(255, 255, 255);
-border-radius: 10px;
-
-padding-top: 5px;</string>
+border-radius: 10px;</string>
       </property>
       <property name="frameShape">
        <enum>QFrame::StyledPanel</enum>
@@ -539,9 +529,7 @@ padding-top: 5px;</string>
       </property>
       <property name="styleSheet">
        <string notr="true">background-color: rgb(255, 255, 255);
-border-radius: 10px;
-
-padding-top: 5px;</string>
+border-radius: 10px;</string>
       </property>
       <property name="frameShape">
        <enum>QFrame::StyledPanel</enum>
@@ -577,9 +565,7 @@ padding-top: 5px;</string>
       </property>
       <property name="styleSheet">
        <string notr="true">background-color: rgb(255, 255, 255);
-border-radius: 10px;
-
-padding-top: 5px;</string>
+border-radius: 10px;</string>
       </property>
       <property name="frameShape">
        <enum>QFrame::StyledPanel</enum>
@@ -615,9 +601,8 @@ padding-top: 5px;</string>
       </property>
       <property name="styleSheet">
        <string notr="true">background-color: rgb(255, 255, 255);
-border-radius: 10px;
 
-padding-top: 5px;</string>
+border-radius: 10px;</string>
       </property>
       <property name="frameShape">
        <enum>QFrame::StyledPanel</enum>
@@ -898,21 +883,18 @@ border-radius: 10px;</string>
        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;
 &lt;p&gt;
 &lt;strong&gt;Home:&lt;/strong&gt;&lt;br&gt;
-Search by artist to display shows &lt;br/&gt;
-&lt;strong&gt;Shows:&lt;/strong&gt;&lt;br&gt;
-View shows and click link for ticket info&lt;br&gt;
+Search by artist to display tour dates &lt;br/&gt;
+&lt;strong&gt;Tour Dates:&lt;/strong&gt;&lt;br&gt;
+View tour dates and click link for ticket info&lt;br&gt;
 &lt;strong&gt;Map:&lt;/strong&gt;&lt;br&gt;
-Explore shows on interactive map, click marker for info&lt;br&gt;
+Explore tour dates on interactive map, click marker for info&lt;br&gt;
 &lt;strong&gt;Video:&lt;/strong&gt;&lt;br&gt;
-View artist music videos&lt;br/&gt;
+View artist's three most recent YouTube video uploads&lt;br/&gt;
 &lt;/p&gt;
 &lt;/body&gt;&lt;/html&gt;</string>
       </property>
       <property name="alignment">
        <set>Qt::AlignCenter</set>
-      </property>
-      <property name="wordWrap">
-       <bool>true</bool>
       </property>
      </widget>
      <widget class="QLabel" name="infoSupportDisplayLabel">
@@ -945,9 +927,6 @@ border-radius: 10px;</string>
       </property>
       <property name="alignment">
        <set>Qt::AlignCenter</set>
-      </property>
-      <property name="wordWrap">
-       <bool>true</bool>
       </property>
       <property name="openExternalLinks">
        <bool>true</bool>
@@ -985,9 +964,6 @@ Folium map library&lt;br&gt;
       <property name="alignment">
        <set>Qt::AlignCenter</set>
       </property>
-      <property name="wordWrap">
-       <bool>true</bool>
-      </property>
      </widget>
      <widget class="QLabel" name="infoCreatedDisplayLabel">
       <property name="geometry">
@@ -1010,17 +986,14 @@ Folium map library&lt;br&gt;
 border-radius: 10px;</string>
       </property>
       <property name="text">
-       <string>&lt;strong&gt;Jon Ramm&lt;/strong&gt;
+       <string>&lt;strong&gt;Jon Ramm&lt;/strong&gt;&lt;br&gt;
 &lt;p&gt;
-Musician turned programmer living in the high desert and eating burritos.
+A short bio.
 &lt;/p&gt;
 </string>
       </property>
       <property name="alignment">
        <set>Qt::AlignCenter</set>
-      </property>
-      <property name="wordWrap">
-       <bool>true</bool>
       </property>
      </widget>
     </widget>

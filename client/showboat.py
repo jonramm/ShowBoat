@@ -28,12 +28,9 @@ class UI(QtWidgets.QMainWindow):
         # Home
         self.bandPhotoLabel = self.findChild(QtWidgets.QLabel, "bandPhotoLabel")
         self.bandBioHeader = self.findChild(QtWidgets.QLabel, "bandBioHeader")
-        self.bandBioLabel = self.findChild(QtWidgets.QLabel, "bandBioLabel")
+        self.homeBioPlainTextEdit = self.findChild(QtWidgets.QPlainTextEdit, "homeBioPlainTextEdit")
         self.bandInfoNameLabel = self.findChild(QtWidgets.QLabel, "bandInfoNameLabel")
         self.bandInfoWebsiteLabel = self.findChild(QtWidgets.QLabel, "bandInfoWebsiteLabel")
-        self.bandBioHeader_2 = self.findChild(QtWidgets.QLabel, "bandBioHeader_2")
-        self.homeScrollArea = self.findChild(QtWidgets.QScrollArea, "homeScrollArea")
-        self.homeScrollArea.setWidgetResizable(True)
         self.bandSearchLineEdit = self.findChild(QtWidgets.QLineEdit, "bandSearchLineEdit")
         self.lastSearchButton = self.findChild(QtWidgets.QPushButton, "lastSearchButton")
         self.searchButton = self.findChild(QtWidgets.QPushButton, "searchButton")
@@ -96,7 +93,7 @@ class UI(QtWidgets.QMainWindow):
         data = response.json()
         if data['artist']:
             self.bandInfoNameLabel.setText(data['artist'])
-            self.bandBioLabel.setText(data["bio"])
+            self.homeBioPlainTextEdit.insertPlainText(data['bio'])
             self.bandInfoWebsiteLabel.setText(f"<a href='{data['website']}'>{data['website']}</a>")
             self.set_photo(data['img_url'])
             self.tour_search(data['artist'])
@@ -125,7 +122,7 @@ class UI(QtWidgets.QMainWindow):
         coordinates = (27.03992362079509, -22.920434372492934)
         self.map = folium.Map(
             title='',
-            zoom_start=3,
+            zoom_start=2,
             location=coordinates
         )
         map_data = io.BytesIO()
