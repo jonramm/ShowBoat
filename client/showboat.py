@@ -14,7 +14,7 @@ class UI(QtWidgets.QMainWindow):
         super(UI, self).__init__()
 
         # load UI file
-        uic.loadUi("./client/showboat_textBrowser.ui", self)
+        uic.loadUi("./client/showboat.ui", self)
 
         # define our widgets
 
