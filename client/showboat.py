@@ -167,9 +167,6 @@ class UI(QtWidgets.QMainWindow):
         self.tourDatesDateListLabel.setText(tourDates)
         self.tourDatesVenueListLabel.setText(tourVenues)
         self.tourDatesCityListLabel.setText(tourCities)
-        # self.tourDatesTicketListLabel.setText(tourTickets)
-        # for url in tourTicketsArr:
-        #     self.ticketTextBrowser.append(url)
         self.ticketTextBrowser.append(tourTickets)
 
     def link_clicked(self, url):
@@ -194,24 +191,6 @@ class UI(QtWidgets.QMainWindow):
 
     def confirm_msg(self):
         print("confirm message")
-
-    # def city_search_test(self):
-    #     value = self.mapHomeCityLineEdit.text()
-    #     obj = {"city_search": value}
-    #     response = requests.post('http://127.0.0.1:5000/city-search', data=obj)
-    #     data = response.json()
-    #     city = data["city"] + ", " + data["state"]
-    #     coords = data["coords"]
-
-    #     map = folium.Map(
-    #         title=city,
-    #         zoom_start=6,
-    #         location=coords
-    #     )
-    #     data = io.BytesIO()
-    #     map.save(data, close_file=False)
-    #     self.mapMapContainer.setHtml(data.getvalue().decode())
-
 
 # initialize app
 app = QtWidgets.QApplication(sys.argv)
