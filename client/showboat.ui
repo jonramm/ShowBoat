@@ -396,7 +396,7 @@ padding: 12px;</string>
         <x>0</x>
         <y>50</y>
         <width>1041</width>
-        <height>561</height>
+        <height>511</height>
        </rect>
       </property>
       <property name="sizePolicy">
@@ -460,7 +460,7 @@ padding: 12px;</string>
      <widget class="QLabel" name="showsHeaderLabel">
       <property name="geometry">
        <rect>
-        <x>23</x>
+        <x>20</x>
         <y>10</y>
         <width>1001</width>
         <height>31</height>
@@ -477,6 +477,28 @@ padding: 12px;</string>
       </property>
       <property name="text">
        <string>Double click venue or tickets cell to view information in your browser</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_3">
+      <property name="geometry">
+       <rect>
+        <x>430</x>
+        <y>570</y>
+        <width>141</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+      <property name="pixmap">
+       <pixmap>../../../../Downloads/attribution-assets/attribution-assets/powered-by-sk/powered-by-songkick-pink.png</pixmap>
+      </property>
+      <property name="scaledContents">
+       <bool>true</bool>
       </property>
       <property name="alignment">
        <set>Qt::AlignCenter</set>
@@ -826,7 +848,10 @@ Flask&lt;br&gt;
 PyQt5&lt;br&gt;
 Qt Designer&lt;br&gt;
 Folium map library&lt;br&gt;
-&lt;/strong&gt;</string>
+Band data: The AudioDB&lt;br&gt;
+Show data: SongKick
+&lt;/strong&gt;
+</string>
       </property>
       <property name="alignment">
        <set>Qt::AlignCenter</set>

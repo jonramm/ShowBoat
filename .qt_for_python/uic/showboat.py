@@ -173,7 +173,7 @@ class Ui_mainWindow(object):
         __qtablewidgetitem3 = QTableWidgetItem()
         self.showsTableWidget.setHorizontalHeaderItem(3, __qtablewidgetitem3)
         self.showsTableWidget.setObjectName(u"showsTableWidget")
-        self.showsTableWidget.setGeometry(QRect(0, 50, 1041, 561))
+        self.showsTableWidget.setGeometry(QRect(0, 50, 1041, 511))
         sizePolicy1 = QSizePolicy(QSizePolicy.Fixed, QSizePolicy.Expanding)
         sizePolicy1.setHorizontalStretch(0)
         sizePolicy1.setVerticalStretch(0)
@@ -192,13 +192,19 @@ class Ui_mainWindow(object):
         self.showsTableWidget.horizontalHeader().setStretchLastSection(True)
         self.showsHeaderLabel = QLabel(self.tourDatesTab)
         self.showsHeaderLabel.setObjectName(u"showsHeaderLabel")
-        self.showsHeaderLabel.setGeometry(QRect(23, 10, 1001, 31))
+        self.showsHeaderLabel.setGeometry(QRect(20, 10, 1001, 31))
         font9 = QFont()
         font9.setFamily(u"Britannic Bold")
         font9.setPointSize(18)
         self.showsHeaderLabel.setFont(font9)
         self.showsHeaderLabel.setStyleSheet(u"color: rgb(198, 140, 41);")
         self.showsHeaderLabel.setAlignment(Qt.AlignCenter)
+        self.label_3 = QLabel(self.tourDatesTab)
+        self.label_3.setObjectName(u"label_3")
+        self.label_3.setGeometry(QRect(430, 570, 141, 41))
+        self.label_3.setPixmap(QPixmap(u"../../../../Downloads/attribution-assets/attribution-assets/powered-by-sk/powered-by-songkick-pink.png"))
+        self.label_3.setScaledContents(True)
+        self.label_3.setAlignment(Qt.AlignCenter)
         self.tabs.addTab(self.tourDatesTab, "")
         self.mapTab = QWidget()
         self.mapTab.setObjectName(u"mapTab")
@@ -365,6 +371,7 @@ class Ui_mainWindow(object):
         ___qtablewidgetitem3 = self.showsTableWidget.horizontalHeaderItem(3)
         ___qtablewidgetitem3.setText(QCoreApplication.translate("mainWindow", u"Tickets", None));
         self.showsHeaderLabel.setText(QCoreApplication.translate("mainWindow", u"Double click venue or tickets cell to view information in your browser", None))
+        self.label_3.setText("")
         self.tabs.setTabText(self.tabs.indexOf(self.tourDatesTab), QCoreApplication.translate("mainWindow", u"Shows", None))
         self.mapMapHeaderLabel.setText(QCoreApplication.translate("mainWindow", u"Click a marker on the map to see show details", None))
         self.tabs.setTabText(self.tabs.indexOf(self.mapTab), QCoreApplication.translate("mainWindow", u"Map", None))
@@ -401,7 +408,10 @@ class Ui_mainWindow(object):
 "PyQt5<br>\n"
 "Qt Designer<br>\n"
 "Folium map library<br>\n"
-"</strong>", None))
+"Band data: The AudioDB<br>\n"
+"Show data: SongKick\n"
+"</strong>\n"
+"", None))
         self.infoCreatedDisplayLabel.setText(QCoreApplication.translate("mainWindow", u"<strong>Jon Ramm</strong>\n"
 "<p>\n"
 "Musician turned programmer living in the high desert and eating burritos.\n"

@@ -117,6 +117,7 @@ class UI(QtWidgets.QMainWindow):
             self.set_photo(data['img_url'])
             self.tour_search(data['artist'])
             self.video_search(data['id'])
+            # set prev and cur global search variables
             self.previousSearch = self.currentSearch
             self.currentSearch = data['artist']
         else:
