@@ -188,7 +188,8 @@ class UI(QtWidgets.QMainWindow):
             self.showsTableWidget.setItem(row, 0, QtWidgets.QTableWidgetItem(date['start']['date']))
             self.showsTableWidget.setItem(row, 1, QtWidgets.QTableWidgetItem(date['venue']['displayName']))
             self.showsTableWidget.setItem(row, 2, QtWidgets.QTableWidgetItem(date['location']['city']))
-            self.showsTableWidget.setItem(row, 3, QtWidgets.QTableWidgetItem(date['venue']['uri']))
+            self.showsTableWidget.setItem(row, 3, QtWidgets.QTableWidgetItem('Tickets'))
+            self.showsTableWidget.item(row, 3).setToolTip(date['venue']['uri'])
             row += 1
         # add content to widgets
         # self.tourDatesDateListLabel.setText(tourDates)
@@ -210,7 +211,7 @@ class UI(QtWidgets.QMainWindow):
         if confirm.standardButton(confirm.clickedButton()) == QtWidgets.QMessageBox.Yes:
             self.confirmation = 1
             # QtGui.QDesktopServices.openUrl(item.text())
-            webbrowser.open(item.text())
+            webbrowser.open(item.toolTip())
         else:
             self.confirmation = 0
         
