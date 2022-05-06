@@ -185,11 +185,17 @@ class UI(QtWidgets.QMainWindow):
 
             showString += f"{date['start']['date']} {date['venue']['displayName']} {date['location']['city']} <a href='{date['venue']['uri']}'>Tickets</a><br><br>"
 
-            self.showsTableWidget.setItem(row, 0, QtWidgets.QTableWidgetItem(date['start']['date']))
-            self.showsTableWidget.setItem(row, 1, QtWidgets.QTableWidgetItem(date['venue']['displayName']))
-            self.showsTableWidget.setItem(row, 2, QtWidgets.QTableWidgetItem(date['location']['city']))
-            self.showsTableWidget.setItem(row, 3, QtWidgets.QTableWidgetItem('Tickets'))
-            self.showsTableWidget.item(row, 3).setToolTip(date['venue']['uri'])
+            dateCell = QtWidgets.QTableWidgetItem(date['start']['date'])
+            venueCell = QtWidgets.QTableWidgetItem(date['venue']['displayName'])
+            cityCell = QtWidgets.QTableWidgetItem(date['location']['city'])
+            ticketsCell = QtWidgets.QTableWidgetItem('Tickets')
+            ticketsCell.setToolTip(date['venue']['uri'])
+
+            self.showsTableWidget.setItem(row, 0, dateCell)
+            self.showsTableWidget.setItem(row, 1, venueCell)
+            self.showsTableWidget.setItem(row, 2, cityCell)
+            self.showsTableWidget.setItem(row, 3, ticketsCell)
+            # self.showsTableWidget.item(row, 3).setToolTip(date['venue']['uri'])
             row += 1
         # add content to widgets
         # self.tourDatesDateListLabel.setText(tourDates)
@@ -202,18 +208,18 @@ class UI(QtWidgets.QMainWindow):
         # self.showsTextBrowser.append(showString)
 
     def link_clicked(self, item):
-        confirm = QtWidgets.QMessageBox()
-        confirm.setWindowTitle("Confirm redirect")
-        confirm.setText('Link will open in your browser...do you wish to proceed?')
-        confirm.setStandardButtons(QtWidgets.QMessageBox.Yes | QtWidgets.QMessageBox.No)
-        confirm.exec_()
-        
-        if confirm.standardButton(confirm.clickedButton()) == QtWidgets.QMessageBox.Yes:
-            self.confirmation = 1
-            # QtGui.QDesktopServices.openUrl(item.text())
-            webbrowser.open(item.toolTip())
-        else:
-            self.confirmation = 0
+        if item.text() == 'Tickets':
+            confirm = QtWidgets.QMessageBox()
+            confirm.setWindowTitle("Confirm redirect")
+            confirm.setText('Link will open in your browser...do you wish to proceed?')
+            confirm.setStandardButtons(QtWidgets.QMessageBox.Yes | QtWidgets.QMessageBox.No)
+            confirm.exec_()
+            if confirm.standardButton(confirm.clickedButton()) == QtWidgets.QMessageBox.Yes:
+                self.confirmation = 1
+                # QtGui.QDesktopServices.openUrl(item.text())
+                webbrowser.open(item.toolTip())
+            else:
+                self.confirmation = 0
         
         
     def set_photo(self, img_url):

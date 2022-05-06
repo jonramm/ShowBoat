@@ -19,7 +19,7 @@ class Ui_mainWindow(object):
     def setupUi(self, mainWindow):
         if not mainWindow.objectName():
             mainWindow.setObjectName(u"mainWindow")
-        mainWindow.resize(1067, 693)
+        mainWindow.resize(1067, 692)
         mainWindow.setStyleSheet(u"background-color: rgb(221, 255, 220);")
         self.centralwidget = QWidget(mainWindow)
         self.centralwidget.setObjectName(u"centralwidget")
@@ -160,11 +160,6 @@ class Ui_mainWindow(object):
         self.tabs.addTab(self.homeTab, icon, "")
         self.tourDatesTab = QWidget()
         self.tourDatesTab.setObjectName(u"tourDatesTab")
-        self.tourDatesScrollBar = QScrollBar(self.tourDatesTab)
-        self.tourDatesScrollBar.setObjectName(u"tourDatesScrollBar")
-        self.tourDatesScrollBar.setGeometry(QRect(995, 19, 31, 571))
-        self.tourDatesScrollBar.setStyleSheet(u"background-color: rgb(202, 202, 202);")
-        self.tourDatesScrollBar.setOrientation(Qt.Vertical)
         self.showsTableWidget = QTableWidget(self.tourDatesTab)
         if (self.showsTableWidget.columnCount() < 4):
             self.showsTableWidget.setColumnCount(4)
@@ -177,7 +172,8 @@ class Ui_mainWindow(object):
         __qtablewidgetitem3 = QTableWidgetItem()
         self.showsTableWidget.setHorizontalHeaderItem(3, __qtablewidgetitem3)
         self.showsTableWidget.setObjectName(u"showsTableWidget")
-        self.showsTableWidget.setGeometry(QRect(20, 20, 951, 571))
+        self.showsTableWidget.setGeometry(QRect(20, 20, 1001, 571))
+        self.showsTableWidget.setEditTriggers(QAbstractItemView.NoEditTriggers)
         self.tabs.addTab(self.tourDatesTab, "")
         self.mapTab = QWidget()
         self.mapTab.setObjectName(u"mapTab")
