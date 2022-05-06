@@ -1,5 +1,5 @@
 import webbrowser
-from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5 import QtCore, QtGui, QtWidgets, Qt
 from PyQt5.QtGui import QPixmap, QIcon, QImage
 from PyQt5.QtWebEngineWidgets import QWebEngineView
 from PyQt5 import uic
@@ -84,10 +84,21 @@ class UI(QtWidgets.QMainWindow):
 
     # Functions
 
+    def keyPressEvent(self, event):
+        if event.key() == 16777220:
+            self.artist_search('key_press')
+
+
     def artist_search(self, type):
         # get search string from search bar if search button pressed
-        if type == 'search':
+        if type == 'search' or type == 'key_press':
             value = self.bandSearchLineEdit.text()
+            if not value:
+                msg = QtWidgets.QMessageBox()
+                msg.setWindowTitle("Error")
+                msg.setText("Please enter an artist name")
+                x = msg.exec_()
+                return
             obj = {"artist_search": value}
         # get global 'previous search' variable if previous button pressed
         else:
@@ -113,7 +124,7 @@ class UI(QtWidgets.QMainWindow):
             self.bandInfoNameLabel.setText(data['artist'])
             self.homeBioPlainTextEdit.clear()
             self.homeBioPlainTextEdit.insertPlainText(data['bio'])
-            self.bandInfoWebsiteLabel.setText(f"<a href='{data['website']}'>{data['website']}</a>")
+            self.bandInfoWebsiteLabel.setText(f"<a href='www.{data['website']}'>{data['website']}</a>")
             self.set_photo(data['img_url'])
             self.tour_search(data['artist'])
             self.video_search(data['id'])
