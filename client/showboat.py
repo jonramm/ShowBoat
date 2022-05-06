@@ -90,11 +90,12 @@ class UI(QtWidgets.QMainWindow):
     # Functions
 
     def keyPressEvent(self, event):
+        # hitting 'return' activates a search
         if event.key() == 16777220:
             self.artist_search('key_press')
 
     def artist_search(self, type):
-        # get search string from search bar if search button pressed
+        # get search string from search bar if search button or 'return' key pressed 
         if type == 'search' or type == 'key_press':
             value = self.bandSearchLineEdit.text()
             # if there's nothing in the search bar
@@ -188,7 +189,7 @@ class UI(QtWidgets.QMainWindow):
         row = 0
         self.showsTableWidget.setRowCount(len(data["events"]))
 
-        # loop through events to construct data strings
+        # loop through events to add cells to table widget
         for date in data["events"]:
             dateCell = QtWidgets.QTableWidgetItem(date['start']['date'])
             dateCell.setTextAlignment(QtCore.Qt.AlignCenter)
@@ -215,7 +216,6 @@ class UI(QtWidgets.QMainWindow):
             confirm.exec_()
             if confirm.standardButton(confirm.clickedButton()) == QtWidgets.QMessageBox.Yes:
                 self.confirmation = 1
-                # QtGui.QDesktopServices.openUrl(item.text())
                 webbrowser.open(item.toolTip())
             else:
                 self.confirmation = 0
