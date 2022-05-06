@@ -15,7 +15,7 @@ class UI(QtWidgets.QMainWindow):
         super(UI, self).__init__()
 
         # load UI file
-        uic.loadUi("./client/showboat_adjustShows.ui", self)
+        uic.loadUi("./client/showboat.ui", self)
 
         # define our widgets
 
@@ -37,23 +37,13 @@ class UI(QtWidgets.QMainWindow):
         self.searchButton = self.findChild(QtWidgets.QPushButton, "searchButton")
 
         # Tour Dates
-        # self.tourDatesDateLabel = self.findChild(QtWidgets.QLabel, "tourDatesDateLabel")
-        # self.tourDatesVenueLabel = self.findChild(QtWidgets.QLabel, "tourDatesVenueLabel")
-        # self.tourDatesCityLabel = self.findChild(QtWidgets.QLabel, "tourDatesCityLabel")
-        # self.tourDatesTicketInfoLabel = self.findChild(QtWidgets.QLabel, "tourDatesTicketInfoLabel")
-        # self.tourDatesDateListLabel = self.findChild(QtWidgets.QLabel, "tourDatesDateListLabel")
-        # self.tourDatesVenueListLabel = self.findChild(QtWidgets.QLabel, "tourDatesVenueListLabel")
-        # self.tourDatesCityListLabel = self.findChild(QtWidgets.QLabel, "tourDatesCityListLabel")
-        # self.tourDatesTicketListLabel = self.findChild(QtWidgets.QLabel, "tourDatesTicketListLabel")
-
-        # self.ticketTextBrowser = self.findChild(QtWidgets.QTextBrowser, "ticketTextBrowser")
-        # self.showsTextBrowser = self.findChild(QtWidgets.QTextBrowser, "showsTextBrowser")
 
         self.showsTableWidget = self.findChild(QtWidgets.QTableWidget, "showsTableWidget")
-        self.showsTableWidget.setColumnWidth(0,176)
-        self.showsTableWidget.setColumnWidth(1,298)
-        self.showsTableWidget.setColumnWidth(2,298)
-        self.showsTableWidget.setColumnWidth(3,176)
+        self.showsTableWidget.horizontalHeader().setSectionResizeMode(QtWidgets.QHeaderView.Fixed)
+        self.showsTableWidget.setColumnWidth(0,116)
+        self.showsTableWidget.setColumnWidth(1,396)
+        self.showsTableWidget.setColumnWidth(2,385)
+        self.showsTableWidget.setColumnWidth(3,106)
 
         # Map
         self.mapMapContainer = self.findChild(QWebEngineView, "mapMapContainer")
@@ -162,53 +152,30 @@ class UI(QtWidgets.QMainWindow):
         map_data = io.BytesIO()
         self.map.save(map_data, close_file=False)
         self.mapMapContainer.setHtml(map_data.getvalue().decode())
-        # create data strings for display
-        tourDates = ""
-        tourVenues = ""
-        tourTickets = ""
-        tourTicketsArr = []
-        tourCities = ""
-
-        showsArr = []
-        showString = ""
 
         row = 0
         self.showsTableWidget.setRowCount(len(data["events"]))
 
         # loop through events to construct data strings
         for date in data["events"]:
-            tourDates += f"{date['start']['date']} <br><br>"
-            tourVenues += f"{date['venue']['displayName']} <br><br>" 
-            tourTickets += f"<a href='{date['venue']['uri']}'>Tickets</a>" + "<br><br>"
-            tourTicketsArr.append(f"<a href='{date['venue']['uri']}'>Tickets</a>" + "<br><br>")
-            tourCities += f"{date['location']['city']} <br><br>" 
-
-            showString += f"{date['start']['date']} {date['venue']['displayName']} {date['location']['city']} <a href='{date['venue']['uri']}'>Tickets</a><br><br>"
-
             dateCell = QtWidgets.QTableWidgetItem(date['start']['date'])
+            dateCell.setTextAlignment(QtCore.Qt.AlignCenter)
             venueCell = QtWidgets.QTableWidgetItem(date['venue']['displayName'])
+            venueCell.setTextAlignment(QtCore.Qt.AlignCenter)
+            venueCell.setToolTip(date['venue']['uri'])
             cityCell = QtWidgets.QTableWidgetItem(date['location']['city'])
+            cityCell.setTextAlignment(QtCore.Qt.AlignCenter)
             ticketsCell = QtWidgets.QTableWidgetItem('Tickets')
-            ticketsCell.setToolTip(date['venue']['uri'])
-
+            ticketsCell.setTextAlignment(QtCore.Qt.AlignCenter)
+            ticketsCell.setToolTip(date['uri'])
             self.showsTableWidget.setItem(row, 0, dateCell)
             self.showsTableWidget.setItem(row, 1, venueCell)
             self.showsTableWidget.setItem(row, 2, cityCell)
             self.showsTableWidget.setItem(row, 3, ticketsCell)
-            # self.showsTableWidget.item(row, 3).setToolTip(date['venue']['uri'])
             row += 1
-        # add content to widgets
-        # self.tourDatesDateListLabel.setText(tourDates)
-        # self.tourDatesVenueListLabel.setText(tourVenues)
-        # self.tourDatesCityListLabel.setText(tourCities)
-        # self.ticketTextBrowser.append(tourTickets)
-
-        
-
-        # self.showsTextBrowser.append(showString)
 
     def link_clicked(self, item):
-        if item.text() == 'Tickets':
+        if item.toolTip():
             confirm = QtWidgets.QMessageBox()
             confirm.setWindowTitle("Confirm redirect")
             confirm.setText('Link will open in your browser...do you wish to proceed?')
