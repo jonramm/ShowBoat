@@ -1,3 +1,4 @@
+import webbrowser
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtGui import QPixmap, QIcon, QImage
 from PyQt5.QtWebEngineWidgets import QWebEngineView
@@ -14,7 +15,7 @@ class UI(QtWidgets.QMainWindow):
         super(UI, self).__init__()
 
         # load UI file
-        uic.loadUi("./client/showboat.ui", self)
+        uic.loadUi("./client/showboat_adjustShows.ui", self)
 
         # define our widgets
 
@@ -36,15 +37,23 @@ class UI(QtWidgets.QMainWindow):
         self.searchButton = self.findChild(QtWidgets.QPushButton, "searchButton")
 
         # Tour Dates
-        self.tourDatesDateLabel = self.findChild(QtWidgets.QLabel, "tourDatesDateLabel")
-        self.tourDatesVenueLabel = self.findChild(QtWidgets.QLabel, "tourDatesVenueLabel")
-        self.tourDatesCityLabel = self.findChild(QtWidgets.QLabel, "tourDatesCityLabel")
-        self.tourDatesTicketInfoLabel = self.findChild(QtWidgets.QLabel, "tourDatesTicketInfoLabel")
-        self.tourDatesDateListLabel = self.findChild(QtWidgets.QLabel, "tourDatesDateListLabel")
-        self.tourDatesVenueListLabel = self.findChild(QtWidgets.QLabel, "tourDatesVenueListLabel")
-        self.tourDatesCityListLabel = self.findChild(QtWidgets.QLabel, "tourDatesCityListLabel")
-        self.tourDatesTicketListLabel = self.findChild(QtWidgets.QLabel, "tourDatesTicketListLabel")
-        self.ticketTextBrowser = self.findChild(QtWidgets.QTextBrowser, "ticketTextBrowser")
+        # self.tourDatesDateLabel = self.findChild(QtWidgets.QLabel, "tourDatesDateLabel")
+        # self.tourDatesVenueLabel = self.findChild(QtWidgets.QLabel, "tourDatesVenueLabel")
+        # self.tourDatesCityLabel = self.findChild(QtWidgets.QLabel, "tourDatesCityLabel")
+        # self.tourDatesTicketInfoLabel = self.findChild(QtWidgets.QLabel, "tourDatesTicketInfoLabel")
+        # self.tourDatesDateListLabel = self.findChild(QtWidgets.QLabel, "tourDatesDateListLabel")
+        # self.tourDatesVenueListLabel = self.findChild(QtWidgets.QLabel, "tourDatesVenueListLabel")
+        # self.tourDatesCityListLabel = self.findChild(QtWidgets.QLabel, "tourDatesCityListLabel")
+        # self.tourDatesTicketListLabel = self.findChild(QtWidgets.QLabel, "tourDatesTicketListLabel")
+
+        # self.ticketTextBrowser = self.findChild(QtWidgets.QTextBrowser, "ticketTextBrowser")
+        # self.showsTextBrowser = self.findChild(QtWidgets.QTextBrowser, "showsTextBrowser")
+
+        self.showsTableWidget = self.findChild(QtWidgets.QTableWidget, "showsTableWidget")
+        self.showsTableWidget.setColumnWidth(0,176)
+        self.showsTableWidget.setColumnWidth(1,298)
+        self.showsTableWidget.setColumnWidth(2,298)
+        self.showsTableWidget.setColumnWidth(3,176)
 
         # Map
         self.mapMapContainer = self.findChild(QWebEngineView, "mapMapContainer")
@@ -73,7 +82,11 @@ class UI(QtWidgets.QMainWindow):
 
         # Functionality
         self.searchButton.clicked.connect(self.artist_search)
-        self.ticketTextBrowser.anchorClicked.connect(self.link_clicked)
+        # self.ticketTextBrowser.anchorClicked.connect(self.link_clicked)
+        # self.showsTextBrowser.anchorClicked.connect(self.link_clicked)
+
+        # self.showsTableWidget.anchorClicked.connect(self.link_clicked)
+        self.showsTableWidget.itemDoubleClicked.connect(self.link_clicked)
 
         # show the app
         self.show()
@@ -91,7 +104,7 @@ class UI(QtWidgets.QMainWindow):
         splash_screen.show()
         app.processEvents()
         # call artist-search endpoint
-        response = requests.post('http://127.0.0.1:5000/artist-search', data=obj)
+        response = requests.post('https://showboat-rest-api.herokuapp.com/artist-search', data=obj)
         data = response.json()
         if data['artist']:
             self.bandInfoNameLabel.setText(data['artist'])
@@ -114,9 +127,8 @@ class UI(QtWidgets.QMainWindow):
     def video_search(self, id):
         obj = {"artist_id": id}
         # call video-search endpoint
-        response = requests.post('http://127.0.0.1:5000/video-search', data=obj)
+        response = requests.post('https://showboat-rest-api.herokuapp.com/video-search', data=obj)
         data = response.json()
-        pprint.pprint(data)
         for i, url in enumerate(data["video_urls"]):
             self.video_dict[f"video{i}"].setUrl(QtCore.QUrl(url))
 
@@ -134,7 +146,7 @@ class UI(QtWidgets.QMainWindow):
         # get tour dates
         obj = {"artist_search": artist}
         # call tour-search endpoint
-        response = requests.post('http://127.0.0.1:5000/tour-search', data=obj)
+        response = requests.post('https://showboat-rest-api.herokuapp.com/tour-search', data=obj)
         data = response.json()
         # add dates to map
         for obj in data["events"]:
@@ -156,6 +168,13 @@ class UI(QtWidgets.QMainWindow):
         tourTickets = ""
         tourTicketsArr = []
         tourCities = ""
+
+        showsArr = []
+        showString = ""
+
+        row = 0
+        self.showsTableWidget.setRowCount(len(data["events"]))
+
         # loop through events to construct data strings
         for date in data["events"]:
             tourDates += f"{date['start']['date']} <br><br>"
@@ -163,21 +182,35 @@ class UI(QtWidgets.QMainWindow):
             tourTickets += f"<a href='{date['venue']['uri']}'>Tickets</a>" + "<br><br>"
             tourTicketsArr.append(f"<a href='{date['venue']['uri']}'>Tickets</a>" + "<br><br>")
             tourCities += f"{date['location']['city']} <br><br>" 
-        # add content to widgets
-        self.tourDatesDateListLabel.setText(tourDates)
-        self.tourDatesVenueListLabel.setText(tourVenues)
-        self.tourDatesCityListLabel.setText(tourCities)
-        self.ticketTextBrowser.append(tourTickets)
 
-    def link_clicked(self, url):
+            showString += f"{date['start']['date']} {date['venue']['displayName']} {date['location']['city']} <a href='{date['venue']['uri']}'>Tickets</a><br><br>"
+
+            self.showsTableWidget.setItem(row, 0, QtWidgets.QTableWidgetItem(date['start']['date']))
+            self.showsTableWidget.setItem(row, 1, QtWidgets.QTableWidgetItem(date['venue']['displayName']))
+            self.showsTableWidget.setItem(row, 2, QtWidgets.QTableWidgetItem(date['location']['city']))
+            self.showsTableWidget.setItem(row, 3, QtWidgets.QTableWidgetItem(date['venue']['uri']))
+            row += 1
+        # add content to widgets
+        # self.tourDatesDateListLabel.setText(tourDates)
+        # self.tourDatesVenueListLabel.setText(tourVenues)
+        # self.tourDatesCityListLabel.setText(tourCities)
+        # self.ticketTextBrowser.append(tourTickets)
+
+        
+
+        # self.showsTextBrowser.append(showString)
+
+    def link_clicked(self, item):
         confirm = QtWidgets.QMessageBox()
+        confirm.setWindowTitle("Confirm redirect")
         confirm.setText('Link will open in your browser...do you wish to proceed?')
         confirm.setStandardButtons(QtWidgets.QMessageBox.Yes | QtWidgets.QMessageBox.No)
         confirm.exec_()
         
         if confirm.standardButton(confirm.clickedButton()) == QtWidgets.QMessageBox.Yes:
             self.confirmation = 1
-            QtGui.QDesktopServices.openUrl(url)
+            # QtGui.QDesktopServices.openUrl(item.text())
+            webbrowser.open(item.text())
         else:
             self.confirmation = 0
         
@@ -196,4 +229,6 @@ class UI(QtWidgets.QMainWindow):
 app = QtWidgets.QApplication(sys.argv)
 UIWindow = UI()
 app.exec_()
+
+
 

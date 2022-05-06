@@ -1,6 +1,8 @@
 import os
-from flask import Flask, request, jsonify
+from flask import Flask, request, send_file
 import requests
+from PIL import Image
+from io import BytesIO
 import pprint
 
 app = Flask(__name__)
@@ -91,3 +93,25 @@ def video_search():
         }
         return obj
 
+@app.route("/image-transform", methods=['GET', 'POST'])
+def image_transform():
+    if request.method == 'POST':
+        url, height, width = request.form['url'], int(request.form['height']), int(request.form['width'])
+        response = requests.get(url)
+        img = Image.open(BytesIO(response.content))
+
+        new_size = (width, height)
+        # new_img = img.resize(new_size)
+        img.thumbnail(new_size)
+
+        return serve_pil_image(img)
+
+def serve_pil_image(pil_img):
+    img_io = BytesIO()
+    pil_img.save(img_io, 'JPEG', quality=70)
+    img_io.seek(0)
+    return send_file(img_io, mimetype='image/jpeg')
+
+@app.route("/", methods=['GET'])
+def hello():
+    return "Hello world!"
