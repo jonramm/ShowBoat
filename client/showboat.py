@@ -17,6 +17,10 @@ class UI(QtWidgets.QMainWindow):
         # load UI file
         uic.loadUi("./client/showboat.ui", self)
 
+        # global 'Previous Search' variable
+        self.previousSearch = ''
+        self.currentSearch = ''
+
         # define our widgets
 
         # Tabs
@@ -71,11 +75,8 @@ class UI(QtWidgets.QMainWindow):
         self.videoSeeMoreButton = self.findChild(QtWidgets.QPushButton, "videoSeeMoreButton")
 
         # Functionality
-        self.searchButton.clicked.connect(self.artist_search)
-        # self.ticketTextBrowser.anchorClicked.connect(self.link_clicked)
-        # self.showsTextBrowser.anchorClicked.connect(self.link_clicked)
-
-        # self.showsTableWidget.anchorClicked.connect(self.link_clicked)
+        self.searchButton.clicked.connect(lambda: self.artist_search('search'))
+        self.lastSearchButton.clicked.connect(lambda: self.artist_search('previous'))
         self.showsTableWidget.itemDoubleClicked.connect(self.link_clicked)
 
         # show the app
@@ -83,10 +84,22 @@ class UI(QtWidgets.QMainWindow):
 
     # Functions
 
-    def artist_search(self):
-        # get search string from search bar
-        value = self.bandSearchLineEdit.text()
-        obj = {"artist_search": value}
+    def artist_search(self, type):
+        # get search string from search bar if search button pressed
+        if type == 'search':
+            value = self.bandSearchLineEdit.text()
+            obj = {"artist_search": value}
+        # get global 'previous search' variable if previous button pressed
+        else:
+            value = self.previousSearch
+            # if there hasn't been a search yet
+            if not value:
+                msg = QtWidgets.QMessageBox()
+                msg.setWindowTitle("Error")
+                msg.setText("Previous search unavailable")
+                x = msg.exec_()
+                return
+            obj = {"artist_search": value}
         # create and show loading screen
         splash_screen = QtWidgets.QSplashScreen()
         splash_screen.showMessage('Loading...')
@@ -104,6 +117,8 @@ class UI(QtWidgets.QMainWindow):
             self.set_photo(data['img_url'])
             self.tour_search(data['artist'])
             self.video_search(data['id'])
+            self.previousSearch = self.currentSearch
+            self.currentSearch = data['artist']
         else:
             msg = QtWidgets.QMessageBox()
             msg.setWindowTitle("Error")
