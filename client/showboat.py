@@ -21,9 +21,14 @@ class UI(QtWidgets.QMainWindow):
         self.previousSearch = ''
         self.currentSearch = ''
 
+        # global tab variable
+        self.currentTab = 0
+
         # define our widgets
 
         # Tabs
+        self.tabs = self.findChild(QtWidgets.QTabWidget, "tabs")
+        self.tabs.setCurrentIndex(self.currentTab)
         self.homeTab = self.findChild(QtWidgets.QWidget, "homeTab")
         self.tourDatesTab = self.findChild(QtWidgets.QWidget, "tourDatesTab")
         self.mapTab = self.findChild(QtWidgets.QWidget, "mapTab")
@@ -88,11 +93,11 @@ class UI(QtWidgets.QMainWindow):
         if event.key() == 16777220:
             self.artist_search('key_press')
 
-
     def artist_search(self, type):
         # get search string from search bar if search button pressed
         if type == 'search' or type == 'key_press':
             value = self.bandSearchLineEdit.text()
+            # if there's nothing in the search bar
             if not value:
                 msg = QtWidgets.QMessageBox()
                 msg.setWindowTitle("Error")
