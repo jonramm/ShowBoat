@@ -9,6 +9,7 @@ import folium
 import requests
 import urllib
 import pprint
+from termcolor import colored, cprint
 
 class UI(QtWidgets.QMainWindow):
     def __init__(self):
@@ -133,7 +134,7 @@ class UI(QtWidgets.QMainWindow):
             self.bandInfoWebsiteLabel.setText(f"<a href='www.{data['website']}'>{data['website']}</a>")
             self.set_photo(data['img_url'])
             self.tour_search(data['artist'])
-            self.video_search(data['id'])
+            self.video_search(data['artist'])
             # set prev and cur global search variables
             self.previousSearch = self.currentSearch
             self.currentSearch = data['artist']
@@ -147,13 +148,15 @@ class UI(QtWidgets.QMainWindow):
         # remove splash screen if content has loaded
         splash_screen.close()
 
-    def video_search(self, id):
-        obj = {"artist_id": id}
+    def video_search(self, artist):
+        obj = {"name": artist, "type": "popular"}
         # call video-search endpoint
-        response = requests.post('https://showboat-rest-api.herokuapp.com/video-search', data=obj)
+        response = requests.post('https://youtube-scraper-microservice.herokuapp.com/videos', json=obj)
         data = response.json()
-        for i, url in enumerate(data["video_urls"]):
-            self.video_dict[f"video{i}"].setUrl(QtCore.QUrl(url))
+        for i, entry in enumerate(data):
+            self.video_dict[f"video{i}"].setUrl(QtCore.QUrl(entry["url"].replace("embed", "watch")))
+            # html = f'<iframe width="560" height="315" src="{entry["url"].replace("?v=", "/")}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>'
+            # self.video_dict[f"video{i}"].setHtml(html, QtCore.QUrl("local"))
 
     def tour_search(self, artist):
         # reset map
