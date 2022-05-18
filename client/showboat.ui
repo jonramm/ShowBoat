@@ -604,7 +604,7 @@ border-radius: 10px;</string>
       <property name="geometry">
        <rect>
         <x>590</x>
-        <y>390</y>
+        <y>490</y>
         <width>381</width>
         <height>91</height>
        </rect>
@@ -623,6 +623,100 @@ color: rgb(200, 47, 101);</string>
       </property>
       <property name="text">
        <string>See More!</string>
+      </property>
+     </widget>
+     <widget class="QRadioButton" name="radioButtonPopular">
+      <property name="enabled">
+       <bool>true</bool>
+      </property>
+      <property name="geometry">
+       <rect>
+        <x>610</x>
+        <y>410</y>
+        <width>131</width>
+        <height>18</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>Tahoma</family>
+        <pointsize>10</pointsize>
+        <weight>75</weight>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="text">
+       <string>Most Popular</string>
+      </property>
+      <property name="checked">
+       <bool>true</bool>
+      </property>
+     </widget>
+     <widget class="QRadioButton" name="radioButtonNewest">
+      <property name="geometry">
+       <rect>
+        <x>760</x>
+        <y>410</y>
+        <width>90</width>
+        <height>18</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>Tahoma</family>
+        <pointsize>10</pointsize>
+        <weight>75</weight>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="text">
+       <string>Newest</string>
+      </property>
+     </widget>
+     <widget class="QRadioButton" name="radioButtonOldest">
+      <property name="geometry">
+       <rect>
+        <x>870</x>
+        <y>410</y>
+        <width>90</width>
+        <height>18</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>Tahoma</family>
+        <pointsize>10</pointsize>
+        <weight>75</weight>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="text">
+       <string>Oldest</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_4">
+      <property name="geometry">
+       <rect>
+        <x>553</x>
+        <y>340</y>
+        <width>451</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>Britannic Bold</family>
+        <pointsize>18</pointsize>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">color: rgb(198, 140, 41);</string>
+      </property>
+      <property name="text">
+       <string>Display videos that are:</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
       </property>
      </widget>
     </widget>

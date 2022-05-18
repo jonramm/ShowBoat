@@ -78,12 +78,18 @@ class UI(QtWidgets.QMainWindow):
             "video1": self.video1,
             "video2": self.video2
         }
+        self.radioButtonPopular = self.findChild(QtWidgets.QRadioButton, "radioButtonPopular")
+        self.radioButtonNewest = self.findChild(QtWidgets.QRadioButton, "radioButtonNewest")
+        self.radioButtonOldest = self.findChild(QtWidgets.QRadioButton, "radioButtonOldest")
         self.videoSeeMoreButton = self.findChild(QtWidgets.QPushButton, "videoSeeMoreButton")
 
         # Functionality
         self.searchButton.clicked.connect(lambda: self.artist_search('search'))
         self.lastSearchButton.clicked.connect(lambda: self.artist_search('previous'))
         self.showsTableWidget.itemDoubleClicked.connect(self.link_clicked)
+        self.radioButtonPopular.toggled.connect(lambda: self.video_refresh('popular'))
+        self.radioButtonNewest.toggled.connect(lambda: self.video_refresh('newest'))
+        self.radioButtonOldest.toggled.connect(lambda: self.video_refresh('oldest'))
 
         # show the app
         self.show()
@@ -158,6 +164,21 @@ class UI(QtWidgets.QMainWindow):
             # html = f'<iframe width="560" height="315" src="{entry["url"].replace("?v=", "/")}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>'
             # self.video_dict[f"video{i}"].setHtml(html, QtCore.QUrl("local"))
 
+    def video_refresh(self, type):
+        obj = {"name": self.bandInfoNameLabel.text(), "type": type}
+        # create and show loading screen
+        splash_screen = QtWidgets.QSplashScreen()
+        splash_screen.showMessage('Loading...')
+        splash_screen.setGeometry(QtCore.QRect(650,400,100,100))
+        splash_screen.show()
+        app.processEvents()
+        # call video-search endpoint
+        response = requests.post('https://youtube-scraper-microservice.herokuapp.com/videos', json=obj)
+        data = response.json()
+        for i, entry in enumerate(data):
+            self.video_dict[f"video{i}"].setUrl(QtCore.QUrl(entry["url"].replace("embed", "watch")))
+        splash_screen.close()
+
     def tour_search(self, artist):
         # reset map
         coordinates = (27.03992362079509, -22.920434372492934)
@@ -222,7 +243,6 @@ class UI(QtWidgets.QMainWindow):
                 webbrowser.open(item.toolTip())
             else:
                 self.confirmation = 0
-        
         
     def set_photo(self, img_url):
         data = urllib.request.urlopen(img_url).read()
