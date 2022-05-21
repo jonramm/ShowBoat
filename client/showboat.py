@@ -25,6 +25,9 @@ class UI(QtWidgets.QMainWindow):
         # global tab variable
         self.currentTab = 0
 
+        # artist channel url
+        self.channelUrl = ''
+
         # define our widgets
 
         # Tabs
@@ -90,11 +93,25 @@ class UI(QtWidgets.QMainWindow):
         self.radioButtonPopular.toggled.connect(lambda: self.video_refresh('popular'))
         self.radioButtonNewest.toggled.connect(lambda: self.video_refresh('newest'))
         self.radioButtonOldest.toggled.connect(lambda: self.video_refresh('oldest'))
+        self.videoSeeMoreButton.clicked.connect(self.artistChannelRedirect)
 
         # show the app
         self.show()
 
     # Functions
+
+    def artistChannelRedirect(self):
+        if self.channelUrl:
+            confirm = QtWidgets.QMessageBox()
+            confirm.setWindowTitle("Confirm redirect")
+            confirm.setText('Link will open in your browser...do you wish to proceed?')
+            confirm.setStandardButtons(QtWidgets.QMessageBox.Yes | QtWidgets.QMessageBox.No)
+            confirm.exec_()
+            if confirm.standardButton(confirm.clickedButton()) == QtWidgets.QMessageBox.Yes:
+                self.confirmation = 1
+                webbrowser.open(self.channelUrl)
+            else:
+                self.confirmation = 0
 
     def keyPressEvent(self, event):
         # hitting 'return' activates a search
@@ -159,10 +176,13 @@ class UI(QtWidgets.QMainWindow):
         # call video-search endpoint
         response = requests.post('https://youtube-scraper-microservice.herokuapp.com/videos', json=obj)
         data = response.json()
-        for i, entry in enumerate(data):
-            self.video_dict[f"video{i}"].setUrl(QtCore.QUrl(entry["url"].replace("embed", "watch")))
-            # html = f'<iframe width="560" height="315" src="{entry["url"].replace("?v=", "/")}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>'
-            # self.video_dict[f"video{i}"].setHtml(html, QtCore.QUrl("local"))
+        i = 0
+        for entry in data:
+            if 'channel_url' in entry:
+                self.channelUrl = entry['channel_url']
+            else:
+                self.video_dict[f"video{i}"].setUrl(QtCore.QUrl(entry["url"].replace("embed", "watch")))
+                i += 1
 
     def video_refresh(self, type):
         obj = {"name": self.bandInfoNameLabel.text(), "type": type}
@@ -175,8 +195,13 @@ class UI(QtWidgets.QMainWindow):
         # call video-search endpoint
         response = requests.post('https://youtube-scraper-microservice.herokuapp.com/videos', json=obj)
         data = response.json()
-        for i, entry in enumerate(data):
-            self.video_dict[f"video{i}"].setUrl(QtCore.QUrl(entry["url"].replace("embed", "watch")))
+        i = 0
+        for entry in data:
+            if 'channel_url' in entry:
+                continue
+            else:
+                self.video_dict[f"video{i}"].setUrl(QtCore.QUrl(entry["url"].replace("embed", "watch")))
+                i += 1
         splash_screen.close()
 
     def tour_search(self, artist):
