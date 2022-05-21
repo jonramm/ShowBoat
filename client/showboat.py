@@ -240,7 +240,14 @@ class UI(QtWidgets.QMainWindow):
 
         # loop through events to add cells to table widget
         for date in data["events"]:
-            dateCell = QtWidgets.QTableWidgetItem(date['start']['date'])
+            # restructure date for API call to conversion microservice
+            rawDate = date['start']['date']
+            front = rawDate[5:]
+            back = rawDate[0:4]
+            combinedDate = front + "-" + back
+            res = requests.get(f"https://mstagg.pythonanywhere.com/{combinedDate}/long")
+            newDate = res.text
+            dateCell = QtWidgets.QTableWidgetItem(newDate)
             dateCell.setTextAlignment(QtCore.Qt.AlignCenter)
             venueCell = QtWidgets.QTableWidgetItem(date['venue']['displayName'])
             venueCell.setTextAlignment(QtCore.Qt.AlignCenter)
