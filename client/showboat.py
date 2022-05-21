@@ -28,7 +28,11 @@ class UI(QtWidgets.QMainWindow):
         # artist channel url
         self.channelUrl = ''
 
-        # define our widgets
+#######################################################################################
+#                                                                                     #
+# Define Widgets                                                                      #
+#                                                                                     #
+#######################################################################################
 
         # Tabs
         self.tabs = self.findChild(QtWidgets.QTabWidget, "tabs")
@@ -86,6 +90,12 @@ class UI(QtWidgets.QMainWindow):
         self.radioButtonOldest = self.findChild(QtWidgets.QRadioButton, "radioButtonOldest")
         self.videoSeeMoreButton = self.findChild(QtWidgets.QPushButton, "videoSeeMoreButton")
 
+#######################################################################################
+#                                                                                     #
+# Connect functions to widgets                                                        #
+#                                                                                     #
+#######################################################################################
+
         # Functionality
         self.searchButton.clicked.connect(lambda: self.artist_search('search'))
         self.lastSearchButton.clicked.connect(lambda: self.artist_search('previous'))
@@ -98,9 +108,17 @@ class UI(QtWidgets.QMainWindow):
         # show the app
         self.show()
 
-    # Functions
+#######################################################################################
+#                                                                                     #
+# Define functions                                                                    #
+#                                                                                     #
+#######################################################################################
 
     def artistChannelRedirect(self):
+        """
+        Handles a click on the 'Artist Channel' button for a redirect to their channel in
+        a user's browser. Uses global artist channel url variable.
+        """
         if self.channelUrl:
             confirm = QtWidgets.QMessageBox()
             confirm.setWindowTitle("Confirm redirect")
@@ -114,11 +132,17 @@ class UI(QtWidgets.QMainWindow):
                 self.confirmation = 0
 
     def keyPressEvent(self, event):
-        # hitting 'return' activates a search
+        """
+        Handles a 'return' key press by activating the artist search.
+        """
         if event.key() == 16777220:
             self.artist_search('key_press')
 
     def artist_search(self, type):
+        """
+        Takes a search type (search button clicked or 'return' pressed) and calls the 
+        artist search API endpoint. Updates display widgets with returned data.
+        """
         # get search string from search bar if search button or 'return' key pressed 
         if type == 'search' or type == 'key_press':
             value = self.bandSearchLineEdit.text()
@@ -172,6 +196,10 @@ class UI(QtWidgets.QMainWindow):
         splash_screen.close()
 
     def video_search(self, artist):
+        """
+        Takes an artist name as a parameter and calls the YouTube scraper API endpoint. Updates
+        display widgets with returned data.
+        """
         obj = {"name": artist, "type": "popular"}
         # call video-search endpoint
         response = requests.post('https://youtube-scraper-microservice.herokuapp.com/videos', json=obj)
@@ -185,6 +213,11 @@ class UI(QtWidgets.QMainWindow):
                 i += 1
 
     def video_refresh(self, type):
+        """
+        Takes a search type as a parameter as chosen by the user via radio buttons and
+        refreshes the video display widgets with data by calling the YouTube scraper API
+        endpoint.
+        """
         obj = {"name": self.bandInfoNameLabel.text(), "type": type}
         # create and show loading screen
         splash_screen = QtWidgets.QSplashScreen()
@@ -205,6 +238,11 @@ class UI(QtWidgets.QMainWindow):
         splash_screen.close()
 
     def tour_search(self, artist):
+        """
+        Takes an artist name as a parameter and calls the tour search API endpoint which pulls
+        Songkick tour data from the web. Also calls teammate's date conversion microservice API
+        endpoint. Updates display widgets with returned data.
+        """
         # reset map
         coordinates = (27.03992362079509, -22.920434372492934)
         self.map = folium.Map(
@@ -247,6 +285,7 @@ class UI(QtWidgets.QMainWindow):
             combinedDate = front + "-" + back
             res = requests.get(f"https://mstagg.pythonanywhere.com/{combinedDate}/long")
             newDate = res.text
+            # populate tour table widget with data 
             dateCell = QtWidgets.QTableWidgetItem(newDate)
             dateCell.setTextAlignment(QtCore.Qt.AlignCenter)
             venueCell = QtWidgets.QTableWidgetItem(date['venue']['displayName'])
@@ -264,6 +303,10 @@ class UI(QtWidgets.QMainWindow):
             row += 1
 
     def link_clicked(self, item):
+        """
+        Takes a tour table cell as a parameter and uses its stored tooltip data to 
+        link to a Songkick webpage containing either venue or tour date ticket info.
+        """
         if item.toolTip():
             confirm = QtWidgets.QMessageBox()
             confirm.setWindowTitle("Confirm redirect")
@@ -277,14 +320,15 @@ class UI(QtWidgets.QMainWindow):
                 self.confirmation = 0
         
     def set_photo(self, img_url):
+        """
+        Takes an image url and creates a pixmap, then updates the artist photo
+        display widget.
+        """
         data = urllib.request.urlopen(img_url).read()
         pixmap = QPixmap()
         pixmap.loadFromData(data)
         self.bandPhotoLabel.setPixmap(pixmap)
         self.bandPhotoLabel.setScaledContents(True)
-
-    def confirm_msg(self):
-        print("confirm message")
 
 # initialize app
 app = QtWidgets.QApplication(sys.argv)
