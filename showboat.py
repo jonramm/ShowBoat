@@ -3,6 +3,7 @@ import webbrowser
 from PyQt5 import QtCore, QtGui, QtWidgets, Qt
 from PyQt5.QtGui import QPixmap, QIcon, QImage
 from PyQt5.QtWebEngineWidgets import QWebEngineView
+from PyQt5.QtWebEngineWidgets import QWebEngineSettings
 from PyQt5.QtCore import QObject, QThread, pyqtSignal
 from PyQt5 import uic
 import sys
@@ -14,31 +15,6 @@ import time
 import urllib
 import pprint
 from termcolor import colored, cprint
-
-#######################################################################################
-#                                                                                     #
-# Define main window class                                                             #
-#                                                                                     #
-#######################################################################################
-
-class UI(QtWidgets.QMainWindow):
-    def __init__(self):
-        super(UI, self).__init__()
-
-        # load UI file
-        uic.loadUi("./client/showboat.ui", self)
-
-        # global 'Previous Search' variable
-        self.previousSearch = ''
-        self.currentSearch = ''
-
-        # global tab variable
-        self.currentTab = 0
-
-        # artist channel url
-        self.channelUrl = ''
-
-        self.date_arr = []
 
 #######################################################################################
 #                                                                                     #
@@ -72,6 +48,33 @@ class DateConversionThread(QThread):
 
     def run(self):
         self.date_convert()
+
+#######################################################################################
+#                                                                                     #
+# Define main window class                                                             #
+#                                                                                     #
+#######################################################################################
+
+class UI(QtWidgets.QMainWindow):
+    def __init__(self):
+        super(UI, self).__init__()
+
+        # load UI file
+        uic.loadUi("showboat.ui", self)
+
+        # global 'Previous Search' variable
+        self.previousSearch = ''
+        self.currentSearch = ''
+
+        # global tab variable
+        self.currentTab = 0
+
+        # artist channel url
+        self.channelUrl = ''
+
+        # raw date array for conversion
+        self.date_arr = []
+
 
 #######################################################################################
 #                                                                                     #
@@ -121,6 +124,8 @@ class DateConversionThread(QThread):
         self.mapMapContainer.setHtml(data.getvalue().decode())
 
         # Video
+        QWebEngineSettings.globalSettings().setAttribute(QWebEngineSettings.PluginsEnabled,True)
+        QWebEngineSettings.globalSettings().setAttribute(QWebEngineSettings.FullScreenSupportEnabled, True)
         self.video0 = self.findChild(QWebEngineView, "video0")
         self.video1 = self.findChild(QWebEngineView, "video1")
         self.video2 = self.findChild(QWebEngineView, "video2")
