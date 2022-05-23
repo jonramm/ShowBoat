@@ -1,15 +1,25 @@
+from datetime import date
 import webbrowser
 from PyQt5 import QtCore, QtGui, QtWidgets, Qt
 from PyQt5.QtGui import QPixmap, QIcon, QImage
 from PyQt5.QtWebEngineWidgets import QWebEngineView
+from PyQt5.QtCore import QObject, QThread, pyqtSignal
 from PyQt5 import uic
 import sys
 import io
 import folium
 import requests
+from requests import Session
+import time
 import urllib
 import pprint
 from termcolor import colored, cprint
+
+#######################################################################################
+#                                                                                     #
+# Define main window class                                                             #
+#                                                                                     #
+#######################################################################################
 
 class UI(QtWidgets.QMainWindow):
     def __init__(self):
@@ -27,6 +37,41 @@ class UI(QtWidgets.QMainWindow):
 
         # artist channel url
         self.channelUrl = ''
+
+        self.date_arr = []
+
+#######################################################################################
+#                                                                                     #
+# Define secondary thread for processing dates                                        #
+#                                                                                     #
+#######################################################################################
+
+class DateConversionThread(QThread):
+    """
+    Creates a thread object for running calls to teammate's microservice. API calls run in thread
+    will not freeze the app GUI.
+    """
+    authResult = pyqtSignal(object)
+
+    def __init__(self, date_arr):
+        QThread.__init__(self)
+        self.date_arr = date_arr
+
+    def date_convert(self):
+        """
+        Iterates through array of dates to be converted and makes individual calls to
+        teammate's microservice.
+        """
+        result = []
+        for date in self.date_arr:
+            res = requests.get(f"https://mstagg.pythonanywhere.com/{date}/long")
+            newDate = res.text
+            result.append(newDate)
+        # emits result array to be picked up by main thread
+        self.authResult.emit(result)
+
+    def run(self):
+        self.date_convert()
 
 #######################################################################################
 #                                                                                     #
@@ -171,9 +216,11 @@ class UI(QtWidgets.QMainWindow):
         splash_screen.setGeometry(QtCore.QRect(650,400,100,100))
         splash_screen.show()
         app.processEvents()
+
         # call artist-search endpoint
         response = requests.post('https://showboat-rest-api.herokuapp.com/artist-search', data=obj)
         data = response.json()
+
         if data['artist']:
             self.bandInfoNameLabel.setText(data['artist'])
             self.homeBioPlainTextEdit.clear()
@@ -283,10 +330,9 @@ class UI(QtWidgets.QMainWindow):
             front = rawDate[5:]
             back = rawDate[0:4]
             combinedDate = front + "-" + back
-            res = requests.get(f"https://mstagg.pythonanywhere.com/{combinedDate}/long")
-            newDate = res.text
+            self.date_arr.append(combinedDate) 
             # populate tour table widget with data 
-            dateCell = QtWidgets.QTableWidgetItem(newDate)
+            dateCell = QtWidgets.QTableWidgetItem(rawDate)
             dateCell.setTextAlignment(QtCore.Qt.AlignCenter)
             venueCell = QtWidgets.QTableWidgetItem(date['venue']['displayName'])
             venueCell.setTextAlignment(QtCore.Qt.AlignCenter)
@@ -300,6 +346,30 @@ class UI(QtWidgets.QMainWindow):
             self.showsTableWidget.setItem(row, 1, venueCell)
             self.showsTableWidget.setItem(row, 2, cityCell)
             self.showsTableWidget.setItem(row, 3, ticketsCell)
+            row += 1
+        # creates separate thread for date conversion microservice calls     
+        self.populate(self.date_arr)
+
+    def populate(self, date_arr):
+        """
+        Takes a date array containing dates to be converted. Creates a separate thread for multiple
+        calls to teammate's microservice so as not to block my GUI.
+        https://stackoverflow.com/questions/46781548/updating-variable-values-when-running-a-thread-using-qthread-in-pyqt4
+        """
+        self.thread = DateConversionThread(date_arr)
+        self.thread.authResult.connect(self.handleAuthResult)
+        self.thread.start()
+
+    def handleAuthResult(self, result):
+        """
+        Takes an array containing converted dates and updates display widget.
+        https://stackoverflow.com/questions/46781548/updating-variable-values-when-running-a-thread-using-qthread-in-pyqt4
+        """
+        row = 0
+        for newDate in result:
+            dateCell = QtWidgets.QTableWidgetItem(newDate)
+            dateCell.setTextAlignment(QtCore.Qt.AlignCenter)
+            self.showsTableWidget.setItem(row, 0, dateCell)
             row += 1
 
     def link_clicked(self, item):
