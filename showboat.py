@@ -15,6 +15,8 @@ import time
 import urllib
 import pprint
 from termcolor import colored, cprint
+from bs4 import BeautifulSoup
+import mechanize
 
 #######################################################################################
 #                                                                                     #
@@ -48,6 +50,39 @@ class DateConversionThread(QThread):
 
     def run(self):
         self.date_convert()
+
+class AutocompleteThread(QThread):
+    """
+    """
+    authResult = pyqtSignal(object)
+
+    def __init__(self, search_string):
+        QThread.__init__(self)
+        self.search_string = search_string
+
+    def scrape(self):
+        """
+        Takes a search string and scrapes the AudioDB website to return a list of artist names.
+        Returns the names as an array.
+        """
+        URL ="https://www.theaudiodb.com/browse.php"
+        br = mechanize.Browser()
+        response = br.open(URL)
+        br.form = list(br.forms())[0]  # use when form is unnamed
+        control = br.form.controls[0]
+        control.value = self.search_string
+        response = br.submit()
+        data = response.read()
+        soup = BeautifulSoup(data, "html.parser")
+        results = soup.find_all("a")
+        nameArr = []
+        for a in results:
+            if '/artist' in a['href']:
+                nameArr.append(a.getText())
+        self.authResult.emit(nameArr)
+
+    def run(self):
+        self.scrape()
 
 #######################################################################################
 #                                                                                     #
@@ -98,6 +133,10 @@ class UI(QtWidgets.QMainWindow):
         self.bandInfoNameLabel = self.findChild(QtWidgets.QLabel, "bandInfoNameLabel")
         self.bandInfoWebsiteLabel = self.findChild(QtWidgets.QLabel, "bandInfoWebsiteLabel")
         self.bandSearchLineEdit = self.findChild(QtWidgets.QLineEdit, "bandSearchLineEdit")
+        self.completer = QtWidgets.QCompleter()
+        self.bandSearchLineEdit.setCompleter(self.completer)
+        self.model = QtCore.QStringListModel()
+        self.completer.setModel(self.model)
         self.lastSearchButton = self.findChild(QtWidgets.QPushButton, "lastSearchButton")
         self.searchButton = self.findChild(QtWidgets.QPushButton, "searchButton")
 
@@ -154,6 +193,8 @@ class UI(QtWidgets.QMainWindow):
         self.radioButtonNewest.toggled.connect(lambda: self.video_refresh('newest'))
         self.radioButtonOldest.toggled.connect(lambda: self.video_refresh('oldest'))
         self.videoSeeMoreButton.clicked.connect(self.artistChannelRedirect)
+
+        self.bandSearchLineEdit.textChanged.connect(lambda: self.auto_complete(self.bandSearchLineEdit.text()))
 
         # show the app
         self.show()
@@ -354,6 +395,22 @@ class UI(QtWidgets.QMainWindow):
             row += 1
         # creates separate thread for date conversion microservice calls     
         self.populate(self.date_arr)
+
+    def auto_complete(self, search_string):
+        """
+        Takes a search string with the current text in the search bar. Creates a separate thread
+        for non-blocking use of an AudioDB web scraper.
+        """
+        self.thread = AutocompleteThread(search_string)
+        self.thread.authResult.connect(self.handleAutoResult)
+        self.thread.start()
+
+    def handleAutoResult(self, result):
+        """
+        Takes result array and updates completer.
+        """
+        self.model.setStringList(result)
+        self.completer.complete()
 
     def populate(self, date_arr):
         """

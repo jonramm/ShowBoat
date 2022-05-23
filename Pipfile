@@ -15,6 +15,9 @@ folium = "*"
 pyqtwebengine = "*"
 requests-async = "*"
 aiohttp = "*"
+pyinstaller = "*"
+beautifulsoup4 = "*"
+mechanize = "*"
 
 [dev-packages]
 
