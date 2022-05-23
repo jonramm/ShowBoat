@@ -297,13 +297,18 @@ class UI(QtWidgets.QMainWindow):
         # call video-search endpoint
         response = requests.post('https://youtube-scraper-microservice.herokuapp.com/videos', json=obj)
         data = response.json()
-        i = 0
-        for entry in data:
-            if 'channel_url' in entry:
-                self.channelUrl = entry['channel_url']
-            else:
-                self.video_dict[f"video{i}"].setUrl(QtCore.QUrl(entry["url"].replace("embed", "watch")))
-                i += 1
+        # if there's an error or if no video urls are returned
+        if response.status_code != 200 or len(data) > 2:
+            for key in self.video_dict:
+                self.video_dict[key].setHtml('')
+        else:
+            i = 0
+            for entry in data:
+                if 'channel_url' in entry:
+                    self.channelUrl = entry['channel_url']
+                else:
+                    self.video_dict[f"video{i}"].setUrl(QtCore.QUrl(entry["url"].replace("embed", "watch")))
+                    i += 1
 
     def video_refresh(self, type):
         """
