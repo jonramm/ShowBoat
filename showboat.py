@@ -298,7 +298,7 @@ class UI(QtWidgets.QMainWindow):
         response = requests.post('https://youtube-scraper-microservice.herokuapp.com/videos', json=obj)
         data = response.json()
         # if there's an error or if no video urls are returned
-        if response.status_code != 200 or len(data) > 2:
+        if response.status_code != 200 or len(data) < 2:
             for key in self.video_dict:
                 self.video_dict[key].setHtml('')
         else:
