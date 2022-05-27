@@ -11,7 +11,7 @@ import io
 import folium
 import requests
 from requests import Session
-import time
+from time import time
 import urllib
 import pprint
 from termcolor import colored, cprint
@@ -20,9 +20,37 @@ import mechanize
 
 #######################################################################################
 #                                                                                     #
-# Define secondary thread for processing dates                                        #
+# Define secondary threads for making API calls                                       #
 #                                                                                     #
 #######################################################################################
+
+class VideoSearchThread(QThread):
+    """
+    Creates a thread object for running calls to teammate's microservice. API calls run in thread
+    will not freeze the app GUI.
+    """
+    authResult = pyqtSignal(object)
+
+    def __init__(self, artist):
+        QThread.__init__(self)
+        self.artist = artist
+
+    def video_search(self):
+        """
+        Takes an artist name as a parameter and calls the YouTube scraper API endpoint. Updates
+        display widgets with returned data.
+        """
+        obj = {"name": self.artist, "type": "popular"}
+        # call video-search endpoint
+        response = requests.post('https://youtube-scraper-microservice.herokuapp.com/videos', json=obj)
+        data = response.json()
+        if response.status_code != 200 or len(data) < 2:
+            self.authResult.emit(False)
+        else:
+            self.authResult.emit(data)
+
+    def run(self):
+        self.video_search()
 
 class DateConversionThread(QThread):
     """
@@ -205,6 +233,20 @@ class UI(QtWidgets.QMainWindow):
 #                                                                                     #
 #######################################################################################
 
+    @staticmethod
+    def timer_func(func):
+        """
+        Timer function for troubleshooting.
+        """
+        def wrap_func(*args, **kwargs):
+            t1 = time()
+            result = func(*args, **kwargs)
+            t2 = time()
+            print(f'Function {func.__name__!r} executed in {(t2-t1):.4f}s')
+            return result
+        return wrap_func
+
+    @timer_func
     def artistChannelRedirect(self):
         """
         Handles a click on the 'Artist Channel' button for a redirect to their channel in
@@ -229,6 +271,7 @@ class UI(QtWidgets.QMainWindow):
         if event.key() == 16777220:
             self.artist_search('key_press')
 
+    @timer_func
     def artist_search(self, type):
         """
         Takes a search type (search button clicked or 'return' pressed) and calls the 
@@ -274,6 +317,7 @@ class UI(QtWidgets.QMainWindow):
             self.bandInfoWebsiteLabel.setText(f"<a href='www.{data['website']}'>{data['website']}</a>")
             self.set_photo(data['img_url'])
             self.tour_search(data['artist'])
+            # creates separate thread for video search microservice calls   
             self.video_search(data['artist'])
             # set prev and cur global search variables
             self.previousSearch = self.currentSearch
@@ -288,28 +332,7 @@ class UI(QtWidgets.QMainWindow):
         # remove splash screen if content has loaded
         splash_screen.close()
 
-    def video_search(self, artist):
-        """
-        Takes an artist name as a parameter and calls the YouTube scraper API endpoint. Updates
-        display widgets with returned data.
-        """
-        obj = {"name": artist, "type": "popular"}
-        # call video-search endpoint
-        response = requests.post('https://youtube-scraper-microservice.herokuapp.com/videos', json=obj)
-        data = response.json()
-        # if there's an error or if no video urls are returned
-        if response.status_code != 200 or len(data) < 2:
-            for key in self.video_dict:
-                self.video_dict[key].setHtml('')
-        else:
-            i = 0
-            for entry in data:
-                if 'channel_url' in entry:
-                    self.channelUrl = entry['channel_url']
-                else:
-                    self.video_dict[f"video{i}"].setUrl(QtCore.QUrl(entry["url"].replace("embed", "watch")))
-                    i += 1
-
+    @timer_func
     def video_refresh(self, type):
         """
         Takes a search type as a parameter as chosen by the user via radio buttons and
@@ -335,6 +358,7 @@ class UI(QtWidgets.QMainWindow):
                 i += 1
         splash_screen.close()
 
+    @timer_func
     def tour_search(self, artist):
         """
         Takes an artist name as a parameter and calls the tour search API endpoint which pulls
@@ -399,16 +423,16 @@ class UI(QtWidgets.QMainWindow):
             self.showsTableWidget.setItem(row, 3, ticketsCell)
             row += 1
         # creates separate thread for date conversion microservice calls     
-        self.populate(self.date_arr)
+        self.date_conversion(self.date_arr)
 
     def auto_complete(self, search_string):
         """
         Takes a search string with the current text in the search bar. Creates a separate thread
         for non-blocking use of an AudioDB web scraper.
         """
-        self.thread = AutocompleteThread(search_string)
-        self.thread.authResult.connect(self.handleAutoResult)
-        self.thread.start()
+        self.autoThread = AutocompleteThread(search_string)
+        self.autoThread.authResult.connect(self.handleAutoResult)
+        self.autoThread.start()
 
     def handleAutoResult(self, result):
         """
@@ -416,18 +440,20 @@ class UI(QtWidgets.QMainWindow):
         """
         self.model.setStringList(result)
         self.completer.complete()
+        self.autoThread.quit()
 
-    def populate(self, date_arr):
+    @timer_func
+    def date_conversion(self, date_arr):
         """
         Takes a date array containing dates to be converted. Creates a separate thread for multiple
         calls to teammate's microservice so as not to block my GUI.
         https://stackoverflow.com/questions/46781548/updating-variable-values-when-running-a-thread-using-qthread-in-pyqt4
         """
-        self.thread = DateConversionThread(date_arr)
-        self.thread.authResult.connect(self.handleAuthResult)
-        self.thread.start()
+        self.dateThread = DateConversionThread(date_arr)
+        self.dateThread.authResult.connect(self.handleDatesResult)
+        self.dateThread.start()
 
-    def handleAuthResult(self, result):
+    def handleDatesResult(self, result):
         """
         Takes an array containing converted dates and updates display widget.
         https://stackoverflow.com/questions/46781548/updating-variable-values-when-running-a-thread-using-qthread-in-pyqt4
@@ -438,6 +464,34 @@ class UI(QtWidgets.QMainWindow):
             dateCell.setTextAlignment(QtCore.Qt.AlignCenter)
             self.showsTableWidget.setItem(row, 0, dateCell)
             row += 1
+            self.dateThread.quit()
+
+    def video_search(self, artist):
+        """
+        Takes a search string with the current text in the search bar. Creates a separate thread
+        for non-blocking use of an AudioDB web scraper.
+        """
+        self.videoThread = VideoSearchThread(artist)
+        self.videoThread.authResult.connect(self.handleVideoResult)
+        self.videoThread.start()
+
+    def handleVideoResult(self, result):
+        """
+        Takes a JSON object with YouTube urls and updates display widgets.
+        """
+        if not result:
+            for key in self.video_dict:
+                self.video_dict[key].setHtml('')
+                self.videoThread.quit()
+        else:
+            i = 0
+            for entry in result:
+                if 'channel_url' in entry:
+                    self.channelUrl = entry['channel_url']
+                else:
+                    self.video_dict[f"video{i}"].setUrl(QtCore.QUrl(entry["url"].replace("embed", "watch")))
+                    i += 1
+            self.videoThread.quit()
 
     def link_clicked(self, item):
         """
@@ -455,7 +509,8 @@ class UI(QtWidgets.QMainWindow):
                 webbrowser.open(item.toolTip())
             else:
                 self.confirmation = 0
-        
+
+    @timer_func    
     def set_photo(self, img_url):
         """
         Takes an image url and creates a pixmap, then updates the artist photo
