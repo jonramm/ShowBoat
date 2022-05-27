@@ -7,6 +7,7 @@ from PyQt5.QtWebEngineWidgets import QWebEngineSettings
 from PyQt5.QtCore import QObject, QThread, pyqtSignal
 from PyQt5 import uic
 import sys
+import os
 import io
 import folium
 import requests
@@ -17,6 +18,15 @@ import pprint
 from termcolor import colored, cprint
 from bs4 import BeautifulSoup
 import mechanize
+
+# https://github.com/pyinstaller/pyinstaller/issues/1826
+if getattr(sys, 'frozen', False):
+    # we are running in a bundle
+    bundle_dir = sys._MEIPASS
+else:
+    # we are running in a normal Python environment
+    bundle_dir = os.path.dirname(os.path.abspath(__file__))
+GUI_PATH = os.path.join( bundle_dir, 'showboat.ui' )
 
 #######################################################################################
 #                                                                                     #
@@ -123,7 +133,7 @@ class UI(QtWidgets.QMainWindow):
         super(UI, self).__init__()
 
         # load UI file
-        uic.loadUi("showboat.ui", self)
+        uic.loadUi(GUI_PATH, self)
 
         # global 'Previous Search' variable
         self.previousSearch = ''
