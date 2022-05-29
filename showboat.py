@@ -1,7 +1,7 @@
 from datetime import date
 import webbrowser
 from PyQt5 import QtCore, QtGui, QtWidgets, Qt
-from PyQt5.QtGui import QPixmap, QIcon, QImage
+from PyQt5.QtGui import QPixmap, QIcon, QImage, QFont, QMovie
 from PyQt5.QtWebEngineWidgets import QWebEngineView
 from PyQt5.QtWebEngineWidgets import QWebEngineSettings
 from PyQt5.QtCore import QObject, QThread, pyqtSignal
@@ -27,6 +27,7 @@ else:
     # we are running in a normal Python environment
     bundle_dir = os.path.dirname(os.path.abspath(__file__))
 GUI_PATH = os.path.join( bundle_dir, 'showboat.ui' )
+IMG_PATH = os.path.join( bundle_dir, 'assets/showboatPic.png' )
 
 #######################################################################################
 #                                                                                     #
@@ -309,10 +310,15 @@ class UI(QtWidgets.QMainWindow):
                 x = msg.exec_()
                 return
             obj = {"artist_search": value}
+
         # create and show loading screen
-        splash_screen = QtWidgets.QSplashScreen()
-        splash_screen.showMessage('Loading...')
-        splash_screen.setGeometry(QtCore.QRect(650,400,100,100))
+        # pixmap = QPixmap("./assets/showboatPic.png")
+        pixmap = QPixmap("./assets/showboat_white_cropped.png")
+        pixmapScaled = pixmap.scaled(400, 400, QtCore.Qt.KeepAspectRatio)
+        splash_screen = QtWidgets.QSplashScreen(pixmapScaled)
+        splash_screen.setFont(QFont("Britannic Bold", 20))
+        splash_screen.showMessage('Loading...', color=QtGui.QColor(200, 47, 101))
+
         splash_screen.show()
         app.processEvents()
 
@@ -351,9 +357,12 @@ class UI(QtWidgets.QMainWindow):
         """
         obj = {"name": self.bandInfoNameLabel.text(), "type": type}
         # create and show loading screen
-        splash_screen = QtWidgets.QSplashScreen()
-        splash_screen.showMessage('Loading...')
-        splash_screen.setGeometry(QtCore.QRect(650,400,100,100))
+        # pixmap = QPixmap("./assets/showboatPic.png")
+        pixmap = QPixmap("./assets/showboat_white_cropped.png")
+        pixmapScaled = pixmap.scaled(400, 400, QtCore.Qt.KeepAspectRatio)
+        splash_screen = QtWidgets.QSplashScreen(pixmapScaled)
+        splash_screen.setFont(QFont("Britannic Bold", 20))
+        splash_screen.showMessage('Loading...', color=QtGui.QColor(200, 47, 101))
         splash_screen.show()
         app.processEvents()
         # call video-search endpoint
