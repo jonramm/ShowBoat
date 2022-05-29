@@ -27,7 +27,7 @@ else:
     # we are running in a normal Python environment
     bundle_dir = os.path.dirname(os.path.abspath(__file__))
 GUI_PATH = os.path.join( bundle_dir, 'showboat.ui' )
-IMG_PATH = os.path.join( bundle_dir, 'assets/showboatPic.png' )
+IMG_PATH = os.path.join( bundle_dir, 'showboat_white_cropped.png' )
 
 #######################################################################################
 #                                                                                     #
@@ -313,7 +313,7 @@ class UI(QtWidgets.QMainWindow):
 
         # create and show loading screen
         # pixmap = QPixmap("./assets/showboatPic.png")
-        pixmap = QPixmap("./assets/showboat_white_cropped.png")
+        pixmap = QPixmap(IMG_PATH)
         pixmapScaled = pixmap.scaled(400, 400, QtCore.Qt.KeepAspectRatio)
         splash_screen = QtWidgets.QSplashScreen(pixmapScaled)
         splash_screen.setFont(QFont("Britannic Bold", 20))
@@ -358,7 +358,7 @@ class UI(QtWidgets.QMainWindow):
         obj = {"name": self.bandInfoNameLabel.text(), "type": type}
         # create and show loading screen
         # pixmap = QPixmap("./assets/showboatPic.png")
-        pixmap = QPixmap("./assets/showboat_white_cropped.png")
+        pixmap = QPixmap(IMG_PATH)
         pixmapScaled = pixmap.scaled(400, 400, QtCore.Qt.KeepAspectRatio)
         splash_screen = QtWidgets.QSplashScreen(pixmapScaled)
         splash_screen.setFont(QFont("Britannic Bold", 20))
