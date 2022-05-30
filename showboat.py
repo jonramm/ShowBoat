@@ -246,6 +246,25 @@ class UI(QtWidgets.QMainWindow):
 #                                                                                     #
 #######################################################################################
 
+    def updateWidgets(self, data):
+        """
+        Takes an artist data object, updates the display widgets, and calls the tour search
+        and video search methods..
+        """
+        self.bandInfoNameLabel.setText(data['artist'])
+        self.homeBioPlainTextEdit.clear()
+        self.homeBioPlainTextEdit.insertPlainText(data['bio'])
+        self.bandInfoWebsiteLabel.setText(f"<a href='www.{data['website']}'>{data['website']}</a>")
+        self.set_photo(data['img_url'])
+        self.tour_search(data['artist'])
+        # creates separate thread for video search microservice calls   
+        self.video_search(data['artist'])
+        # set prev and cur global search variables
+        self.previousSearch = self.currentSearch
+        self.currentSearch = data['artist']
+        self.statusBar.showMessage(data['artist'])
+        self.currentArtist = data['artist']  
+
     def errorBox(self, msgString):
         """
         Takes a message string and displays an error box popup.
@@ -257,6 +276,7 @@ class UI(QtWidgets.QMainWindow):
 
     def loadSplash(self):
         """
+        Returns a 'loading' splash screen object with a custom image.
         """
         pixmap = QPixmap(IMG_PATH)
         pixmapScaled = pixmap.scaled(400, 400, QtCore.Qt.KeepAspectRatio)
@@ -302,8 +322,6 @@ class UI(QtWidgets.QMainWindow):
         """
         https://www.geeksforgeeks.org/program-distance-two-points-earth/
         """
-        # The math module contains a function named
-        # radians which converts from degrees to radians.
         lon1 = radians(lon1)
         lon2 = radians(lon2)
         lat1 = radians(lat1)
@@ -313,8 +331,8 @@ class UI(QtWidgets.QMainWindow):
         dlat = lat2 - lat1
         a = sin(dlat / 2)**2 + cos(lat1) * cos(lat2) * sin(dlon / 2)**2
         c = 2 * asin(sqrt(a))
-        # Radius of earth in kilometers. Use 3956 for miles
-        r = 6371
+        # Radius of earth in miles
+        r = 3956
         # calculate the result
         return(c * r)
 
@@ -399,30 +417,14 @@ class UI(QtWidgets.QMainWindow):
                 self.errorBox("Previous search unavailable")
                 return
             obj = {"artist_search": value}
-
         splash_screen = self.loadSplash()
         splash_screen.show()
         app.processEvents()
-
         # call artist-search endpoint
         response = requests.post('https://showboat-rest-api.herokuapp.com/artist-search', data=obj)
         data = response.json()
-
         if data['artist']:
-            self.bandInfoNameLabel.setText(data['artist'])
-            self.homeBioPlainTextEdit.clear()
-            self.homeBioPlainTextEdit.insertPlainText(data['bio'])
-            self.bandInfoWebsiteLabel.setText(f"<a href='www.{data['website']}'>{data['website']}</a>")
-            self.set_photo(data['img_url'])
-            self.tour_search(data['artist'])
-            # creates separate thread for video search microservice calls   
-            self.video_search(data['artist'])
-            # set prev and cur global search variables
-            self.previousSearch = self.currentSearch
-            self.currentSearch = data['artist']
-            self.statusBar.showMessage(data['artist'])
-            self.currentArtist = data['artist']
-            
+            self.updateWidgets(data)
         else:
             self.errorBox("Artist not found")
         # clear search bar    
