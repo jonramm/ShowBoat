@@ -152,6 +152,8 @@ class UI(QtWidgets.QMainWindow):
 
         self.currentArtist = ''
 
+        self.curDates = []
+
 
 #######################################################################################
 #                                                                                     #
@@ -208,6 +210,11 @@ class UI(QtWidgets.QMainWindow):
         data = io.BytesIO()
         self.map.save(data, close_file=False)
         self.mapMapContainer.setHtml(data.getvalue().decode())
+        self.citySearchButton = self.findChild(QtWidgets.QPushButton, "citySearchButton")
+        self.citySearchInput = self.findChild(QtWidgets.QLineEdit, "citySearchInput")
+        self.miles25Radio = self.findChild(QtWidgets.QRadioButton, "miles25Radio")
+        self.miles50Radio = self.findChild(QtWidgets.QRadioButton, "miles50Radio")
+        self.miles100Radio = self.findChild(QtWidgets.QRadioButton, "miles100Radio")
 
         # Video
         QWebEngineSettings.globalSettings().setAttribute(QWebEngineSettings.PluginsEnabled,True)
@@ -405,6 +412,8 @@ class UI(QtWidgets.QMainWindow):
         # call tour-search endpoint
         response = requests.post('https://showboat-rest-api.herokuapp.com/tour-search', data=obj)
         data = response.json()
+        # hold dates data for later map manipulation
+        self.curDates = data["events"]
         # add dates to map
         for obj in data["events"]:
             lat = obj['location']['lat']

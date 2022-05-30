@@ -704,19 +704,65 @@ margin-bottom: .5em;</string>
        <attribute name="title">
         <string>Map</string>
        </attribute>
-       <layout class="QGridLayout" name="gridLayout_5">
-        <item row="0" column="0">
-         <widget class="QSplitter" name="splitter_3">
-          <property name="orientation">
-           <enum>Qt::Vertical</enum>
-          </property>
-          <widget class="QWebEngineView" name="mapMapContainer" native="true">
-           <property name="styleSheet">
-            <string notr="true">background-color: rgb(255, 255, 255);
+       <widget class="QWebEngineView" name="mapMapContainer" native="true">
+        <property name="geometry">
+         <rect>
+          <x>9</x>
+          <y>59</y>
+          <width>1201</width>
+          <height>591</height>
+         </rect>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">background-color: rgb(255, 255, 255);
 border-radius: 10px;</string>
-           </property>
-          </widget>
-          <widget class="QLabel" name="mapMapHeaderLabel">
+        </property>
+       </widget>
+       <widget class="QLabel" name="mapMapHeaderLabel">
+        <property name="geometry">
+         <rect>
+          <x>320</x>
+          <y>20</y>
+          <width>552</width>
+          <height>25</height>
+         </rect>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>16777215</width>
+          <height>74</height>
+         </size>
+        </property>
+        <property name="font">
+         <font>
+          <family>Britannic Bold</family>
+          <pointsize>18</pointsize>
+          <weight>50</weight>
+          <bold>false</bold>
+         </font>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">color: rgb(198, 140, 41);</string>
+        </property>
+        <property name="text">
+         <string>Click a marker on the map to see show details</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+       </widget>
+       <widget class="QWidget" name="">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>660</y>
+          <width>1191</width>
+          <height>61</height>
+         </rect>
+        </property>
+        <layout class="QHBoxLayout" name="horizontalLayout_11">
+         <item>
+          <widget class="QLabel" name="mapMapHeaderLabel_2">
            <property name="maximumSize">
             <size>
              <width>16777215</width>
@@ -735,15 +781,98 @@ border-radius: 10px;</string>
             <string notr="true">color: rgb(198, 140, 41);</string>
            </property>
            <property name="text">
-            <string>Click a marker on the map to see show details</string>
+            <string>Search by proximity to city</string>
            </property>
            <property name="alignment">
             <set>Qt::AlignCenter</set>
            </property>
           </widget>
-         </widget>
-        </item>
-       </layout>
+         </item>
+         <item>
+          <spacer name="horizontalSpacer_9">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>20</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item>
+          <widget class="QPushButton" name="citySearchButton">
+           <property name="minimumSize">
+            <size>
+             <width>120</width>
+             <height>0</height>
+            </size>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">background-color: rgb(202, 202, 202);
+color: rgb(200, 47, 101);</string>
+           </property>
+           <property name="text">
+            <string>Search</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLineEdit" name="citySearchInput">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="minimumSize">
+            <size>
+             <width>300</width>
+             <height>0</height>
+            </size>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">background-color: rgb(255, 255, 255);</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <spacer name="horizontalSpacer_12">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>20</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item>
+          <widget class="QRadioButton" name="miles25Radio">
+           <property name="text">
+            <string>25 miles</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QRadioButton" name="miles50Radio">
+           <property name="text">
+            <string>50 miles</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QRadioButton" name="miles100Radio">
+           <property name="text">
+            <string>100 miles</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
       </widget>
       <widget class="QWidget" name="videoTab">
        <attribute name="title">
