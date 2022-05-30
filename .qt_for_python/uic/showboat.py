@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'c:\Users\jrgbo\Documents\repos\ShowBoat\dist\showboat\showboat.ui'
+# Form implementation generated from reading ui file 'c:\Users\jrgbo\Documents\repos\ShowBoat\showboat.ui'
 #
 # Created by: PyQt5 UI code generator 5.15.6
 #
@@ -14,12 +14,12 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_mainWindow(object):
     def setupUi(self, mainWindow):
         mainWindow.setObjectName("mainWindow")
-        mainWindow.resize(1067, 692)
+        mainWindow.resize(1067, 713)
         mainWindow.setStyleSheet("background-color: rgb(221, 255, 220);")
         self.centralwidget = QtWidgets.QWidget(mainWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.tabs = QtWidgets.QTabWidget(self.centralwidget)
-        self.tabs.setGeometry(QtCore.QRect(10, 0, 1051, 641))
+        self.tabs.setGeometry(QtCore.QRect(0, 0, 1071, 681))
         self.tabs.setObjectName("tabs")
         self.homeTab = QtWidgets.QWidget()
         self.homeTab.setObjectName("homeTab")
@@ -163,7 +163,7 @@ class Ui_mainWindow(object):
         self.label_2.setWordWrap(True)
         self.label_2.setObjectName("label_2")
         icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap("c:\\Users\\jrgbo\\Documents\\repos\\ShowBoat\\dist\\showboat\\../../../../Pictures/IconImages/icons/home.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon.addPixmap(QtGui.QPixmap("c:\\Users\\jrgbo\\Documents\\repos\\ShowBoat\\../../../../Pictures/IconImages/icons/home.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.tabs.addTab(self.homeTab, icon, "")
         self.tourDatesTab = QtWidgets.QWidget()
         self.tourDatesTab.setObjectName("tourDatesTab")
@@ -209,7 +209,7 @@ class Ui_mainWindow(object):
         self.label_3 = QtWidgets.QLabel(self.tourDatesTab)
         self.label_3.setGeometry(QtCore.QRect(430, 570, 141, 41))
         self.label_3.setText("")
-        self.label_3.setPixmap(QtGui.QPixmap("c:\\Users\\jrgbo\\Documents\\repos\\ShowBoat\\dist\\showboat\\../../../../Downloads/attribution-assets/attribution-assets/powered-by-sk/powered-by-songkick-pink.png"))
+        self.label_3.setPixmap(QtGui.QPixmap("c:\\Users\\jrgbo\\Documents\\repos\\ShowBoat\\../../../../Downloads/attribution-assets/attribution-assets/powered-by-sk/powered-by-songkick-pink.png"))
         self.label_3.setScaledContents(True)
         self.label_3.setAlignment(QtCore.Qt.AlignCenter)
         self.label_3.setObjectName("label_3")

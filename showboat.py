@@ -26,7 +26,8 @@ if getattr(sys, 'frozen', False):
 else:
     # we are running in a normal Python environment
     bundle_dir = os.path.dirname(os.path.abspath(__file__))
-GUI_PATH = os.path.join( bundle_dir, 'showboat.ui' )
+# GUI_PATH = os.path.join( bundle_dir, 'showboat.ui' )
+GUI_PATH = os.path.join( bundle_dir, 'showboat_layouts.ui' )
 IMG_PATH = os.path.join( bundle_dir, 'showboat_white_cropped.png' )
 
 #######################################################################################
@@ -542,6 +543,7 @@ class UI(QtWidgets.QMainWindow):
         self.bandPhotoLabel.setScaledContents(True)
 
 # initialize app
+QtWidgets.QApplication.setStyle('Fusion')
 app = QtWidgets.QApplication(sys.argv)
 UIWindow = UI()
 app.exec_()
