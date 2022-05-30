@@ -18,6 +18,7 @@ import pprint
 from termcolor import colored, cprint
 from bs4 import BeautifulSoup
 import mechanize
+from math import radians, cos, sin, asin, sqrt
 
 # https://github.com/pyinstaller/pyinstaller/issues/1826
 if getattr(sys, 'frozen', False):
@@ -212,9 +213,9 @@ class UI(QtWidgets.QMainWindow):
         self.mapMapContainer.setHtml(data.getvalue().decode())
         self.citySearchButton = self.findChild(QtWidgets.QPushButton, "citySearchButton")
         self.citySearchInput = self.findChild(QtWidgets.QLineEdit, "citySearchInput")
-        self.miles25Radio = self.findChild(QtWidgets.QRadioButton, "miles25Radio")
         self.miles50Radio = self.findChild(QtWidgets.QRadioButton, "miles50Radio")
         self.miles100Radio = self.findChild(QtWidgets.QRadioButton, "miles100Radio")
+        self.miles250Radio = self.findChild(QtWidgets.QRadioButton, "miles250Radio")
 
         # Video
         QWebEngineSettings.globalSettings().setAttribute(QWebEngineSettings.PluginsEnabled,True)
@@ -247,7 +248,7 @@ class UI(QtWidgets.QMainWindow):
         self.radioButtonNewest.toggled.connect(lambda: self.video_refresh('newest'))
         self.radioButtonOldest.toggled.connect(lambda: self.video_refresh('oldest'))
         self.videoSeeMoreButton.clicked.connect(self.artistChannelRedirect)
-
+        self.citySearchButton.clicked.connect(lambda: self.searchByCity(self.citySearchInput.text()))
         self.bandSearchLineEdit.textChanged.connect(lambda: self.auto_complete(self.bandSearchLineEdit.text()))
 
         # show the app
@@ -271,6 +272,67 @@ class UI(QtWidgets.QMainWindow):
             return result
         return wrap_func
 
+    def distance(self, lat1, lat2, lon1, lon2):
+        """
+        https://www.geeksforgeeks.org/program-distance-two-points-earth/
+        """
+        # The math module contains a function named
+        # radians which converts from degrees to radians.
+        lon1 = radians(lon1)
+        lon2 = radians(lon2)
+        lat1 = radians(lat1)
+        lat2 = radians(lat2)
+        # Haversine formula
+        dlon = lon2 - lon1
+        dlat = lat2 - lat1
+        a = sin(dlat / 2)**2 + cos(lat1) * cos(lat2) * sin(dlon / 2)**2
+        c = 2 * asin(sqrt(a))
+        # Radius of earth in kilometers. Use 3956 for miles
+        r = 6371
+        # calculate the result
+        return(c * r)
+
+    def searchByCity(self, city):
+        """
+        """
+        data = requests.get(f"https://maps.googleapis.com/maps/api/geocode/json?address={city}&key={os.environ.get('GOOGLE_API_KEY')}")
+        latCity = data.json()['results'][0]['geometry']['location']['lat']
+        lngCity = data.json()['results'][0]['geometry']['location']['lng']
+        coordinates = (latCity, lngCity)
+        self.map = folium.Map(
+            title=city,
+            zoom_start=6,
+            location=coordinates
+        )
+        map_data = io.BytesIO()
+        self.map.save(map_data, close_file=False)
+        self.mapMapContainer.setHtml(map_data.getvalue().decode())
+        distanceFromCity = 0
+        if self.miles50Radio.isChecked():
+            distanceFromCity = 50
+        if self.miles100Radio.isChecked():
+            distanceFromCity = 100
+        if self.miles250Radio.isChecked():
+            distanceFromCity = 250
+
+        for obj in self.curDates:
+            lat = obj['location']['lat']
+            lng = obj['location']['lng']
+            distance = self.distance(latCity, lat, lngCity, lng)
+            print(f"Distance to {obj['location']['city']} from {city} is {distance} miles")
+            if distance < distanceFromCity:
+                # add data to popup dialog in map markers
+                iframe = folium.IFrame(f"<section height='100' width='100'><p>{obj['venue']['displayName']}</p><p>{obj['start']['date']}</p><p>{obj['location']['city']}</p><p><a href='{obj['venue']['uri']} target='_blank'>Tickets</a></p></section>")
+                popup = folium.Popup(iframe, min_width=300, max_width=300)
+                folium.Marker(
+                    location=(lat, lng),
+                    popup=popup,
+                ).add_to(self.map)
+        map_data = io.BytesIO()
+        self.map.save(map_data, close_file=False)
+        self.mapMapContainer.setHtml(map_data.getvalue().decode())
+            
+    
     def artistChannelRedirect(self):
         """
         Handles a click on the 'Artist Channel' button for a redirect to their channel in

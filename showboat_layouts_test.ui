@@ -851,13 +851,6 @@ color: rgb(200, 47, 101);</string>
           </spacer>
          </item>
          <item>
-          <widget class="QRadioButton" name="miles25Radio">
-           <property name="text">
-            <string>25 miles</string>
-           </property>
-          </widget>
-         </item>
-         <item>
           <widget class="QRadioButton" name="miles50Radio">
            <property name="text">
             <string>50 miles</string>
@@ -868,6 +861,13 @@ color: rgb(200, 47, 101);</string>
           <widget class="QRadioButton" name="miles100Radio">
            <property name="text">
             <string>100 miles</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QRadioButton" name="miles250Radio">
+           <property name="text">
+            <string>250 miles</string>
            </property>
           </widget>
          </item>
