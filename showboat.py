@@ -27,7 +27,7 @@ else:
     # we are running in a normal Python environment
     bundle_dir = os.path.dirname(os.path.abspath(__file__))
 # GUI_PATH = os.path.join( bundle_dir, 'showboat.ui' )
-GUI_PATH = os.path.join( bundle_dir, 'showboat_layouts.ui' )
+GUI_PATH = os.path.join( bundle_dir, 'showboat_layouts_test.ui' )
 IMG_PATH = os.path.join( bundle_dir, 'showboat_white_cropped.png' )
 
 #######################################################################################
@@ -149,6 +149,8 @@ class UI(QtWidgets.QMainWindow):
 
         # raw date array for conversion
         self.date_arr = []
+
+        self.currentArtist = ''
 
 
 #######################################################################################
@@ -342,6 +344,7 @@ class UI(QtWidgets.QMainWindow):
             self.previousSearch = self.currentSearch
             self.currentSearch = data['artist']
             self.statusBar.showMessage(data['artist'])
+            self.currentArtist = data['artist']
             
         else:
             msg = QtWidgets.QMessageBox()
@@ -503,6 +506,7 @@ class UI(QtWidgets.QMainWindow):
         if not result:
             for key in self.video_dict:
                 self.video_dict[key].setHtml('')
+                self.videoSeeMoreButton.setText("See More!")
                 self.videoThread.quit()
         else:
             i = 0
@@ -512,6 +516,7 @@ class UI(QtWidgets.QMainWindow):
                 else:
                     self.video_dict[f"video{i}"].setUrl(QtCore.QUrl(entry["url"].replace("embed", "watch")))
                     i += 1
+            self.videoSeeMoreButton.setText(f"{self.currentArtist}'s YouTube Channel")
             self.videoThread.quit()
 
     def link_clicked(self, item):
