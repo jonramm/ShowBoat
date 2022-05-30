@@ -386,19 +386,30 @@ class UI(QtWidgets.QMainWindow):
         # calculate the result
         return(c * r)
 
+    def getCoords(self, city):
+        """
+        Takes a city search string and uses the Google geolocation API to find and return
+        the latitude and longitude of the city in a tuple.
+        """
+        data = requests.get(f"https://maps.googleapis.com/maps/api/geocode/json?address={city}&key={os.environ.get('GOOGLE_API_KEY')}")
+        if not data.json()['results']:
+            return None
+        lat = data.json()['results'][0]['geometry']['location']['lat']
+        lng = data.json()['results'][0]['geometry']['location']['lng']
+        return (lat, lng)
+
     def searchByCity(self, city):
         """
         Takes a city search string and calls the Google geolocation API to find coordinates.
         Uses coordinates to filter map popups to show only shows in cities a certain distance
         from searched city. 
         """
-        data = requests.get(f"https://maps.googleapis.com/maps/api/geocode/json?address={city}&key={os.environ.get('GOOGLE_API_KEY')}")
-        if not data.json()['results']:
+        coordinates = self.getCoords(city)
+        if not coordinates:
             self.errorBox('Please enter a valid city')
             self.citySearchInput.setText('')
             return
-        latCity = data.json()['results'][0]['geometry']['location']['lat']
-        lngCity = data.json()['results'][0]['geometry']['location']['lng']
+        latCity, lngCity = coordinates
         self.initializeMap((latCity, lngCity), 6)
         distanceFromCity = 0
         if self.miles50Radio.isChecked():
