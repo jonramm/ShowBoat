@@ -324,6 +324,13 @@ class UI(QtWidgets.QMainWindow):
         """
         """
         data = requests.get(f"https://maps.googleapis.com/maps/api/geocode/json?address={city}&key={os.environ.get('GOOGLE_API_KEY')}")
+        if not data.json()['results']:
+            msg = QtWidgets.QMessageBox()
+            msg.setWindowTitle("Error")
+            msg.setText("Please enter a valid city")
+            x = msg.exec_()
+            self.citySearchInput.setText('')
+            return
         latCity = data.json()['results'][0]['geometry']['location']['lat']
         lngCity = data.json()['results'][0]['geometry']['location']['lng']
         coordinates = (latCity, lngCity)
