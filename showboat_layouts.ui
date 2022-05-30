@@ -317,7 +317,8 @@ margin-bottom: .5em;</string>
 border-radius: 10px;
 
 margin-left: .5em;
-margin-right: .5em;</string>
+margin-right: .5em;
+</string>
               </property>
               <property name="frameShape">
                <enum>QFrame::StyledPanel</enum>

@@ -157,6 +157,11 @@ class UI(QtWidgets.QMainWindow):
 #                                                                                     #
 #######################################################################################
 
+        # Initialize status bar
+        self.statusBar = QtWidgets.QStatusBar()
+        self.setStatusBar(self.statusBar)
+        self.statusBar.setFont(QFont("Tahoma", 12))
+
         # Tabs
         self.tabs = self.findChild(QtWidgets.QTabWidget, "tabs")
         self.tabs.setCurrentIndex(self.currentTab)
@@ -245,7 +250,6 @@ class UI(QtWidgets.QMainWindow):
 #                                                                                     #
 #######################################################################################
 
-    @staticmethod
     def timer_func(func):
         """
         Timer function for troubleshooting.
@@ -258,7 +262,6 @@ class UI(QtWidgets.QMainWindow):
             return result
         return wrap_func
 
-    @timer_func
     def artistChannelRedirect(self):
         """
         Handles a click on the 'Artist Channel' button for a redirect to their channel in
@@ -283,7 +286,6 @@ class UI(QtWidgets.QMainWindow):
         if event.key() == 16777220:
             self.artist_search('key_press')
 
-    @timer_func
     def artist_search(self, type):
         """
         Takes a search type (search button clicked or 'return' pressed) and calls the 
@@ -339,6 +341,8 @@ class UI(QtWidgets.QMainWindow):
             # set prev and cur global search variables
             self.previousSearch = self.currentSearch
             self.currentSearch = data['artist']
+            self.statusBar.showMessage(data['artist'])
+            
         else:
             msg = QtWidgets.QMessageBox()
             msg.setWindowTitle("Error")
@@ -349,7 +353,6 @@ class UI(QtWidgets.QMainWindow):
         # remove splash screen if content has loaded
         splash_screen.close()
 
-    @timer_func
     def video_refresh(self, type):
         """
         Takes a search type as a parameter as chosen by the user via radio buttons and
@@ -378,7 +381,6 @@ class UI(QtWidgets.QMainWindow):
                 i += 1
         splash_screen.close()
 
-    @timer_func
     def tour_search(self, artist):
         """
         Takes an artist name as a parameter and calls the tour search API endpoint which pulls
@@ -462,7 +464,6 @@ class UI(QtWidgets.QMainWindow):
         self.completer.complete()
         self.autoThread.quit()
 
-    @timer_func
     def date_conversion(self, date_arr):
         """
         Takes a date array containing dates to be converted. Creates a separate thread for multiple
@@ -529,8 +530,7 @@ class UI(QtWidgets.QMainWindow):
                 webbrowser.open(item.toolTip())
             else:
                 self.confirmation = 0
-
-    @timer_func    
+ 
     def set_photo(self, img_url):
         """
         Takes an image url and creates a pixmap, then updates the artist photo
