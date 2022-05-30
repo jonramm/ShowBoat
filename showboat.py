@@ -212,6 +212,7 @@ class UI(QtWidgets.QMainWindow):
         self.map.save(data, close_file=False)
         self.mapMapContainer.setHtml(data.getvalue().decode())
         self.citySearchButton = self.findChild(QtWidgets.QPushButton, "citySearchButton")
+        self.clearCityButton = self.findChild(QtWidgets.QPushButton, "clearCityButton")
         self.citySearchInput = self.findChild(QtWidgets.QLineEdit, "citySearchInput")
         self.miles50Radio = self.findChild(QtWidgets.QRadioButton, "miles50Radio")
         self.miles100Radio = self.findChild(QtWidgets.QRadioButton, "miles100Radio")
@@ -249,6 +250,7 @@ class UI(QtWidgets.QMainWindow):
         self.radioButtonOldest.toggled.connect(lambda: self.video_refresh('oldest'))
         self.videoSeeMoreButton.clicked.connect(self.artistChannelRedirect)
         self.citySearchButton.clicked.connect(lambda: self.searchByCity(self.citySearchInput.text()))
+        self.clearCityButton.clicked.connect(self.clearCity)
         self.bandSearchLineEdit.textChanged.connect(lambda: self.auto_complete(self.bandSearchLineEdit.text()))
 
         # show the app
@@ -271,6 +273,32 @@ class UI(QtWidgets.QMainWindow):
             print(f'Function {func.__name__!r} executed in {(t2-t1):.4f}s')
             return result
         return wrap_func
+
+    def clearCity(self):
+        """
+        """
+        coordinates = (27.03992362079509, -22.920434372492934)
+        self.map = folium.Map(
+            title='',
+            zoom_start=2,
+            location=coordinates
+        )
+        map_data = io.BytesIO()
+        self.map.save(map_data, close_file=False)
+        self.mapMapContainer.setHtml(map_data.getvalue().decode())
+        for obj in self.curDates:
+            lat = obj['location']['lat']
+            lng = obj['location']['lng']
+            # add data to popup dialog in map markers
+            iframe = folium.IFrame(f"<section height='100' width='100'><p>{obj['venue']['displayName']}</p><p>{obj['start']['date']}</p><p>{obj['location']['city']}</p><p><a href='{obj['venue']['uri']} target='_blank'>Tickets</a></p></section>")
+            popup = folium.Popup(iframe, min_width=300, max_width=300)
+            folium.Marker(
+                location=(lat, lng),
+                popup=popup,
+            ).add_to(self.map)
+        map_data = io.BytesIO()
+        self.map.save(map_data, close_file=False)
+        self.mapMapContainer.setHtml(map_data.getvalue().decode())
 
     def distance(self, lat1, lat2, lon1, lon2):
         """
@@ -319,7 +347,6 @@ class UI(QtWidgets.QMainWindow):
             lat = obj['location']['lat']
             lng = obj['location']['lng']
             distance = self.distance(latCity, lat, lngCity, lng)
-            print(f"Distance to {obj['location']['city']} from {city} is {distance} miles")
             if distance < distanceFromCity:
                 # add data to popup dialog in map markers
                 iframe = folium.IFrame(f"<section height='100' width='100'><p>{obj['venue']['displayName']}</p><p>{obj['start']['date']}</p><p>{obj['location']['city']}</p><p><a href='{obj['venue']['uri']} target='_blank'>Tickets</a></p></section>")
