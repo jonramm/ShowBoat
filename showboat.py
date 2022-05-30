@@ -189,6 +189,7 @@ class UI(QtWidgets.QMainWindow):
         # Tour Dates
 
         self.showsTableWidget = self.findChild(QtWidgets.QTableWidget, "showsTableWidget")
+        self.artistTourLabel = self.findChild(QtWidgets.QLabel, "artistTourLabel")
         self.showsTableWidget.horizontalHeader().setSectionResizeMode(QtWidgets.QHeaderView.Fixed)
         self.showsTableWidget.setColumnWidth(0,116)
         self.showsTableWidget.setColumnWidth(1,396)
@@ -205,6 +206,7 @@ class UI(QtWidgets.QMainWindow):
         self.miles50Radio = self.findChild(QtWidgets.QRadioButton, "miles50Radio")
         self.miles100Radio = self.findChild(QtWidgets.QRadioButton, "miles100Radio")
         self.miles250Radio = self.findChild(QtWidgets.QRadioButton, "miles250Radio")
+        self.mapMapHeaderLabel = self.findChild(QtWidgets.QLabel, "mapMapHeaderLabel")
 
         # Video
         QWebEngineSettings.globalSettings().setAttribute(QWebEngineSettings.PluginsEnabled,True)
@@ -308,14 +310,17 @@ class UI(QtWidgets.QMainWindow):
         # creates separate thread for video search microservice calls   
         self.video_search(data['artist'])
         # set prev and cur global search variables
+        self.currentArtist = data['artist']
         self.previousSearch = self.currentSearch
-        if self.searchedArtists[-1] == ":":  
-            self.searchedArtists += f" {data['artist']}"
-        else:
-            self.searchedArtists += f", {data['artist']}"
+        if self.currentArtist not in self.searchedArtists:
+            if self.searchedArtists[-1] == ":":  
+                self.searchedArtists += f" {data['artist']}"
+            else:
+                self.searchedArtists += f", {data['artist']}"
         self.currentSearch = data['artist']
         self.statusBar.showMessage(self.searchedArtists)
-        self.currentArtist = data['artist']  
+        self.artistTourLabel.setText(f"{self.currentArtist} tour dates")
+        self.mapMapHeaderLabel.setText(f"Click a marker on the map to see {self.currentArtist} show details")
 
     def errorBox(self, msgString):
         """

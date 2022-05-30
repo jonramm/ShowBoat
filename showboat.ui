@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1230</width>
-    <height>811</height>
+    <width>1223</width>
+    <height>809</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -22,6 +22,9 @@
      <widget class="QTabWidget" name="tabs">
       <property name="currentIndex">
        <number>0</number>
+      </property>
+      <property name="movable">
+       <bool>false</bool>
       </property>
       <widget class="QWidget" name="homeTab">
        <attribute name="icon">
@@ -634,6 +637,39 @@ margin-bottom: .5em;</string>
           </item>
           <item>
            <layout class="QHBoxLayout" name="horizontalLayout_9">
+            <item>
+             <widget class="QLabel" name="artistTourLabel">
+              <property name="minimumSize">
+               <size>
+                <width>800</width>
+                <height>0</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>16777215</width>
+                <height>60</height>
+               </size>
+              </property>
+              <property name="font">
+               <font>
+                <family>Britannic Bold</family>
+                <pointsize>24</pointsize>
+                <weight>50</weight>
+                <bold>false</bold>
+               </font>
+              </property>
+              <property name="styleSheet">
+               <string notr="true"/>
+              </property>
+              <property name="text">
+               <string/>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignCenter</set>
+              </property>
+             </widget>
+            </item>
             <item>
              <spacer name="horizontalSpacer_5">
               <property name="orientation">
@@ -1391,7 +1427,7 @@ Musician turned programmer living in the high desert and eating burritos.
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1230</width>
+     <width>1223</width>
      <height>23</height>
     </rect>
    </property>
