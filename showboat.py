@@ -92,6 +92,8 @@ class DateConversionThread(QThread):
 
 class AutocompleteThread(QThread):
     """
+    Creates a thread object for running calls to AudioDB API. API calls run in thread
+    will not freeze the app GUI.
     """
     authResult = pyqtSignal(object)
 
@@ -146,6 +148,7 @@ class UI(QtWidgets.QMainWindow):
         self.date_arr = []
         self.currentArtist = ''
         self.curDates = []
+        self.searchedArtists = "Artists searched:"
 
 
 #######################################################################################
@@ -157,7 +160,8 @@ class UI(QtWidgets.QMainWindow):
         # Initialize status bar
         self.statusBar = QtWidgets.QStatusBar()
         self.setStatusBar(self.statusBar)
-        self.statusBar.setFont(QFont("Tahoma", 12))
+        self.statusBar.setFont(QFont("Tahoma", 16))
+        self.statusBar.showMessage(self.searchedArtists)
 
         # Tabs
         self.tabs = self.findChild(QtWidgets.QTabWidget, "tabs")
@@ -246,6 +250,50 @@ class UI(QtWidgets.QMainWindow):
 #                                                                                     #
 #######################################################################################
 
+    def populateTourDateCells(self, data):
+        """
+        """
+        row = 0
+        self.showsTableWidget.setRowCount(len(data["events"]))
+        # loop through events to add cells to table widget
+        for date in data["events"]:
+            # restructure date for API call to conversion microservice
+            rawDate = date['start']['date']
+            front = rawDate[5:]
+            back = rawDate[0:4]
+            combinedDate = front + "-" + back
+            self.date_arr.append(combinedDate) 
+            # populate tour table widget with data 
+            dateCell = QtWidgets.QTableWidgetItem(rawDate)
+            dateCell.setTextAlignment(QtCore.Qt.AlignCenter)
+            venueCell = QtWidgets.QTableWidgetItem(date['venue']['displayName'])
+            venueCell.setTextAlignment(QtCore.Qt.AlignCenter)
+            venueCell.setToolTip(date['venue']['uri'])
+            cityCell = QtWidgets.QTableWidgetItem(date['location']['city'])
+            cityCell.setTextAlignment(QtCore.Qt.AlignCenter)
+            ticketsCell = QtWidgets.QTableWidgetItem('Tickets')
+            ticketsCell.setTextAlignment(QtCore.Qt.AlignCenter)
+            ticketsCell.setToolTip(date['uri'])
+            self.showsTableWidget.setItem(row, 0, dateCell)
+            self.showsTableWidget.setItem(row, 1, venueCell)
+            self.showsTableWidget.setItem(row, 2, cityCell)
+            self.showsTableWidget.setItem(row, 3, ticketsCell)
+            row += 1
+
+    def addPopUps(self, obj):
+        """
+        Takes a tour date data object and adds popups to the map.
+        """
+        lat = obj['location']['lat']
+        lng = obj['location']['lng']
+        # add data to popup dialog in map markers
+        iframe = folium.IFrame(f"<section height='100' width='100'><p>{obj['venue']['displayName']}</p><p>{obj['start']['date']}</p><p>{obj['location']['city']}</p><p><a href='{obj['venue']['uri']} target='_blank'>Tickets</a></p></section>")
+        popup = folium.Popup(iframe, min_width=300, max_width=300)
+        folium.Marker(
+            location=(lat, lng),
+            popup=popup,
+        ).add_to(self.map)
+
     def updateWidgets(self, data):
         """
         Takes an artist data object, updates the display widgets, and calls the tour search
@@ -261,8 +309,12 @@ class UI(QtWidgets.QMainWindow):
         self.video_search(data['artist'])
         # set prev and cur global search variables
         self.previousSearch = self.currentSearch
+        if self.searchedArtists[-1] == ":":  
+            self.searchedArtists += f" {data['artist']}"
+        else:
+            self.searchedArtists += f", {data['artist']}"
         self.currentSearch = data['artist']
-        self.statusBar.showMessage(data['artist'])
+        self.statusBar.showMessage(self.searchedArtists)
         self.currentArtist = data['artist']  
 
     def errorBox(self, msgString):
@@ -305,18 +357,11 @@ class UI(QtWidgets.QMainWindow):
         """
         self.initializeMap((27.03992362079509, -22.920434372492934), 2)
         for obj in self.curDates:
-            lat = obj['location']['lat']
-            lng = obj['location']['lng']
-            # add data to popup dialog in map markers
-            iframe = folium.IFrame(f"<section height='100' width='100'><p>{obj['venue']['displayName']}</p><p>{obj['start']['date']}</p><p>{obj['location']['city']}</p><p><a href='{obj['venue']['uri']} target='_blank'>Tickets</a></p></section>")
-            popup = folium.Popup(iframe, min_width=300, max_width=300)
-            folium.Marker(
-                location=(lat, lng),
-                popup=popup,
-            ).add_to(self.map)
+            self.addPopUps(obj)
         map_data = io.BytesIO()
         self.map.save(map_data, close_file=False)
         self.mapMapContainer.setHtml(map_data.getvalue().decode())
+        self.citySearchInput.setText('')
 
     def distance(self, lat1, lat2, lon1, lon2):
         """
@@ -338,6 +383,9 @@ class UI(QtWidgets.QMainWindow):
 
     def searchByCity(self, city):
         """
+        Takes a city search string and calls the Google geolocation API to find coordinates.
+        Uses coordinates to filter map popups to show only shows in cities a certain distance
+        from searched city. 
         """
         data = requests.get(f"https://maps.googleapis.com/maps/api/geocode/json?address={city}&key={os.environ.get('GOOGLE_API_KEY')}")
         if not data.json()['results']:
@@ -354,24 +402,16 @@ class UI(QtWidgets.QMainWindow):
             distanceFromCity = 100
         if self.miles250Radio.isChecked():
             distanceFromCity = 250
-
         for obj in self.curDates:
             lat = obj['location']['lat']
             lng = obj['location']['lng']
             distance = self.distance(latCity, lat, lngCity, lng)
             if distance < distanceFromCity:
-                # add data to popup dialog in map markers
-                iframe = folium.IFrame(f"<section height='100' width='100'><p>{obj['venue']['displayName']}</p><p>{obj['start']['date']}</p><p>{obj['location']['city']}</p><p><a href='{obj['venue']['uri']} target='_blank'>Tickets</a></p></section>")
-                popup = folium.Popup(iframe, min_width=300, max_width=300)
-                folium.Marker(
-                    location=(lat, lng),
-                    popup=popup,
-                ).add_to(self.map)
+                self.addPopUps(obj)
         map_data = io.BytesIO()
         self.map.save(map_data, close_file=False)
         self.mapMapContainer.setHtml(map_data.getvalue().decode())
             
-    
     def artistChannelRedirect(self):
         """
         Handles a click on the 'Artist Channel' button for a redirect to their channel in
@@ -470,46 +510,11 @@ class UI(QtWidgets.QMainWindow):
         self.curDates = data["events"]
         # add dates to map
         for obj in data["events"]:
-            lat = obj['location']['lat']
-            lng = obj['location']['lng']
-            # add data to popup dialog in map markers
-            iframe = folium.IFrame(f"<section height='100' width='100'><p>{obj['venue']['displayName']}</p><p>{obj['start']['date']}</p><p>{obj['location']['city']}</p><p><a href='{obj['venue']['uri']} target='_blank'>Tickets</a></p></section>")
-            popup = folium.Popup(iframe, min_width=300, max_width=300)
-            folium.Marker(
-                location=(lat, lng),
-                popup=popup,
-            ).add_to(self.map)
+            self.addPopUps(obj)
         map_data = io.BytesIO()
         self.map.save(map_data, close_file=False)
         self.mapMapContainer.setHtml(map_data.getvalue().decode())
-
-        row = 0
-        self.showsTableWidget.setRowCount(len(data["events"]))
-
-        # loop through events to add cells to table widget
-        for date in data["events"]:
-            # restructure date for API call to conversion microservice
-            rawDate = date['start']['date']
-            front = rawDate[5:]
-            back = rawDate[0:4]
-            combinedDate = front + "-" + back
-            self.date_arr.append(combinedDate) 
-            # populate tour table widget with data 
-            dateCell = QtWidgets.QTableWidgetItem(rawDate)
-            dateCell.setTextAlignment(QtCore.Qt.AlignCenter)
-            venueCell = QtWidgets.QTableWidgetItem(date['venue']['displayName'])
-            venueCell.setTextAlignment(QtCore.Qt.AlignCenter)
-            venueCell.setToolTip(date['venue']['uri'])
-            cityCell = QtWidgets.QTableWidgetItem(date['location']['city'])
-            cityCell.setTextAlignment(QtCore.Qt.AlignCenter)
-            ticketsCell = QtWidgets.QTableWidgetItem('Tickets')
-            ticketsCell.setTextAlignment(QtCore.Qt.AlignCenter)
-            ticketsCell.setToolTip(date['uri'])
-            self.showsTableWidget.setItem(row, 0, dateCell)
-            self.showsTableWidget.setItem(row, 1, venueCell)
-            self.showsTableWidget.setItem(row, 2, cityCell)
-            self.showsTableWidget.setItem(row, 3, ticketsCell)
-            row += 1
+        self.populateTourDateCells(data)
         # creates separate thread for date conversion microservice calls     
         self.date_conversion(self.date_arr)
 
