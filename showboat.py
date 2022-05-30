@@ -11,11 +11,9 @@ import os
 import io
 import folium
 import requests
-from requests import Session
 from time import time
 import urllib
 import pprint
-from termcolor import colored, cprint
 from bs4 import BeautifulSoup
 import mechanize
 from math import radians, cos, sin, asin, sqrt
@@ -137,22 +135,16 @@ class UI(QtWidgets.QMainWindow):
 
         # load UI file
         uic.loadUi(GUI_PATH, self)
-
         # global 'Previous Search' variable
         self.previousSearch = ''
         self.currentSearch = ''
-
         # global tab variable
         self.currentTab = 0
-
         # artist channel url
         self.channelUrl = ''
-
         # raw date array for conversion
         self.date_arr = []
-
         self.currentArtist = ''
-
         self.curDates = []
 
 
@@ -202,15 +194,7 @@ class UI(QtWidgets.QMainWindow):
         # Map
         self.mapMapContainer = self.findChild(QWebEngineView, "mapMapContainer")
         coordinates = (27.03992362079509, -22.920434372492934)
-        self.map = folium.Map(
-            title='',
-            zoom_start=2,
-            location=coordinates
-        )
-        # save map data to data object
-        data = io.BytesIO()
-        self.map.save(data, close_file=False)
-        self.mapMapContainer.setHtml(data.getvalue().decode())
+        self.initializeMap(coordinates, 2)
         self.citySearchButton = self.findChild(QtWidgets.QPushButton, "citySearchButton")
         self.clearCityButton = self.findChild(QtWidgets.QPushButton, "clearCityButton")
         self.citySearchInput = self.findChild(QtWidgets.QLineEdit, "citySearchInput")
@@ -262,38 +246,44 @@ class UI(QtWidgets.QMainWindow):
 #                                                                                     #
 #######################################################################################
 
-    def timer_func(func):
-        """
-        Timer function for troubleshooting.
-        """
-        def wrap_func(*args, **kwargs):
-            t1 = time()
-            result = func(*args, **kwargs)
-            t2 = time()
-            print(f'Function {func.__name__!r} executed in {(t2-t1):.4f}s')
-            return result
-        return wrap_func
-
     def errorBox(self, msgString):
         """
+        Takes a message string and displays an error box popup.
         """
         msg = QtWidgets.QMessageBox()
         msg.setWindowTitle("Error")
         msg.setText(msgString)
         x = msg.exec_()
 
-    def clearCity(self):
+    def loadSplash(self):
         """
         """
-        coordinates = (27.03992362079509, -22.920434372492934)
+        pixmap = QPixmap(IMG_PATH)
+        pixmapScaled = pixmap.scaled(400, 400, QtCore.Qt.KeepAspectRatio)
+        splash_screen = QtWidgets.QSplashScreen(pixmapScaled)
+        splash_screen.setFont(QFont("Britannic Bold", 20))
+        splash_screen.showMessage('Loading...', color=QtGui.QColor(200, 47, 101))
+        return splash_screen
+
+    def initializeMap(self, coordinates, zoom):
+        """
+        Takes a set of coordinates as a tuple and a zoom index as an integer and
+        draws a Folium map.
+        """
         self.map = folium.Map(
             title='',
-            zoom_start=2,
+            zoom_start=zoom,
             location=coordinates
         )
         map_data = io.BytesIO()
         self.map.save(map_data, close_file=False)
         self.mapMapContainer.setHtml(map_data.getvalue().decode())
+
+    def clearCity(self):
+        """
+        Clears current map city focus.
+        """
+        self.initializeMap((27.03992362079509, -22.920434372492934), 2)
         for obj in self.curDates:
             lat = obj['location']['lat']
             lng = obj['location']['lng']
@@ -338,15 +328,7 @@ class UI(QtWidgets.QMainWindow):
             return
         latCity = data.json()['results'][0]['geometry']['location']['lat']
         lngCity = data.json()['results'][0]['geometry']['location']['lng']
-        coordinates = (latCity, lngCity)
-        self.map = folium.Map(
-            title=city,
-            zoom_start=6,
-            location=coordinates
-        )
-        map_data = io.BytesIO()
-        self.map.save(map_data, close_file=False)
-        self.mapMapContainer.setHtml(map_data.getvalue().decode())
+        self.initializeMap((latCity, lngCity), 6)
         distanceFromCity = 0
         if self.miles50Radio.isChecked():
             distanceFromCity = 50
@@ -418,14 +400,7 @@ class UI(QtWidgets.QMainWindow):
                 return
             obj = {"artist_search": value}
 
-        # create and show loading screen
-        # pixmap = QPixmap("./assets/showboatPic.png")
-        pixmap = QPixmap(IMG_PATH)
-        pixmapScaled = pixmap.scaled(400, 400, QtCore.Qt.KeepAspectRatio)
-        splash_screen = QtWidgets.QSplashScreen(pixmapScaled)
-        splash_screen.setFont(QFont("Britannic Bold", 20))
-        splash_screen.showMessage('Loading...', color=QtGui.QColor(200, 47, 101))
-
+        splash_screen = self.loadSplash()
         splash_screen.show()
         app.processEvents()
 
@@ -462,13 +437,7 @@ class UI(QtWidgets.QMainWindow):
         endpoint.
         """
         obj = {"name": self.bandInfoNameLabel.text(), "type": type}
-        # create and show loading screen
-        # pixmap = QPixmap("./assets/showboatPic.png")
-        pixmap = QPixmap(IMG_PATH)
-        pixmapScaled = pixmap.scaled(400, 400, QtCore.Qt.KeepAspectRatio)
-        splash_screen = QtWidgets.QSplashScreen(pixmapScaled)
-        splash_screen.setFont(QFont("Britannic Bold", 20))
-        splash_screen.showMessage('Loading...', color=QtGui.QColor(200, 47, 101))
+        splash_screen = self.loadSplash()
         splash_screen.show()
         app.processEvents()
         # call video-search endpoint
@@ -489,16 +458,7 @@ class UI(QtWidgets.QMainWindow):
         Songkick tour data from the web. Also calls teammate's date conversion microservice API
         endpoint. Updates display widgets with returned data.
         """
-        # reset map
-        coordinates = (27.03992362079509, -22.920434372492934)
-        self.map = folium.Map(
-            title='',
-            zoom_start=2,
-            location=coordinates
-        )
-        map_data = io.BytesIO()
-        self.map.save(map_data, close_file=False)
-        self.mapMapContainer.setHtml(map_data.getvalue().decode())
+        self.initializeMap((27.03992362079509, -22.920434372492934), 2)
         # get tour dates
         obj = {"artist_search": artist}
         # call tour-search endpoint
