@@ -274,6 +274,14 @@ class UI(QtWidgets.QMainWindow):
             return result
         return wrap_func
 
+    def errorBox(self, msgString):
+        """
+        """
+        msg = QtWidgets.QMessageBox()
+        msg.setWindowTitle("Error")
+        msg.setText(msgString)
+        x = msg.exec_()
+
     def clearCity(self):
         """
         """
@@ -325,10 +333,7 @@ class UI(QtWidgets.QMainWindow):
         """
         data = requests.get(f"https://maps.googleapis.com/maps/api/geocode/json?address={city}&key={os.environ.get('GOOGLE_API_KEY')}")
         if not data.json()['results']:
-            msg = QtWidgets.QMessageBox()
-            msg.setWindowTitle("Error")
-            msg.setText("Please enter a valid city")
-            x = msg.exec_()
+            self.errorBox('Please enter a valid city')
             self.citySearchInput.setText('')
             return
         latCity = data.json()['results'][0]['geometry']['location']['lat']
@@ -401,10 +406,7 @@ class UI(QtWidgets.QMainWindow):
             value = self.bandSearchLineEdit.text()
             # if there's nothing in the search bar
             if not value:
-                msg = QtWidgets.QMessageBox()
-                msg.setWindowTitle("Error")
-                msg.setText("Please enter an artist name")
-                x = msg.exec_()
+                self.errorBox("Please enter an artist name")
                 return
             obj = {"artist_search": value}
         # get global 'previous search' variable if previous button pressed
@@ -412,10 +414,7 @@ class UI(QtWidgets.QMainWindow):
             value = self.previousSearch
             # if there hasn't been a search yet
             if not value:
-                msg = QtWidgets.QMessageBox()
-                msg.setWindowTitle("Error")
-                msg.setText("Previous search unavailable")
-                x = msg.exec_()
+                self.errorBox("Previous search unavailable")
                 return
             obj = {"artist_search": value}
 
@@ -450,10 +449,7 @@ class UI(QtWidgets.QMainWindow):
             self.currentArtist = data['artist']
             
         else:
-            msg = QtWidgets.QMessageBox()
-            msg.setWindowTitle("Error")
-            msg.setText("Artist not found")
-            x = msg.exec_()
+            self.errorBox("Artist not found")
         # clear search bar    
         self.bandSearchLineEdit.setText("")
         # remove splash screen if content has loaded
