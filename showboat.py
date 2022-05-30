@@ -28,7 +28,7 @@ else:
     # we are running in a normal Python environment
     bundle_dir = os.path.dirname(os.path.abspath(__file__))
 # GUI_PATH = os.path.join( bundle_dir, 'showboat.ui' )
-GUI_PATH = os.path.join( bundle_dir, 'showboat_layouts_test.ui' )
+GUI_PATH = os.path.join( bundle_dir, 'showboat.ui' )
 IMG_PATH = os.path.join( bundle_dir, 'showboat_white_cropped.png' )
 
 #######################################################################################
