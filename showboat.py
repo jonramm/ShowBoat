@@ -183,6 +183,7 @@ class UI(QtWidgets.QMainWindow):
         self.bandSearchLineEdit.setCompleter(self.completer)
         self.model = QtCore.QStringListModel()
         self.completer.setModel(self.model)
+        self.completer.setCaseSensitivity(QtCore.Qt.CaseInsensitive)
         self.lastSearchButton = self.findChild(QtWidgets.QPushButton, "lastSearchButton")
         self.searchButton = self.findChild(QtWidgets.QPushButton, "searchButton")
 
