@@ -447,10 +447,15 @@ class UI(QtWidgets.QMainWindow):
 
     def keyPressEvent(self, event):
         """
-        Handles a 'return' key press by activating the artist search.
+        Handles user key presses.
         """
-        if event.key() == 16777220:
-            self.artist_search('key_press')
+        # print(event.key())
+        if event.key() == 16777220 or event.key() == 16777221:
+            if self.tabs.currentIndex() == 0:
+                self.artist_search('key_press')
+            elif self.tabs.currentIndex() == 2:
+                self.searchByCity(self.citySearchInput.text())
+
 
     def artist_search(self, type):
         """
@@ -636,6 +641,3 @@ QtWidgets.QApplication.setStyle('Fusion')
 app = QtWidgets.QApplication(sys.argv)
 UIWindow = UI()
 app.exec_()
-
-
-

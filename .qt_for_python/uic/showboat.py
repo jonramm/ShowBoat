@@ -477,6 +477,7 @@ class Ui_mainWindow(object):
         self.label_4.setFont(font)
         self.label_4.setStyleSheet("color: rgb(198, 140, 41);")
         self.label_4.setAlignment(QtCore.Qt.AlignCenter)
+        self.label_4.setWordWrap(True)
         self.label_4.setObjectName("label_4")
         self.verticalLayout.addWidget(self.label_4)
         self.horizontalLayout = QtWidgets.QHBoxLayout()
