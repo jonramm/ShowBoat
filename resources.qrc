@@ -1,0 +1,8 @@
+<RCC>
+  <qresource prefix="logo">
+    <file>showLogoCropped.png</file>
+    <file>powered-by-songkick-pink.png</file>
+    <file>showLogoCropped.png</file>
+    <file>showIcon.ico</file>
+  </qresource>
+</RCC>

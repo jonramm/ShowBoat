@@ -16,7 +16,14 @@ from bs4 import BeautifulSoup
 import mechanize
 from math import radians, cos, sin, asin, sqrt
 
-import logo
+import resources
+
+try:
+    from ctypes import windll  # Only exists on Windows.
+    myappid = 'ShowBoat.1.1'
+    windll.shell32.SetCurrentProcessExplicitAppUserModelID(myappid)
+except ImportError:
+    pass
 
 # https://github.com/pyinstaller/pyinstaller/issues/1826
 if getattr(sys, 'frozen', False):
@@ -27,6 +34,7 @@ else:
     bundle_dir = os.path.dirname(os.path.abspath(__file__))
 GUI_PATH = os.path.join( bundle_dir, 'showboat.ui' )
 IMG_PATH = os.path.join( bundle_dir, 'showboat_white_cropped.png' )
+LOGO_PATH = os.path.join( bundle_dir, 'showIcon.ico' )
 
 #######################################################################################
 #                                                                                     #
@@ -295,7 +303,7 @@ class UI(QtWidgets.QMainWindow):
         lat = obj['location']['lat']
         lng = obj['location']['lng']
         # add data to popup dialog in map markers
-        iframe = folium.IFrame(f"<section height='100' width='100'><p>{obj['venue']['displayName']}</p><p>{obj['start']['date']}</p><p>{obj['location']['city']}</p><p><a href='{obj['venue']['uri']} target='_blank'>Tickets</a></p></section>")
+        iframe = folium.IFrame(f"<section style='font-size: 20px; ' height='80' width='100'><p>{obj['venue']['displayName']}</p><p>{obj['start']['date']}</p><p>{obj['location']['city']}</p></section>")
         popup = folium.Popup(iframe, min_width=300, max_width=300)
         folium.Marker(
             location=(lat, lng),
@@ -641,5 +649,6 @@ class UI(QtWidgets.QMainWindow):
 
 # initialize app
 app = QtWidgets.QApplication(sys.argv)
+app.setWindowIcon(QtGui.QIcon(LOGO_PATH))
 UIWindow = UI()
 app.exec_()
