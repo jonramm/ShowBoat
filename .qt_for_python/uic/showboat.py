@@ -82,6 +82,7 @@ class Ui_mainWindow(object):
         self.bandPhotoLabel.setStyleSheet("background-color: rgb(255, 255, 255);\n"
 "\n"
 "border-radius: 10px;\n"
+"border: 2px solid black;\n"
 "\n"
 "margin-left: .5em;\n"
 "margin-right: .5em;\n"
@@ -108,7 +109,8 @@ class Ui_mainWindow(object):
         font.setWeight(50)
         self.bandInfoNameLabel.setFont(font)
         self.bandInfoNameLabel.setStyleSheet("background-color: rgb(255, 255, 255);\n"
-"border-radius: 10px;")
+"border-radius: 10px;\n"
+"border: 2px solid black;")
         self.bandInfoNameLabel.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.bandInfoNameLabel.setFrameShadow(QtWidgets.QFrame.Sunken)
         self.bandInfoNameLabel.setLineWidth(3)
@@ -127,7 +129,8 @@ class Ui_mainWindow(object):
         self.bandInfoWebsiteLabel.setFont(font)
         self.bandInfoWebsiteLabel.setStyleSheet("background-color: rgb(255, 255, 255);\n"
 "\n"
-"border-radius: 10px;")
+"border-radius: 10px;\n"
+"border: 2px solid black;")
         self.bandInfoWebsiteLabel.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.bandInfoWebsiteLabel.setFrameShadow(QtWidgets.QFrame.Sunken)
         self.bandInfoWebsiteLabel.setLineWidth(3)
@@ -178,11 +181,19 @@ class Ui_mainWindow(object):
         font = QtGui.QFont()
         font.setPointSize(12)
         self.bandSearchLineEdit.setFont(font)
-        self.bandSearchLineEdit.setStyleSheet("background-color: rgb(255, 255, 255);\n"
-"margin-top: .5em;\n"
-"margin-bottom: .5em;\n"
-"margin-left: 2em;\n"
-"margin-right: 2em;")
+        self.bandSearchLineEdit.setStyleSheet("QLineEdit {\n"
+"    background-color: rgb(255, 255, 255);\n"
+"    margin-top: .5em;\n"
+"    margin-bottom: .5em;\n"
+"    margin-left: 2em;\n"
+"    margin-right: 2em;\n"
+"    border: 2px solid black;\n"
+"}\n"
+"\n"
+"QLineEdit:focus {\n"
+"    border: 2px solid rgb(200, 47, 101)\n"
+"}\n"
+"")
         self.bandSearchLineEdit.setObjectName("bandSearchLineEdit")
         self.horizontalLayout_5.addWidget(self.bandSearchLineEdit)
         self.verticalLayout_3.addLayout(self.horizontalLayout_5)
@@ -199,9 +210,16 @@ class Ui_mainWindow(object):
         font.setFamily("Impact")
         font.setPointSize(14)
         self.lastSearchButton.setFont(font)
-        self.lastSearchButton.setStyleSheet("background-color: rgb(202, 202, 202);\n"
-"color: rgb(200, 47, 101);\n"
-"margin-top: 1em;\n"
+        self.lastSearchButton.setStyleSheet("QPushButton{\n"
+"    background-color: rgb(202, 202, 202);\n"
+"    color: rgb(200, 47, 101);\n"
+"    margin-top: 1em;\n"
+"}\n"
+"\n"
+"\n"
+"QPushButton:hover{\n"
+"    background-color: rgb(255, 237, 237);\n"
+"}\n"
 "\n"
 "")
         self.lastSearchButton.setCheckable(False)
@@ -218,10 +236,16 @@ class Ui_mainWindow(object):
         font.setFamily("Impact")
         font.setPointSize(14)
         self.searchButton.setFont(font)
-        self.searchButton.setStyleSheet("background-color: rgb(202, 202, 202);\n"
-"color: rgb(200, 47, 101);\n"
-"margin-top: 1em;\n"
-"")
+        self.searchButton.setStyleSheet("QPushButton{\n"
+"    background-color: rgb(202, 202, 202);\n"
+"    color: rgb(200, 47, 101);\n"
+"    margin-top: 1em;\n"
+"}\n"
+"\n"
+"\n"
+"QPushButton:hover{\n"
+"    background-color: rgb(255, 237, 237);\n"
+"}")
         self.searchButton.setObjectName("searchButton")
         self.horizontalLayout_6.addWidget(self.searchButton)
         self.verticalLayout_3.addLayout(self.horizontalLayout_6)
@@ -253,6 +277,7 @@ class Ui_mainWindow(object):
         self.homeBioPlainTextEdit.setFont(font)
         self.homeBioPlainTextEdit.setStyleSheet("background-color: rgb(255, 255, 255);\n"
 "border-radius: 10px;\n"
+"border: 2px solid black;\n"
 "margin-top: .5em;\n"
 "margin-bottom: .5em;")
         self.homeBioPlainTextEdit.setReadOnly(True)
@@ -396,8 +421,16 @@ class Ui_mainWindow(object):
         font.setFamily("Impact")
         font.setPointSize(10)
         self.citySearchButton.setFont(font)
-        self.citySearchButton.setStyleSheet("background-color: rgb(202, 202, 202);\n"
-"color: rgb(200, 47, 101);")
+        self.citySearchButton.setStyleSheet("QPushButton {\n"
+"    background-color: rgb(202, 202, 202);\n"
+"    color: rgb(200, 47, 101);\n"
+"}\n"
+"\n"
+"QPushButton:hover{\n"
+"    background-color: rgb(255, 237, 237);\n"
+"}\n"
+"\n"
+"")
         self.citySearchButton.setObjectName("citySearchButton")
         self.horizontalLayout_11.addWidget(self.citySearchButton)
         self.citySearchInput = QtWidgets.QLineEdit(self.mapTab)
@@ -410,7 +443,13 @@ class Ui_mainWindow(object):
         font = QtGui.QFont()
         font.setPointSize(10)
         self.citySearchInput.setFont(font)
-        self.citySearchInput.setStyleSheet("background-color: rgb(255, 255, 255);")
+        self.citySearchInput.setStyleSheet("QLineEdit {\n"
+"    background-color: rgb(255, 255, 255);\n"
+"    border: 2px solid black; \n"
+"}\n"
+"QLineEdit:focus {\n"
+"    border: 2px solid rgb(200, 47, 101)\n"
+"}")
         self.citySearchInput.setObjectName("citySearchInput")
         self.horizontalLayout_11.addWidget(self.citySearchInput)
         self.clearCityButton = QtWidgets.QPushButton(self.mapTab)
@@ -419,8 +458,14 @@ class Ui_mainWindow(object):
         font.setFamily("Impact")
         font.setPointSize(10)
         self.clearCityButton.setFont(font)
-        self.clearCityButton.setStyleSheet("background-color: rgb(202, 202, 202);\n"
-"color: rgb(200, 47, 101);")
+        self.clearCityButton.setStyleSheet("QPushButton {\n"
+"    background-color: rgb(202, 202, 202);\n"
+"    color: rgb(200, 47, 101);\n"
+"}\n"
+"\n"
+"QPushButton:hover{\n"
+"    background-color: rgb(255, 237, 237);\n"
+"}")
         self.clearCityButton.setObjectName("clearCityButton")
         self.horizontalLayout_11.addWidget(self.clearCityButton)
         self.miles50Radio = QtWidgets.QRadioButton(self.mapTab)
