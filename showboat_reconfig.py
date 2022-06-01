@@ -162,7 +162,7 @@ class UI(QtWidgets.QMainWindow):
         # Initialize status bar
         self.statusBar = QtWidgets.QStatusBar()
         self.setStatusBar(self.statusBar)
-        self.statusBar.setFont(QFont("Ebrima", 16))
+        self.statusBar.setFont(QFont("Ebrima", 12))
         self.statusBar.showMessage(self.searchedArtists)
 
         # Tabs
@@ -176,7 +176,7 @@ class UI(QtWidgets.QMainWindow):
 
         # Home
         self.bandPhotoLabel = self.findChild(QtWidgets.QLabel, "bandPhotoLabel")
-        self.bandBioHeader = self.findChild(QtWidgets.QLabel, "bandBioHeader")
+        self.homeArtistLabel = self.findChild(QtWidgets.QLabel, "homeArtistLabel")
         self.homeBioPlainTextEdit = self.findChild(QtWidgets.QPlainTextEdit, "homeBioPlainTextEdit")
         self.bandSearchLineEdit = self.findChild(QtWidgets.QLineEdit, "bandSearchLineEdit")
         self.completer = QtWidgets.QCompleter()
@@ -187,6 +187,8 @@ class UI(QtWidgets.QMainWindow):
         self.bandSearchLineEdit.setCompleter(self.completer)
         self.lastSearchButton = self.findChild(QtWidgets.QPushButton, "lastSearchButton")
         self.searchButton = self.findChild(QtWidgets.QPushButton, "searchButton")
+        self.searchButton.setCursor(Qt.QCursor(QtCore.Qt.PointingHandCursor))
+        self.lastSearchButton.setCursor(Qt.QCursor(QtCore.Qt.PointingHandCursor))
 
         # Tour Dates
 
@@ -194,10 +196,10 @@ class UI(QtWidgets.QMainWindow):
         self.artistTourLabel = self.findChild(QtWidgets.QLabel, "artistTourLabel")
         self.showsTableWidget.horizontalHeader().setSectionResizeMode(QtWidgets.QHeaderView.Fixed)
         self.showsTableWidget.horizontalHeader().setFont(QFont("Ebrima", 14))
-        self.showsTableWidget.setColumnWidth(0,116)
+        self.showsTableWidget.setColumnWidth(0,166)
         self.showsTableWidget.setColumnWidth(1,396)
         self.showsTableWidget.setColumnWidth(2,385)
-        self.showsTableWidget.setColumnWidth(3,106)
+        self.showsTableWidget.setColumnWidth(3,76)
 
         # Map
         self.mapMapContainer = self.findChild(QWebEngineView, "mapMapContainer")
@@ -319,6 +321,7 @@ class UI(QtWidgets.QMainWindow):
             else:
                 self.searchedArtists += f", {data['artist']}"
         self.currentSearch = data['artist']
+        self.homeArtistLabel.setText(self.currentArtist)
         self.statusBar.showMessage(self.searchedArtists)
         self.artistTourLabel.setText(f"{self.currentArtist} tour dates")
         self.mapMapHeaderLabel.setText(f"Click a marker on the map to see {self.currentArtist} show details")
@@ -545,9 +548,12 @@ class UI(QtWidgets.QMainWindow):
         Takes a search string with the current text in the search bar. Creates a separate thread
         for non-blocking use of an AudioDB web scraper.
         """
-        self.autoThread = AutocompleteThread(search_string)
-        self.autoThread.authResult.connect(self.handleAutoResult)
-        self.autoThread.start()
+        try:
+            self.autoThread = AutocompleteThread(search_string)
+            self.autoThread.authResult.connect(self.handleAutoResult)
+            self.autoThread.start()
+        except:
+            print("Thread Error")
 
     def handleAutoResult(self, result):
         """
@@ -563,9 +569,12 @@ class UI(QtWidgets.QMainWindow):
         calls to teammate's microservice so as not to block my GUI.
         https://stackoverflow.com/questions/46781548/updating-variable-values-when-running-a-thread-using-qthread-in-pyqt4
         """
-        self.dateThread = DateConversionThread(date_arr)
-        self.dateThread.authResult.connect(self.handleDatesResult)
-        self.dateThread.start()
+        try:
+            self.dateThread = DateConversionThread(date_arr)
+            self.dateThread.authResult.connect(self.handleDatesResult)
+            self.dateThread.start()
+        except:
+            print("Thread Error")
 
     def handleDatesResult(self, result):
         """
@@ -585,9 +594,12 @@ class UI(QtWidgets.QMainWindow):
         Takes a search string with the current text in the search bar. Creates a separate thread
         for non-blocking use of an AudioDB web scraper.
         """
-        self.videoThread = VideoSearchThread(artist)
-        self.videoThread.authResult.connect(self.handleVideoResult)
-        self.videoThread.start()
+        try:
+            self.videoThread = VideoSearchThread(artist)
+            self.videoThread.authResult.connect(self.handleVideoResult)
+            self.videoThread.start()
+        except:
+            print("Thread Error")
 
     def handleVideoResult(self, result):
         """

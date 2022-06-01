@@ -26,9 +26,9 @@
       <property name="font">
        <font>
         <family>Ebrima</family>
-        <pointsize>12</pointsize>
-        <weight>75</weight>
-        <bold>true</bold>
+        <pointsize>16</pointsize>
+        <weight>50</weight>
+        <bold>false</bold>
        </font>
       </property>
       <property name="layoutDirection">
@@ -53,7 +53,7 @@ QTabWidget QTabBar{
 }
 
 #homeTab::tab {
-	background-color: white;
+	background-color: rgb(137, 175, 209);
 }</string>
       </property>
       <property name="tabPosition">
@@ -80,14 +80,14 @@ QTabWidget QTabBar{
          <normaloff>../../../../Pictures/IconImages/icons/home.png</normaloff>../../../../Pictures/IconImages/icons/home.png</iconset>
        </attribute>
        <attribute name="title">
-        <string>Home</string>
+        <string>SEARCH</string>
        </attribute>
        <widget class="QWidget" name="layoutWidget">
         <property name="geometry">
          <rect>
-          <x>400</x>
+          <x>460</x>
           <y>110</y>
-          <width>491</width>
+          <width>701</width>
           <height>98</height>
          </rect>
         </property>
@@ -123,8 +123,11 @@ QLineEdit:focus {
 }
 </string>
            </property>
+           <property name="text">
+            <string/>
+           </property>
            <property name="placeholderText">
-            <string>Enter the name of an artist or band...</string>
+            <string>Enter artist name...</string>
            </property>
           </widget>
          </item>
@@ -224,7 +227,7 @@ QPushButton:hover{
 </string>
              </property>
              <property name="text">
-              <string>Find Shows</string>
+              <string>Find Artist</string>
              </property>
             </widget>
            </item>
@@ -323,10 +326,10 @@ background-color: black;</string>
        <widget class="QLabel" name="homeLogoLabel">
         <property name="geometry">
          <rect>
-          <x>40</x>
-          <y>40</y>
-          <width>291</width>
-          <height>191</height>
+          <x>100</x>
+          <y>30</y>
+          <width>311</width>
+          <height>221</height>
          </rect>
         </property>
         <property name="text">
@@ -339,10 +342,62 @@ background-color: black;</string>
          <bool>true</bool>
         </property>
        </widget>
+       <widget class="QLabel" name="homeArtistLabel">
+        <property name="geometry">
+         <rect>
+          <x>513</x>
+          <y>230</y>
+          <width>651</width>
+          <height>41</height>
+         </rect>
+        </property>
+        <property name="font">
+         <font>
+          <family>Ebrima</family>
+          <pointsize>18</pointsize>
+         </font>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">color: white;
+background-color: black;</string>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+       </widget>
+       <widget class="QLabel" name="label">
+        <property name="geometry">
+         <rect>
+          <x>460</x>
+          <y>50</y>
+          <width>701</width>
+          <height>41</height>
+         </rect>
+        </property>
+        <property name="font">
+         <font>
+          <family>Ebrima</family>
+          <pointsize>12</pointsize>
+         </font>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">color: white;
+background-color: black;</string>
+        </property>
+        <property name="text">
+         <string>Search for an artist below and use tabs above to explore their content and tour dates</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+       </widget>
       </widget>
       <widget class="QWidget" name="tourDatesTab">
        <attribute name="title">
-        <string>Shows</string>
+        <string>SHOWS</string>
        </attribute>
        <layout class="QVBoxLayout" name="verticalLayout_6">
         <item>
@@ -366,12 +421,14 @@ background-color: black;</string>
              <widget class="QLabel" name="showsHeaderLabel">
               <property name="font">
                <font>
-                <family>Britannic Bold</family>
+                <family>Ebrima</family>
                 <pointsize>18</pointsize>
                </font>
               </property>
               <property name="styleSheet">
-               <string notr="true">color: rgb(198, 140, 41);</string>
+               <string notr="true">color: white;
+margin-bottom: 2em;
+margin-top: 2em;</string>
               </property>
               <property name="text">
                <string>Double click venue or tickets cell to view information in your browser</string>
@@ -413,7 +470,19 @@ background-color: black;</string>
              </font>
             </property>
             <property name="styleSheet">
-             <string notr="true">background-color: rgb(220, 220, 220);</string>
+             <string notr="true">QTableWidget {
+	background-color: black;
+	color: white;
+}
+
+QHeaderView::section {
+    background-color: black;
+	color: white;
+}
+</string>
+            </property>
+            <property name="frameShape">
+             <enum>QFrame::NoFrame</enum>
             </property>
             <property name="horizontalScrollBarPolicy">
              <enum>Qt::ScrollBarAlwaysOff</enum>
@@ -429,7 +498,13 @@ background-color: black;</string>
             </attribute>
             <column>
              <property name="text">
-              <string>Date</string>
+              <string>DATE</string>
+             </property>
+             <property name="font">
+              <font>
+               <family>Ebrima</family>
+               <pointsize>12</pointsize>
+              </font>
              </property>
              <property name="textAlignment">
               <set>AlignCenter</set>
@@ -437,17 +512,35 @@ background-color: black;</string>
             </column>
             <column>
              <property name="text">
-              <string>Venue</string>
+              <string>VENUE</string>
+             </property>
+             <property name="font">
+              <font>
+               <family>Ebrima</family>
+               <pointsize>12</pointsize>
+              </font>
              </property>
             </column>
             <column>
              <property name="text">
-              <string>City</string>
+              <string>CITY</string>
+             </property>
+             <property name="font">
+              <font>
+               <family>Ebrima</family>
+               <pointsize>12</pointsize>
+              </font>
              </property>
             </column>
             <column>
              <property name="text">
-              <string>Tickets</string>
+              <string>TICKETS</string>
+             </property>
+             <property name="font">
+              <font>
+               <family>Ebrima</family>
+               <pointsize>12</pointsize>
+              </font>
              </property>
             </column>
            </widget>
@@ -459,7 +552,7 @@ background-color: black;</string>
               <property name="minimumSize">
                <size>
                 <width>800</width>
-                <height>0</height>
+                <height>60</height>
                </size>
               </property>
               <property name="maximumSize">
@@ -470,14 +563,14 @@ background-color: black;</string>
               </property>
               <property name="font">
                <font>
-                <family>Britannic Bold</family>
+                <family>Ebrima</family>
                 <pointsize>24</pointsize>
                 <weight>50</weight>
                 <bold>false</bold>
                </font>
               </property>
               <property name="styleSheet">
-               <string notr="true"/>
+               <string notr="true">color: white;</string>
               </property>
               <property name="text">
                <string/>
@@ -510,14 +603,14 @@ background-color: black;</string>
               </property>
               <property name="minimumSize">
                <size>
-                <width>180</width>
-                <height>80</height>
+                <width>120</width>
+                <height>20</height>
                </size>
               </property>
               <property name="maximumSize">
                <size>
-                <width>180</width>
-                <height>80</height>
+                <width>120</width>
+                <height>40</height>
                </size>
               </property>
               <property name="text">
@@ -555,7 +648,7 @@ background-color: black;</string>
       </widget>
       <widget class="QWidget" name="mapTab">
        <attribute name="title">
-        <string>Map</string>
+        <string>MAP</string>
        </attribute>
        <layout class="QGridLayout" name="gridLayout_5">
         <item row="0" column="0">
@@ -800,7 +893,7 @@ QPushButton:hover{
       </widget>
       <widget class="QWidget" name="videoTab">
        <attribute name="title">
-        <string>Video</string>
+        <string>VIDEO</string>
        </attribute>
        <layout class="QGridLayout" name="gridLayout_2">
         <item row="0" column="0">
@@ -964,7 +1057,7 @@ padding: 2em;</string>
       </widget>
       <widget class="QWidget" name="infoTab">
        <attribute name="title">
-        <string>Info</string>
+        <string>INFO</string>
        </attribute>
        <layout class="QGridLayout" name="gridLayout_6">
         <item row="0" column="0">
