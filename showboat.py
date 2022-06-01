@@ -1,10 +1,9 @@
-from datetime import date
 import webbrowser
 from PyQt5 import QtCore, QtGui, QtWidgets, Qt
-from PyQt5.QtGui import QPixmap, QIcon, QImage, QFont, QMovie
+from PyQt5.QtGui import QPixmap, QFont, QMovie
 from PyQt5.QtWebEngineWidgets import QWebEngineView
 from PyQt5.QtWebEngineWidgets import QWebEngineSettings
-from PyQt5.QtCore import QObject, QThread, pyqtSignal
+from PyQt5.QtCore import QThread, pyqtSignal
 from PyQt5 import uic
 import sys
 import os
@@ -13,10 +12,11 @@ import folium
 import requests
 from time import time
 import urllib
-import pprint
 from bs4 import BeautifulSoup
 import mechanize
 from math import radians, cos, sin, asin, sqrt
+
+import logo
 
 # https://github.com/pyinstaller/pyinstaller/issues/1826
 if getattr(sys, 'frozen', False):
@@ -25,7 +25,6 @@ if getattr(sys, 'frozen', False):
 else:
     # we are running in a normal Python environment
     bundle_dir = os.path.dirname(os.path.abspath(__file__))
-# GUI_PATH = os.path.join( bundle_dir, 'showboat.ui' )
 GUI_PATH = os.path.join( bundle_dir, 'showboat.ui' )
 IMG_PATH = os.path.join( bundle_dir, 'showboat_white_cropped.png' )
 
@@ -52,7 +51,6 @@ class VideoSearchThread(QThread):
         display widgets with returned data.
         """
         obj = {"name": self.artist, "type": "popular"}
-        # call video-search endpoint
         response = requests.post('https://youtube-scraper-microservice.herokuapp.com/videos', json=obj)
         data = response.json()
         if response.status_code != 200 or len(data) < 2:
@@ -132,23 +130,20 @@ class AutocompleteThread(QThread):
 #######################################################################################
 
 class UI(QtWidgets.QMainWindow):
+
     def __init__(self):
         super(UI, self).__init__()
 
-        # load UI file
         uic.loadUi(GUI_PATH, self)
-        # global 'Previous Search' variable
         self.previousSearch = ''
         self.currentSearch = ''
-        # global tab variable
         self.currentTab = 0
-        # artist channel url
         self.channelUrl = ''
-        # raw date array for conversion
         self.date_arr = []
         self.currentArtist = ''
         self.curDates = []
         self.searchedArtists = "Artists searched:"
+        self.completerThreadFinished = True
 
 
 #######################################################################################
@@ -160,7 +155,7 @@ class UI(QtWidgets.QMainWindow):
         # Initialize status bar
         self.statusBar = QtWidgets.QStatusBar()
         self.setStatusBar(self.statusBar)
-        self.statusBar.setFont(QFont("Tahoma", 16))
+        self.statusBar.setFont(QFont("Ebrima", 12))
         self.statusBar.showMessage(self.searchedArtists)
 
         # Tabs
@@ -174,10 +169,8 @@ class UI(QtWidgets.QMainWindow):
 
         # Home
         self.bandPhotoLabel = self.findChild(QtWidgets.QLabel, "bandPhotoLabel")
-        self.bandBioHeader = self.findChild(QtWidgets.QLabel, "bandBioHeader")
+        self.homeArtistLabel = self.findChild(QtWidgets.QLabel, "homeArtistLabel")
         self.homeBioPlainTextEdit = self.findChild(QtWidgets.QPlainTextEdit, "homeBioPlainTextEdit")
-        self.bandInfoNameLabel = self.findChild(QtWidgets.QLabel, "bandInfoNameLabel")
-        self.bandInfoWebsiteLabel = self.findChild(QtWidgets.QLabel, "bandInfoWebsiteLabel")
         self.bandSearchLineEdit = self.findChild(QtWidgets.QLineEdit, "bandSearchLineEdit")
         self.completer = QtWidgets.QCompleter()
         self.model = QtCore.QStringListModel()
@@ -187,17 +180,20 @@ class UI(QtWidgets.QMainWindow):
         self.bandSearchLineEdit.setCompleter(self.completer)
         self.lastSearchButton = self.findChild(QtWidgets.QPushButton, "lastSearchButton")
         self.searchButton = self.findChild(QtWidgets.QPushButton, "searchButton")
+        self.searchButton.setCursor(Qt.QCursor(QtCore.Qt.PointingHandCursor))
+        self.lastSearchButton.setCursor(Qt.QCursor(QtCore.Qt.PointingHandCursor))
+        self.logoPhotoLayout = self.findChild(QtWidgets.QVBoxLayout, "logoPhotoLayout")
 
         # Tour Dates
 
         self.showsTableWidget = self.findChild(QtWidgets.QTableWidget, "showsTableWidget")
         self.artistTourLabel = self.findChild(QtWidgets.QLabel, "artistTourLabel")
         self.showsTableWidget.horizontalHeader().setSectionResizeMode(QtWidgets.QHeaderView.Fixed)
-        self.showsTableWidget.horizontalHeader().setFont(QFont("Britannic Bold", 14))
-        self.showsTableWidget.setColumnWidth(0,116)
+        self.showsTableWidget.horizontalHeader().setFont(QFont("Ebrima", 14))
+        self.showsTableWidget.setColumnWidth(0,166)
         self.showsTableWidget.setColumnWidth(1,396)
         self.showsTableWidget.setColumnWidth(2,385)
-        self.showsTableWidget.setColumnWidth(3,106)
+        self.showsTableWidget.setColumnWidth(3,76)
 
         # Map
         self.mapMapContainer = self.findChild(QWebEngineView, "mapMapContainer")
@@ -205,6 +201,8 @@ class UI(QtWidgets.QMainWindow):
         self.initializeMap(coordinates, 2)
         self.citySearchButton = self.findChild(QtWidgets.QPushButton, "citySearchButton")
         self.clearCityButton = self.findChild(QtWidgets.QPushButton, "clearCityButton")
+        self.citySearchButton.setCursor(Qt.QCursor(QtCore.Qt.PointingHandCursor))
+        self.clearCityButton.setCursor(Qt.QCursor(QtCore.Qt.PointingHandCursor))
         self.citySearchInput = self.findChild(QtWidgets.QLineEdit, "citySearchInput")
         self.miles50Radio = self.findChild(QtWidgets.QRadioButton, "miles50Radio")
         self.miles100Radio = self.findChild(QtWidgets.QRadioButton, "miles100Radio")
@@ -227,6 +225,7 @@ class UI(QtWidgets.QMainWindow):
         self.radioButtonNewest = self.findChild(QtWidgets.QRadioButton, "radioButtonNewest")
         self.radioButtonOldest = self.findChild(QtWidgets.QRadioButton, "radioButtonOldest")
         self.videoSeeMoreButton = self.findChild(QtWidgets.QPushButton, "videoSeeMoreButton")
+        self.videoSeeMoreButton.setCursor(Qt.QCursor(QtCore.Qt.PointingHandCursor))
 
 #######################################################################################
 #                                                                                     #
@@ -234,7 +233,6 @@ class UI(QtWidgets.QMainWindow):
 #                                                                                     #
 #######################################################################################
 
-        # Functionality
         self.searchButton.clicked.connect(lambda: self.artist_search('search'))
         self.lastSearchButton.clicked.connect(lambda: self.artist_search('previous'))
         self.showsTableWidget.itemDoubleClicked.connect(self.link_clicked)
@@ -257,6 +255,7 @@ class UI(QtWidgets.QMainWindow):
 
     def populateTourDateCells(self, data):
         """
+        Takes a data object and fills the table cells in the Tour Dates tab.
         """
         row = 0
         self.showsTableWidget.setRowCount(len(data["events"]))
@@ -304,15 +303,12 @@ class UI(QtWidgets.QMainWindow):
         Takes an artist data object, updates the display widgets, and calls the tour search
         and video search methods..
         """
-        self.bandInfoNameLabel.setText(data['artist'])
         self.homeBioPlainTextEdit.clear()
         self.homeBioPlainTextEdit.insertPlainText(data['bio'])
-        self.bandInfoWebsiteLabel.setText(f"<a href='www.{data['website']}'>{data['website']}</a>")
         self.set_photo(data['img_url'])
         self.tour_search(data['artist'])
         # creates separate thread for video search microservice calls   
         self.video_search(data['artist'])
-        # set prev and cur global search variables
         self.currentArtist = data['artist']
         self.previousSearch = self.currentSearch
         if self.currentArtist not in self.searchedArtists:
@@ -321,8 +317,9 @@ class UI(QtWidgets.QMainWindow):
             else:
                 self.searchedArtists += f", {data['artist']}"
         self.currentSearch = data['artist']
+        self.homeArtistLabel.setText(self.currentArtist)
         self.statusBar.showMessage(self.searchedArtists)
-        self.artistTourLabel.setText(f"{self.currentArtist} tour dates")
+        self.artistTourLabel.setText(f"\u261D {self.currentArtist} tour dates \u261D")
         self.mapMapHeaderLabel.setText(f"Click a marker on the map to see {self.currentArtist} show details")
 
     def errorBox(self, msgString):
@@ -341,7 +338,7 @@ class UI(QtWidgets.QMainWindow):
         pixmap = QPixmap(IMG_PATH)
         pixmapScaled = pixmap.scaled(400, 400, QtCore.Qt.KeepAspectRatio)
         splash_screen = QtWidgets.QSplashScreen(pixmapScaled)
-        splash_screen.setFont(QFont("Britannic Bold", 20))
+        splash_screen.setFont(QFont("Ebrima", 20))
         splash_screen.showMessage('Loading...', color=QtGui.QColor(200, 47, 101))
         return splash_screen
 
@@ -452,13 +449,11 @@ class UI(QtWidgets.QMainWindow):
         """
         Handles user key presses.
         """
-        # print(event.key())
         if event.key() == 16777220 or event.key() == 16777221:
             if self.tabs.currentIndex() == 0:
                 self.artist_search('key_press')
             elif self.tabs.currentIndex() == 2:
                 self.searchByCity(self.citySearchInput.text())
-
 
     def artist_search(self, type):
         """
@@ -468,15 +463,12 @@ class UI(QtWidgets.QMainWindow):
         # get search string from search bar if search button or 'return' key pressed 
         if type == 'search' or type == 'key_press':
             value = self.bandSearchLineEdit.text()
-            # if there's nothing in the search bar
             if not value:
                 self.errorBox("Please enter an artist name")
                 return
             obj = {"artist_search": value}
-        # get global 'previous search' variable if previous button pressed
         else:
             value = self.previousSearch
-            # if there hasn't been a search yet
             if not value:
                 self.errorBox("Previous search unavailable")
                 return
@@ -484,16 +476,13 @@ class UI(QtWidgets.QMainWindow):
         splash_screen = self.loadSplash()
         splash_screen.show()
         app.processEvents()
-        # call artist-search endpoint
         response = requests.post('https://showboat-rest-api.herokuapp.com/artist-search', data=obj)
         data = response.json()
         if data['artist']:
             self.updateWidgets(data)
         else:
-            self.errorBox("Artist not found")
-        # clear search bar    
+            self.errorBox("Artist not found") 
         self.bandSearchLineEdit.setText("")
-        # remove splash screen if content has loaded
         splash_screen.close()
 
     def video_refresh(self, type):
@@ -502,11 +491,10 @@ class UI(QtWidgets.QMainWindow):
         refreshes the video display widgets with data by calling the YouTube scraper API
         endpoint.
         """
-        obj = {"name": self.bandInfoNameLabel.text(), "type": type}
+        obj = {"name": self.currentArtist, "type": type}
         splash_screen = self.loadSplash()
         splash_screen.show()
         app.processEvents()
-        # call video-search endpoint
         response = requests.post('https://youtube-scraper-microservice.herokuapp.com/videos', json=obj)
         data = response.json()
         i = 0
@@ -514,7 +502,7 @@ class UI(QtWidgets.QMainWindow):
             if 'channel_url' in entry:
                 continue
             else:
-                self.video_dict[f"video{i}"].setUrl(QtCore.QUrl(entry["url"].replace("embed", "watch")))
+                self.video_dict[f"video{i}"].setHtml(f'<!DOCTYPE html><html><body><iframe width="566" height="320" src="{entry["url"].replace("?v=", "/")}" allowfullscreen></iframe></body></html>', QtCore.QUrl('https://www.youtube.com'))    
                 i += 1
         splash_screen.close()
 
@@ -525,14 +513,11 @@ class UI(QtWidgets.QMainWindow):
         endpoint. Updates display widgets with returned data.
         """
         self.initializeMap((27.03992362079509, -22.920434372492934), 2)
-        # get tour dates
         obj = {"artist_search": artist}
-        # call tour-search endpoint
         response = requests.post('https://showboat-rest-api.herokuapp.com/tour-search', data=obj)
         data = response.json()
         # hold dates data for later map manipulation
         self.curDates = data["events"]
-        # add dates to map
         for obj in data["events"]:
             self.addPopUps(obj)
         map_data = io.BytesIO()
@@ -547,9 +532,19 @@ class UI(QtWidgets.QMainWindow):
         Takes a search string with the current text in the search bar. Creates a separate thread
         for non-blocking use of an AudioDB web scraper.
         """
-        self.autoThread = AutocompleteThread(search_string)
-        self.autoThread.authResult.connect(self.handleAutoResult)
-        self.autoThread.start()
+        if self.completerThreadFinished:
+            self.completerThreadFinished = False
+            self.autoThread = AutocompleteThread(search_string)
+            self.autoThread.authResult.connect(self.handleAutoResult)
+            self.autoThread.finished.connect(self.on_finish)
+            self.autoThread.start()
+
+    def on_finish(self):
+        """
+        Sets boolean value for global completerThreadFinished variable so threads
+        aren't piled on top of one another.
+        """
+        self.completerThreadFinished = True
 
     def handleAutoResult(self, result):
         """
@@ -591,6 +586,7 @@ class UI(QtWidgets.QMainWindow):
         self.videoThread.authResult.connect(self.handleVideoResult)
         self.videoThread.start()
 
+
     def handleVideoResult(self, result):
         """
         Takes a JSON object with YouTube urls and updates display widgets.
@@ -606,7 +602,7 @@ class UI(QtWidgets.QMainWindow):
                 if 'channel_url' in entry:
                     self.channelUrl = entry['channel_url']
                 else:
-                    self.video_dict[f"video{i}"].setUrl(QtCore.QUrl(entry["url"].replace("embed", "watch")))
+                    self.video_dict[f"video{i}"].setHtml(f'<!DOCTYPE html><html><body><iframe width="566" height="320" src="{entry["url"].replace("?v=", "/")}" allowfullscreen></iframe></body></html>', QtCore.QUrl('https://www.youtube.com'))    
                     i += 1
             self.videoSeeMoreButton.setText(f"{self.currentArtist}'s YouTube Channel")
             self.videoThread.quit()
@@ -640,7 +636,6 @@ class UI(QtWidgets.QMainWindow):
         self.bandPhotoLabel.setScaledContents(True)
 
 # initialize app
-QtWidgets.QApplication.setStyle('Fusion')
 app = QtWidgets.QApplication(sys.argv)
 UIWindow = UI()
 app.exec_()

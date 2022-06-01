@@ -14,20 +14,40 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_mainWindow(object):
     def setupUi(self, mainWindow):
         mainWindow.setObjectName("mainWindow")
-        mainWindow.resize(1223, 809)
-        mainWindow.setStyleSheet("background-color: rgb(221, 255, 220);")
+        mainWindow.resize(1248, 841)
+        mainWindow.setStyleSheet("")
         self.centralwidget = QtWidgets.QWidget(mainWindow)
+        self.centralwidget.setStyleSheet("background-color: black;")
         self.centralwidget.setObjectName("centralwidget")
         self.gridLayout = QtWidgets.QGridLayout(self.centralwidget)
         self.gridLayout.setObjectName("gridLayout")
         self.tabs = QtWidgets.QTabWidget(self.centralwidget)
         font = QtGui.QFont()
-        font.setFamily("Tahoma")
-        font.setPointSize(12)
-        font.setBold(True)
-        font.setWeight(75)
+        font.setFamily("Ebrima")
+        font.setPointSize(16)
+        font.setBold(False)
+        font.setWeight(50)
         self.tabs.setFont(font)
-        self.tabs.setStyleSheet("")
+        self.tabs.setLayoutDirection(QtCore.Qt.LeftToRight)
+        self.tabs.setAutoFillBackground(False)
+        self.tabs.setStyleSheet("QTabBar::tab {\n"
+"    width: 12em;\n"
+"}\n"
+"\n"
+"QTabWidget::tab-bar {\n"
+"    alignment: center;\n"
+"    margin-top: 2em;\n"
+"}\n"
+"\n"
+"QTabWidget::pane { border: 0; }\n"
+"\n"
+"QTabWidget QTabBar{\n"
+"    background-color: white;\n"
+"}\n"
+"\n"
+"#homeTab::tab {\n"
+"    background-color: rgb(137, 175, 209);\n"
+"}")
         self.tabs.setTabPosition(QtWidgets.QTabWidget.North)
         self.tabs.setTabShape(QtWidgets.QTabWidget.Rounded)
         self.tabs.setIconSize(QtCore.QSize(20, 33))
@@ -35,39 +55,167 @@ class Ui_mainWindow(object):
         self.tabs.setObjectName("tabs")
         self.homeTab = QtWidgets.QWidget()
         self.homeTab.setObjectName("homeTab")
-        self.gridLayout_3 = QtWidgets.QGridLayout(self.homeTab)
+        self.gridLayout_5 = QtWidgets.QGridLayout(self.homeTab)
+        self.gridLayout_5.setObjectName("gridLayout_5")
+        self.gridLayout_3 = QtWidgets.QGridLayout()
+        self.gridLayout_3.setContentsMargins(30, 20, 30, 20)
         self.gridLayout_3.setObjectName("gridLayout_3")
+        self.horizontalLayout_4 = QtWidgets.QHBoxLayout()
+        self.horizontalLayout_4.setObjectName("horizontalLayout_4")
+        spacerItem = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        self.horizontalLayout_4.addItem(spacerItem)
+        self.homeLogoLabel = QtWidgets.QLabel(self.homeTab)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.homeLogoLabel.sizePolicy().hasHeightForWidth())
+        self.homeLogoLabel.setSizePolicy(sizePolicy)
+        self.homeLogoLabel.setMinimumSize(QtCore.QSize(311, 221))
+        self.homeLogoLabel.setMaximumSize(QtCore.QSize(311, 211))
+        self.homeLogoLabel.setText("")
+        self.homeLogoLabel.setPixmap(QtGui.QPixmap(":/logo/showLogoCropped.png"))
+        self.homeLogoLabel.setScaledContents(True)
+        self.homeLogoLabel.setObjectName("homeLogoLabel")
+        self.horizontalLayout_4.addWidget(self.homeLogoLabel)
+        spacerItem1 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        self.horizontalLayout_4.addItem(spacerItem1)
+        self.gridLayout_3.addLayout(self.horizontalLayout_4, 0, 0, 2, 1)
+        self.verticalLayout_3 = QtWidgets.QVBoxLayout()
+        self.verticalLayout_3.setSizeConstraint(QtWidgets.QLayout.SetFixedSize)
+        self.verticalLayout_3.setContentsMargins(-1, 45, -1, -1)
+        self.verticalLayout_3.setObjectName("verticalLayout_3")
         self.verticalLayout_2 = QtWidgets.QVBoxLayout()
-        self.verticalLayout_2.setContentsMargins(-1, -1, 10, -1)
-        self.verticalLayout_2.setSpacing(10)
         self.verticalLayout_2.setObjectName("verticalLayout_2")
         self.label = QtWidgets.QLabel(self.homeTab)
         font = QtGui.QFont()
-        font.setFamily("Segoe UI Black")
-        font.setPointSize(48)
-        font.setBold(True)
-        font.setWeight(75)
+        font.setFamily("Ebrima")
+        font.setPointSize(11)
         self.label.setFont(font)
-        self.label.setStyleSheet("color: rgb(200, 47, 101);")
+        self.label.setStyleSheet("color: white;\n"
+"background-color: black;\n"
+"margin-top: 2em;")
         self.label.setAlignment(QtCore.Qt.AlignCenter)
         self.label.setObjectName("label")
         self.verticalLayout_2.addWidget(self.label)
-        self.label_2 = QtWidgets.QLabel(self.homeTab)
+        self.bandSearchLineEdit = QtWidgets.QLineEdit(self.homeTab)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.bandSearchLineEdit.sizePolicy().hasHeightForWidth())
+        self.bandSearchLineEdit.setSizePolicy(sizePolicy)
+        self.bandSearchLineEdit.setMinimumSize(QtCore.QSize(700, 50))
         font = QtGui.QFont()
-        font.setFamily("Tahoma")
-        font.setPointSize(10)
-        font.setBold(True)
-        font.setWeight(75)
-        self.label_2.setFont(font)
-        self.label_2.setStyleSheet("color: rgb(94, 94, 94);")
-        self.label_2.setAlignment(QtCore.Qt.AlignCenter)
-        self.label_2.setWordWrap(True)
-        self.label_2.setObjectName("label_2")
-        self.verticalLayout_2.addWidget(self.label_2)
+        font.setFamily("Ebrima")
+        font.setPointSize(12)
+        self.bandSearchLineEdit.setFont(font)
+        self.bandSearchLineEdit.setStyleSheet("QLineEdit {\n"
+"    background-color: rgb(255, 255, 255);\n"
+"    border-radius: 10px;\n"
+"}\n"
+"\n"
+"QLineEdit:focus {\n"
+"    border: 2px solid rgb(137, 175, 209);\n"
+"}\n"
+"")
+        self.bandSearchLineEdit.setText("")
+        self.bandSearchLineEdit.setObjectName("bandSearchLineEdit")
+        self.verticalLayout_2.addWidget(self.bandSearchLineEdit)
+        self.horizontalLayout_2 = QtWidgets.QHBoxLayout()
+        self.horizontalLayout_2.setObjectName("horizontalLayout_2")
+        self.lastSearchButton = QtWidgets.QPushButton(self.homeTab)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.lastSearchButton.sizePolicy().hasHeightForWidth())
+        self.lastSearchButton.setSizePolicy(sizePolicy)
+        self.lastSearchButton.setMinimumSize(QtCore.QSize(0, 0))
+        font = QtGui.QFont()
+        font.setFamily("Ebrima")
+        font.setPointSize(14)
+        self.lastSearchButton.setFont(font)
+        self.lastSearchButton.setStyleSheet("QPushButton{\n"
+"    background-color: black;\n"
+"    color: white;\n"
+"    margin-left: 2em;\n"
+"}\n"
+"\n"
+"\n"
+"QPushButton:hover{\n"
+"    color: rgb(137, 175, 209);\n"
+"}\n"
+"\n"
+"")
+        self.lastSearchButton.setCheckable(False)
+        self.lastSearchButton.setObjectName("lastSearchButton")
+        self.horizontalLayout_2.addWidget(self.lastSearchButton)
+        spacerItem2 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        self.horizontalLayout_2.addItem(spacerItem2)
+        self.searchButton = QtWidgets.QPushButton(self.homeTab)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.searchButton.sizePolicy().hasHeightForWidth())
+        self.searchButton.setSizePolicy(sizePolicy)
+        self.searchButton.setMinimumSize(QtCore.QSize(0, 0))
+        font = QtGui.QFont()
+        font.setFamily("Ebrima")
+        font.setPointSize(14)
+        self.searchButton.setFont(font)
+        self.searchButton.setStyleSheet("QPushButton{\n"
+"    background-color: black;\n"
+"    color: white;\n"
+"    margin-right: 2em;\n"
+"}\n"
+"\n"
+"\n"
+"QPushButton:hover{\n"
+"    color: ;\n"
+"    color: rgb(137, 175, 209);\n"
+"}\n"
+"")
+        self.searchButton.setObjectName("searchButton")
+        self.horizontalLayout_2.addWidget(self.searchButton)
+        self.verticalLayout_2.addLayout(self.horizontalLayout_2)
+        self.verticalLayout_3.addLayout(self.verticalLayout_2)
+        self.gridLayout_3.addLayout(self.verticalLayout_3, 0, 1, 1, 1)
         self.horizontalLayout_3 = QtWidgets.QHBoxLayout()
         self.horizontalLayout_3.setObjectName("horizontalLayout_3")
-        spacerItem = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
-        self.horizontalLayout_3.addItem(spacerItem)
+        spacerItem3 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        self.horizontalLayout_3.addItem(spacerItem3)
+        self.verticalLayout_5 = QtWidgets.QVBoxLayout()
+        self.verticalLayout_5.setObjectName("verticalLayout_5")
+        self.homeArtistLabel = QtWidgets.QLabel(self.homeTab)
+        self.homeArtistLabel.setMinimumSize(QtCore.QSize(0, 40))
+        font = QtGui.QFont()
+        font.setFamily("Ebrima")
+        font.setPointSize(18)
+        self.homeArtistLabel.setFont(font)
+        self.homeArtistLabel.setStyleSheet("color: white;\n"
+"background-color: black;\n"
+"")
+        self.homeArtistLabel.setText("")
+        self.homeArtistLabel.setAlignment(QtCore.Qt.AlignCenter)
+        self.homeArtistLabel.setObjectName("homeArtistLabel")
+        self.verticalLayout_5.addWidget(self.homeArtistLabel)
+        self.homeBioPlainTextEdit = QtWidgets.QPlainTextEdit(self.homeTab)
+        self.homeBioPlainTextEdit.setMinimumSize(QtCore.QSize(0, 0))
+        font = QtGui.QFont()
+        font.setFamily("Ebrima")
+        font.setPointSize(12)
+        self.homeBioPlainTextEdit.setFont(font)
+        self.homeBioPlainTextEdit.setStyleSheet("color: white;\n"
+"background-color: black;")
+        self.homeBioPlainTextEdit.setFrameShape(QtWidgets.QFrame.NoFrame)
+        self.homeBioPlainTextEdit.setReadOnly(True)
+        self.homeBioPlainTextEdit.setObjectName("homeBioPlainTextEdit")
+        self.verticalLayout_5.addWidget(self.homeBioPlainTextEdit)
+        self.horizontalLayout_3.addLayout(self.verticalLayout_5)
+        self.horizontalLayout_3.setStretch(1, 8)
+        self.gridLayout_3.addLayout(self.horizontalLayout_3, 1, 1, 2, 1)
+        self.horizontalLayout_7 = QtWidgets.QHBoxLayout()
+        self.horizontalLayout_7.setObjectName("horizontalLayout_7")
+        spacerItem4 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        self.horizontalLayout_7.addItem(spacerItem4)
         self.bandPhotoLabel = QtWidgets.QLabel(self.homeTab)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
         sizePolicy.setHorizontalStretch(0)
@@ -75,215 +223,24 @@ class Ui_mainWindow(object):
         sizePolicy.setHeightForWidth(self.bandPhotoLabel.sizePolicy().hasHeightForWidth())
         self.bandPhotoLabel.setSizePolicy(sizePolicy)
         self.bandPhotoLabel.setMinimumSize(QtCore.QSize(423, 423))
-        self.bandPhotoLabel.setMaximumSize(QtCore.QSize(460, 460))
+        self.bandPhotoLabel.setMaximumSize(QtCore.QSize(423, 423))
         font = QtGui.QFont()
         font.setFamily("Britannic Bold")
         self.bandPhotoLabel.setFont(font)
-        self.bandPhotoLabel.setStyleSheet("background-color: rgb(255, 255, 255);\n"
+        self.bandPhotoLabel.setStyleSheet("background-color: black;\n"
 "\n"
-"border-radius: 10px;\n"
-"border: 2px solid black;\n"
-"\n"
-"margin-left: .5em;\n"
-"margin-right: .5em;\n"
 "")
-        self.bandPhotoLabel.setFrameShape(QtWidgets.QFrame.StyledPanel)
+        self.bandPhotoLabel.setFrameShape(QtWidgets.QFrame.NoFrame)
         self.bandPhotoLabel.setFrameShadow(QtWidgets.QFrame.Sunken)
         self.bandPhotoLabel.setLineWidth(3)
         self.bandPhotoLabel.setText("")
         self.bandPhotoLabel.setAlignment(QtCore.Qt.AlignCenter)
         self.bandPhotoLabel.setObjectName("bandPhotoLabel")
-        self.horizontalLayout_3.addWidget(self.bandPhotoLabel)
-        spacerItem1 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
-        self.horizontalLayout_3.addItem(spacerItem1)
-        self.verticalLayout_2.addLayout(self.horizontalLayout_3)
-        self.horizontalLayout_2 = QtWidgets.QHBoxLayout()
-        self.horizontalLayout_2.setObjectName("horizontalLayout_2")
-        self.bandInfoNameLabel = QtWidgets.QLabel(self.homeTab)
-        self.bandInfoNameLabel.setMinimumSize(QtCore.QSize(0, 40))
-        self.bandInfoNameLabel.setMaximumSize(QtCore.QSize(16777215, 40))
-        font = QtGui.QFont()
-        font.setFamily("Britannic Bold")
-        font.setPointSize(10)
-        font.setBold(False)
-        font.setWeight(50)
-        self.bandInfoNameLabel.setFont(font)
-        self.bandInfoNameLabel.setStyleSheet("background-color: rgb(255, 255, 255);\n"
-"border-radius: 10px;\n"
-"border: 2px solid black;")
-        self.bandInfoNameLabel.setFrameShape(QtWidgets.QFrame.StyledPanel)
-        self.bandInfoNameLabel.setFrameShadow(QtWidgets.QFrame.Sunken)
-        self.bandInfoNameLabel.setLineWidth(3)
-        self.bandInfoNameLabel.setText("")
-        self.bandInfoNameLabel.setAlignment(QtCore.Qt.AlignCenter)
-        self.bandInfoNameLabel.setObjectName("bandInfoNameLabel")
-        self.horizontalLayout_2.addWidget(self.bandInfoNameLabel)
-        self.bandInfoWebsiteLabel = QtWidgets.QLabel(self.homeTab)
-        self.bandInfoWebsiteLabel.setMinimumSize(QtCore.QSize(0, 40))
-        self.bandInfoWebsiteLabel.setMaximumSize(QtCore.QSize(16777215, 40))
-        font = QtGui.QFont()
-        font.setFamily("Britannic Bold")
-        font.setPointSize(10)
-        font.setBold(False)
-        font.setWeight(50)
-        self.bandInfoWebsiteLabel.setFont(font)
-        self.bandInfoWebsiteLabel.setStyleSheet("background-color: rgb(255, 255, 255);\n"
-"\n"
-"border-radius: 10px;\n"
-"border: 2px solid black;")
-        self.bandInfoWebsiteLabel.setFrameShape(QtWidgets.QFrame.StyledPanel)
-        self.bandInfoWebsiteLabel.setFrameShadow(QtWidgets.QFrame.Sunken)
-        self.bandInfoWebsiteLabel.setLineWidth(3)
-        self.bandInfoWebsiteLabel.setText("")
-        self.bandInfoWebsiteLabel.setAlignment(QtCore.Qt.AlignCenter)
-        self.bandInfoWebsiteLabel.setOpenExternalLinks(True)
-        self.bandInfoWebsiteLabel.setObjectName("bandInfoWebsiteLabel")
-        self.horizontalLayout_2.addWidget(self.bandInfoWebsiteLabel)
-        self.verticalLayout_2.addLayout(self.horizontalLayout_2)
-        self.gridLayout_3.addLayout(self.verticalLayout_2, 0, 0, 1, 1)
-        self.verticalLayout_3 = QtWidgets.QVBoxLayout()
-        self.verticalLayout_3.setContentsMargins(20, -1, 20, -1)
-        self.verticalLayout_3.setSpacing(20)
-        self.verticalLayout_3.setObjectName("verticalLayout_3")
-        self.horizontalLayout_4 = QtWidgets.QHBoxLayout()
-        self.horizontalLayout_4.setObjectName("horizontalLayout_4")
-        spacerItem2 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
-        self.horizontalLayout_4.addItem(spacerItem2)
-        self.bandBioHeader_2 = QtWidgets.QLabel(self.homeTab)
-        font = QtGui.QFont()
-        font.setFamily("Britannic Bold")
-        font.setPointSize(36)
-        self.bandBioHeader_2.setFont(font)
-        self.bandBioHeader_2.setStyleSheet("color: rgb(198, 140, 41);\n"
-"\n"
-"border-bottom: 3px solid rgb(198, 140, 41);\n"
-"\n"
-"margin-left: 5em;\n"
-"margin-right: 5em;\n"
-"\n"
-"font-size: 2em;\n"
-"")
-        self.bandBioHeader_2.setAlignment(QtCore.Qt.AlignCenter)
-        self.bandBioHeader_2.setObjectName("bandBioHeader_2")
-        self.horizontalLayout_4.addWidget(self.bandBioHeader_2)
-        spacerItem3 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
-        self.horizontalLayout_4.addItem(spacerItem3)
-        self.verticalLayout_3.addLayout(self.horizontalLayout_4)
-        self.horizontalLayout_5 = QtWidgets.QHBoxLayout()
-        self.horizontalLayout_5.setObjectName("horizontalLayout_5")
-        self.bandSearchLineEdit = QtWidgets.QLineEdit(self.homeTab)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.bandSearchLineEdit.sizePolicy().hasHeightForWidth())
-        self.bandSearchLineEdit.setSizePolicy(sizePolicy)
-        self.bandSearchLineEdit.setMinimumSize(QtCore.QSize(0, 50))
-        font = QtGui.QFont()
-        font.setPointSize(12)
-        self.bandSearchLineEdit.setFont(font)
-        self.bandSearchLineEdit.setStyleSheet("QLineEdit {\n"
-"    background-color: rgb(255, 255, 255);\n"
-"    margin-top: .5em;\n"
-"    margin-bottom: .5em;\n"
-"    margin-left: 2em;\n"
-"    margin-right: 2em;\n"
-"    border: 2px solid black;\n"
-"}\n"
-"\n"
-"QLineEdit:focus {\n"
-"    border: 2px solid rgb(200, 47, 101)\n"
-"}\n"
-"")
-        self.bandSearchLineEdit.setObjectName("bandSearchLineEdit")
-        self.horizontalLayout_5.addWidget(self.bandSearchLineEdit)
-        self.verticalLayout_3.addLayout(self.horizontalLayout_5)
-        self.horizontalLayout_6 = QtWidgets.QHBoxLayout()
-        self.horizontalLayout_6.setObjectName("horizontalLayout_6")
-        self.lastSearchButton = QtWidgets.QPushButton(self.homeTab)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.lastSearchButton.sizePolicy().hasHeightForWidth())
-        self.lastSearchButton.setSizePolicy(sizePolicy)
-        self.lastSearchButton.setMinimumSize(QtCore.QSize(0, 80))
-        font = QtGui.QFont()
-        font.setFamily("Impact")
-        font.setPointSize(14)
-        self.lastSearchButton.setFont(font)
-        self.lastSearchButton.setStyleSheet("QPushButton{\n"
-"    background-color: rgb(202, 202, 202);\n"
-"    color: rgb(200, 47, 101);\n"
-"    margin-top: 1em;\n"
-"}\n"
-"\n"
-"\n"
-"QPushButton:hover{\n"
-"    background-color: rgb(255, 237, 237);\n"
-"}\n"
-"\n"
-"")
-        self.lastSearchButton.setCheckable(False)
-        self.lastSearchButton.setObjectName("lastSearchButton")
-        self.horizontalLayout_6.addWidget(self.lastSearchButton)
-        self.searchButton = QtWidgets.QPushButton(self.homeTab)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.searchButton.sizePolicy().hasHeightForWidth())
-        self.searchButton.setSizePolicy(sizePolicy)
-        self.searchButton.setMinimumSize(QtCore.QSize(0, 50))
-        font = QtGui.QFont()
-        font.setFamily("Impact")
-        font.setPointSize(14)
-        self.searchButton.setFont(font)
-        self.searchButton.setStyleSheet("QPushButton{\n"
-"    background-color: rgb(202, 202, 202);\n"
-"    color: rgb(200, 47, 101);\n"
-"    margin-top: 1em;\n"
-"}\n"
-"\n"
-"\n"
-"QPushButton:hover{\n"
-"    background-color: rgb(255, 237, 237);\n"
-"}")
-        self.searchButton.setObjectName("searchButton")
-        self.horizontalLayout_6.addWidget(self.searchButton)
-        self.verticalLayout_3.addLayout(self.horizontalLayout_6)
-        self.horizontalLayout_7 = QtWidgets.QHBoxLayout()
-        self.horizontalLayout_7.setObjectName("horizontalLayout_7")
-        spacerItem4 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
-        self.horizontalLayout_7.addItem(spacerItem4)
-        self.bandBioHeader = QtWidgets.QLabel(self.homeTab)
-        font = QtGui.QFont()
-        font.setFamily("Britannic Bold")
-        font.setPointSize(20)
-        self.bandBioHeader.setFont(font)
-        self.bandBioHeader.setStyleSheet("color: rgb(198, 140, 41);\n"
-"\n"
-"border-bottom: 3px solid rgb(198, 140, 41);\n"
-"\n"
-"margin-left: 5em;\n"
-"margin-right: 5em;")
-        self.bandBioHeader.setAlignment(QtCore.Qt.AlignCenter)
-        self.bandBioHeader.setObjectName("bandBioHeader")
-        self.horizontalLayout_7.addWidget(self.bandBioHeader)
+        self.horizontalLayout_7.addWidget(self.bandPhotoLabel)
         spacerItem5 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         self.horizontalLayout_7.addItem(spacerItem5)
-        self.verticalLayout_3.addLayout(self.horizontalLayout_7)
-        self.homeBioPlainTextEdit = QtWidgets.QPlainTextEdit(self.homeTab)
-        font = QtGui.QFont()
-        font.setFamily("Tahoma")
-        font.setPointSize(12)
-        self.homeBioPlainTextEdit.setFont(font)
-        self.homeBioPlainTextEdit.setStyleSheet("background-color: rgb(255, 255, 255);\n"
-"border-radius: 10px;\n"
-"border: 2px solid black;\n"
-"margin-top: .5em;\n"
-"margin-bottom: .5em;")
-        self.homeBioPlainTextEdit.setReadOnly(True)
-        self.homeBioPlainTextEdit.setObjectName("homeBioPlainTextEdit")
-        self.verticalLayout_3.addWidget(self.homeBioPlainTextEdit)
-        self.gridLayout_3.addLayout(self.verticalLayout_3, 0, 1, 1, 1)
+        self.gridLayout_3.addLayout(self.horizontalLayout_7, 2, 0, 1, 1)
+        self.gridLayout_5.addLayout(self.gridLayout_3, 0, 0, 1, 1)
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap("c:\\Users\\jrgbo\\Documents\\repos\\ShowBoat\\../../../../Pictures/IconImages/icons/home.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.tabs.addTab(self.homeTab, icon, "")
@@ -299,10 +256,12 @@ class Ui_mainWindow(object):
         self.horizontalLayout_10.addItem(spacerItem6)
         self.showsHeaderLabel = QtWidgets.QLabel(self.tourDatesTab)
         font = QtGui.QFont()
-        font.setFamily("Britannic Bold")
+        font.setFamily("Ebrima")
         font.setPointSize(18)
         self.showsHeaderLabel.setFont(font)
-        self.showsHeaderLabel.setStyleSheet("color: rgb(198, 140, 41);")
+        self.showsHeaderLabel.setStyleSheet("color: white;\n"
+"margin-bottom: 2em;\n"
+"margin-top: 2em;")
         self.showsHeaderLabel.setAlignment(QtCore.Qt.AlignCenter)
         self.showsHeaderLabel.setObjectName("showsHeaderLabel")
         self.horizontalLayout_10.addWidget(self.showsHeaderLabel)
@@ -317,10 +276,21 @@ class Ui_mainWindow(object):
         self.showsTableWidget.setSizePolicy(sizePolicy)
         font = QtGui.QFont()
         font.setFamily("Tahoma")
-        font.setBold(True)
-        font.setWeight(75)
+        font.setPointSize(10)
+        font.setBold(False)
+        font.setWeight(50)
         self.showsTableWidget.setFont(font)
-        self.showsTableWidget.setStyleSheet("background-color: rgb(220, 220, 220);")
+        self.showsTableWidget.setStyleSheet("QTableWidget {\n"
+"    background-color: black;\n"
+"    color: white;\n"
+"}\n"
+"\n"
+"QHeaderView::section {\n"
+"    background-color: black;\n"
+"    color: white;\n"
+"}\n"
+"")
+        self.showsTableWidget.setFrameShape(QtWidgets.QFrame.NoFrame)
         self.showsTableWidget.setHorizontalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOff)
         self.showsTableWidget.setSizeAdjustPolicy(QtWidgets.QAbstractScrollArea.AdjustToContents)
         self.showsTableWidget.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
@@ -329,27 +299,43 @@ class Ui_mainWindow(object):
         self.showsTableWidget.setRowCount(0)
         item = QtWidgets.QTableWidgetItem()
         item.setTextAlignment(QtCore.Qt.AlignCenter)
+        font = QtGui.QFont()
+        font.setFamily("Ebrima")
+        font.setPointSize(12)
+        item.setFont(font)
         self.showsTableWidget.setHorizontalHeaderItem(0, item)
         item = QtWidgets.QTableWidgetItem()
+        font = QtGui.QFont()
+        font.setFamily("Ebrima")
+        font.setPointSize(12)
+        item.setFont(font)
         self.showsTableWidget.setHorizontalHeaderItem(1, item)
         item = QtWidgets.QTableWidgetItem()
+        font = QtGui.QFont()
+        font.setFamily("Ebrima")
+        font.setPointSize(12)
+        item.setFont(font)
         self.showsTableWidget.setHorizontalHeaderItem(2, item)
         item = QtWidgets.QTableWidgetItem()
+        font = QtGui.QFont()
+        font.setFamily("Ebrima")
+        font.setPointSize(12)
+        item.setFont(font)
         self.showsTableWidget.setHorizontalHeaderItem(3, item)
         self.showsTableWidget.horizontalHeader().setStretchLastSection(True)
         self.verticalLayout_4.addWidget(self.showsTableWidget)
         self.horizontalLayout_9 = QtWidgets.QHBoxLayout()
         self.horizontalLayout_9.setObjectName("horizontalLayout_9")
         self.artistTourLabel = QtWidgets.QLabel(self.tourDatesTab)
-        self.artistTourLabel.setMinimumSize(QtCore.QSize(800, 0))
+        self.artistTourLabel.setMinimumSize(QtCore.QSize(800, 60))
         self.artistTourLabel.setMaximumSize(QtCore.QSize(16777215, 60))
         font = QtGui.QFont()
-        font.setFamily("Britannic Bold")
+        font.setFamily("Ebrima")
         font.setPointSize(24)
         font.setBold(False)
         font.setWeight(50)
         self.artistTourLabel.setFont(font)
-        self.artistTourLabel.setStyleSheet("")
+        self.artistTourLabel.setStyleSheet("color: white;")
         self.artistTourLabel.setText("")
         self.artistTourLabel.setAlignment(QtCore.Qt.AlignCenter)
         self.artistTourLabel.setObjectName("artistTourLabel")
@@ -362,8 +348,8 @@ class Ui_mainWindow(object):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.label_3.sizePolicy().hasHeightForWidth())
         self.label_3.setSizePolicy(sizePolicy)
-        self.label_3.setMinimumSize(QtCore.QSize(180, 80))
-        self.label_3.setMaximumSize(QtCore.QSize(180, 80))
+        self.label_3.setMinimumSize(QtCore.QSize(120, 20))
+        self.label_3.setMaximumSize(QtCore.QSize(120, 40))
         self.label_3.setText("")
         self.label_3.setPixmap(QtGui.QPixmap("c:\\Users\\jrgbo\\Documents\\repos\\ShowBoat\\powered-by-songkick-pink.png"))
         self.label_3.setScaledContents(True)
@@ -377,131 +363,152 @@ class Ui_mainWindow(object):
         self.tabs.addTab(self.tourDatesTab, "")
         self.mapTab = QtWidgets.QWidget()
         self.mapTab.setObjectName("mapTab")
-        self.gridLayout_5 = QtWidgets.QGridLayout(self.mapTab)
-        self.gridLayout_5.setObjectName("gridLayout_5")
-        self.verticalLayout_7 = QtWidgets.QVBoxLayout()
-        self.verticalLayout_7.setSpacing(6)
-        self.verticalLayout_7.setObjectName("verticalLayout_7")
+        self.verticalLayout_10 = QtWidgets.QVBoxLayout(self.mapTab)
+        self.verticalLayout_10.setObjectName("verticalLayout_10")
+        self.verticalLayout_8 = QtWidgets.QVBoxLayout()
+        self.verticalLayout_8.setObjectName("verticalLayout_8")
         self.mapMapHeaderLabel = QtWidgets.QLabel(self.mapTab)
         self.mapMapHeaderLabel.setMaximumSize(QtCore.QSize(16777215, 74))
         font = QtGui.QFont()
-        font.setFamily("Britannic Bold")
+        font.setFamily("Ebrima")
         font.setPointSize(18)
         font.setBold(False)
         font.setWeight(50)
         self.mapMapHeaderLabel.setFont(font)
-        self.mapMapHeaderLabel.setStyleSheet("color: rgb(198, 140, 41);")
+        self.mapMapHeaderLabel.setStyleSheet("color: white;")
         self.mapMapHeaderLabel.setAlignment(QtCore.Qt.AlignCenter)
         self.mapMapHeaderLabel.setObjectName("mapMapHeaderLabel")
-        self.verticalLayout_7.addWidget(self.mapMapHeaderLabel)
+        self.verticalLayout_8.addWidget(self.mapMapHeaderLabel)
         self.mapMapContainer = QtWebEngineWidgets.QWebEngineView(self.mapTab)
-        self.mapMapContainer.setMinimumSize(QtCore.QSize(0, 590))
+        self.mapMapContainer.setMinimumSize(QtCore.QSize(0, 500))
         self.mapMapContainer.setStyleSheet("background-color: rgb(255, 255, 255);\n"
 "border-radius: 10px;")
         self.mapMapContainer.setObjectName("mapMapContainer")
-        self.verticalLayout_7.addWidget(self.mapMapContainer)
-        self.horizontalLayout_11 = QtWidgets.QHBoxLayout()
-        self.horizontalLayout_11.setObjectName("horizontalLayout_11")
+        self.verticalLayout_8.addWidget(self.mapMapContainer)
+        self.horizontalLayout_6 = QtWidgets.QHBoxLayout()
+        self.horizontalLayout_6.setContentsMargins(-1, 20, -1, 10)
+        self.horizontalLayout_6.setObjectName("horizontalLayout_6")
         self.mapMapHeaderLabel_2 = QtWidgets.QLabel(self.mapTab)
         self.mapMapHeaderLabel_2.setMinimumSize(QtCore.QSize(0, 60))
-        self.mapMapHeaderLabel_2.setMaximumSize(QtCore.QSize(16777215, 74))
+        self.mapMapHeaderLabel_2.setMaximumSize(QtCore.QSize(16777215, 16777215))
         font = QtGui.QFont()
-        font.setFamily("Britannic Bold")
+        font.setFamily("Ebrima")
         font.setPointSize(18)
         font.setBold(False)
         font.setWeight(50)
         self.mapMapHeaderLabel_2.setFont(font)
-        self.mapMapHeaderLabel_2.setStyleSheet("color: rgb(198, 140, 41);")
+        self.mapMapHeaderLabel_2.setStyleSheet("color: white;\n"
+"margin-right: 2em;")
         self.mapMapHeaderLabel_2.setAlignment(QtCore.Qt.AlignCenter)
         self.mapMapHeaderLabel_2.setObjectName("mapMapHeaderLabel_2")
-        self.horizontalLayout_11.addWidget(self.mapMapHeaderLabel_2)
-        self.citySearchButton = QtWidgets.QPushButton(self.mapTab)
-        self.citySearchButton.setMinimumSize(QtCore.QSize(120, 40))
-        font = QtGui.QFont()
-        font.setFamily("Impact")
-        font.setPointSize(10)
-        self.citySearchButton.setFont(font)
-        self.citySearchButton.setStyleSheet("QPushButton {\n"
-"    background-color: rgb(202, 202, 202);\n"
-"    color: rgb(200, 47, 101);\n"
-"}\n"
-"\n"
-"QPushButton:hover{\n"
-"    background-color: rgb(255, 237, 237);\n"
-"}\n"
-"\n"
-"")
-        self.citySearchButton.setObjectName("citySearchButton")
-        self.horizontalLayout_11.addWidget(self.citySearchButton)
+        self.horizontalLayout_6.addWidget(self.mapMapHeaderLabel_2)
+        self.verticalLayout_7 = QtWidgets.QVBoxLayout()
+        self.verticalLayout_7.setObjectName("verticalLayout_7")
         self.citySearchInput = QtWidgets.QLineEdit(self.mapTab)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.citySearchInput.sizePolicy().hasHeightForWidth())
         self.citySearchInput.setSizePolicy(sizePolicy)
-        self.citySearchInput.setMinimumSize(QtCore.QSize(300, 30))
+        self.citySearchInput.setMinimumSize(QtCore.QSize(300, 40))
         font = QtGui.QFont()
         font.setPointSize(10)
         self.citySearchInput.setFont(font)
         self.citySearchInput.setStyleSheet("QLineEdit {\n"
 "    background-color: rgb(255, 255, 255);\n"
-"    border: 2px solid black; \n"
-"}\n"
-"QLineEdit:focus {\n"
-"    border: 2px solid rgb(200, 47, 101)\n"
-"}")
-        self.citySearchInput.setObjectName("citySearchInput")
-        self.horizontalLayout_11.addWidget(self.citySearchInput)
-        self.clearCityButton = QtWidgets.QPushButton(self.mapTab)
-        self.clearCityButton.setMinimumSize(QtCore.QSize(120, 40))
-        font = QtGui.QFont()
-        font.setFamily("Impact")
-        font.setPointSize(10)
-        self.clearCityButton.setFont(font)
-        self.clearCityButton.setStyleSheet("QPushButton {\n"
-"    background-color: rgb(202, 202, 202);\n"
-"    color: rgb(200, 47, 101);\n"
+"    border-radius: 10px;\n"
 "}\n"
 "\n"
+"QLineEdit:focus {\n"
+"    border: 2px solid rgb(137, 175, 209);\n"
+"}\n"
+"")
+        self.citySearchInput.setObjectName("citySearchInput")
+        self.verticalLayout_7.addWidget(self.citySearchInput)
+        self.horizontalLayout_5 = QtWidgets.QHBoxLayout()
+        self.horizontalLayout_5.setObjectName("horizontalLayout_5")
+        self.clearCityButton = QtWidgets.QPushButton(self.mapTab)
+        self.clearCityButton.setMinimumSize(QtCore.QSize(0, 0))
+        font = QtGui.QFont()
+        font.setFamily("Ebrima")
+        font.setPointSize(12)
+        self.clearCityButton.setFont(font)
+        self.clearCityButton.setStyleSheet("QPushButton{\n"
+"    background-color: black;\n"
+"    color: white;\n"
+"    margin-left: 1em;\n"
+"}\n"
+"\n"
+"\n"
 "QPushButton:hover{\n"
-"    background-color: rgb(255, 237, 237);\n"
-"}")
+"    color: rgb(137, 175, 209);\n"
+"}\n"
+"")
         self.clearCityButton.setObjectName("clearCityButton")
-        self.horizontalLayout_11.addWidget(self.clearCityButton)
+        self.horizontalLayout_5.addWidget(self.clearCityButton)
+        spacerItem10 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        self.horizontalLayout_5.addItem(spacerItem10)
+        self.citySearchButton = QtWidgets.QPushButton(self.mapTab)
+        self.citySearchButton.setMinimumSize(QtCore.QSize(0, 0))
+        font = QtGui.QFont()
+        font.setFamily("Ebrima")
+        font.setPointSize(12)
+        self.citySearchButton.setFont(font)
+        self.citySearchButton.setStyleSheet("QPushButton{\n"
+"    background-color: black;\n"
+"    color: white;\n"
+"    margin-right: 1em;\n"
+"}\n"
+"\n"
+"\n"
+"QPushButton:hover{\n"
+"    color: rgb(137, 175, 209);\n"
+"}\n"
+"\n"
+"")
+        self.citySearchButton.setObjectName("citySearchButton")
+        self.horizontalLayout_5.addWidget(self.citySearchButton)
+        self.verticalLayout_7.addLayout(self.horizontalLayout_5)
+        self.horizontalLayout_6.addLayout(self.verticalLayout_7)
         self.miles50Radio = QtWidgets.QRadioButton(self.mapTab)
         self.miles50Radio.setMinimumSize(QtCore.QSize(0, 40))
         font = QtGui.QFont()
         font.setFamily("Britannic Bold")
         font.setPointSize(10)
         self.miles50Radio.setFont(font)
+        self.miles50Radio.setStyleSheet("color: white;\n"
+"margin-left: 1em;")
         self.miles50Radio.setChecked(True)
         self.miles50Radio.setObjectName("miles50Radio")
-        self.horizontalLayout_11.addWidget(self.miles50Radio)
+        self.horizontalLayout_6.addWidget(self.miles50Radio)
         self.miles100Radio = QtWidgets.QRadioButton(self.mapTab)
         self.miles100Radio.setMinimumSize(QtCore.QSize(0, 40))
         font = QtGui.QFont()
         font.setFamily("Britannic Bold")
         font.setPointSize(10)
         self.miles100Radio.setFont(font)
+        self.miles100Radio.setStyleSheet("color: white;")
         self.miles100Radio.setObjectName("miles100Radio")
-        self.horizontalLayout_11.addWidget(self.miles100Radio)
+        self.horizontalLayout_6.addWidget(self.miles100Radio)
         self.miles250Radio = QtWidgets.QRadioButton(self.mapTab)
         self.miles250Radio.setMinimumSize(QtCore.QSize(0, 40))
         font = QtGui.QFont()
         font.setFamily("Britannic Bold")
         font.setPointSize(10)
         self.miles250Radio.setFont(font)
+        self.miles250Radio.setStyleSheet("color: white;\n"
+"margin-right: 1em;")
         self.miles250Radio.setObjectName("miles250Radio")
-        self.horizontalLayout_11.addWidget(self.miles250Radio)
-        self.verticalLayout_7.addLayout(self.horizontalLayout_11)
-        self.gridLayout_5.addLayout(self.verticalLayout_7, 0, 0, 1, 1)
+        self.horizontalLayout_6.addWidget(self.miles250Radio)
+        self.verticalLayout_8.addLayout(self.horizontalLayout_6)
+        self.verticalLayout_10.addLayout(self.verticalLayout_8)
         self.tabs.addTab(self.mapTab, "")
         self.videoTab = QtWidgets.QWidget()
         self.videoTab.setObjectName("videoTab")
         self.gridLayout_2 = QtWidgets.QGridLayout(self.videoTab)
         self.gridLayout_2.setObjectName("gridLayout_2")
         self.gridLayout_4 = QtWidgets.QGridLayout()
-        self.gridLayout_4.setContentsMargins(10, 10, 10, 10)
+        self.gridLayout_4.setContentsMargins(20, 20, 20, 20)
         self.gridLayout_4.setSpacing(40)
         self.gridLayout_4.setObjectName("gridLayout_4")
         self.video2 = QtWebEngineWidgets.QWebEngineView(self.videoTab)
@@ -523,14 +530,15 @@ class Ui_mainWindow(object):
         self.video1.setObjectName("video1")
         self.gridLayout_4.addWidget(self.video1, 0, 1, 1, 1)
         self.verticalLayout = QtWidgets.QVBoxLayout()
+        self.verticalLayout.setContentsMargins(20, -1, 20, 40)
         self.verticalLayout.setSpacing(40)
         self.verticalLayout.setObjectName("verticalLayout")
         self.label_4 = QtWidgets.QLabel(self.videoTab)
         font = QtGui.QFont()
-        font.setFamily("Britannic Bold")
+        font.setFamily("Ebrima")
         font.setPointSize(20)
         self.label_4.setFont(font)
-        self.label_4.setStyleSheet("color: rgb(198, 140, 41);")
+        self.label_4.setStyleSheet("color: white;")
         self.label_4.setAlignment(QtCore.Qt.AlignCenter)
         self.label_4.setWordWrap(True)
         self.label_4.setObjectName("label_4")
@@ -546,6 +554,7 @@ class Ui_mainWindow(object):
         font.setBold(True)
         font.setWeight(75)
         self.radioButtonPopular.setFont(font)
+        self.radioButtonPopular.setStyleSheet("color: white;")
         self.radioButtonPopular.setChecked(True)
         self.radioButtonPopular.setObjectName("radioButtonPopular")
         self.horizontalLayout.addWidget(self.radioButtonPopular)
@@ -556,6 +565,7 @@ class Ui_mainWindow(object):
         font.setBold(True)
         font.setWeight(75)
         self.radioButtonNewest.setFont(font)
+        self.radioButtonNewest.setStyleSheet("color: white;")
         self.radioButtonNewest.setObjectName("radioButtonNewest")
         self.horizontalLayout.addWidget(self.radioButtonNewest)
         self.radioButtonOldest = QtWidgets.QRadioButton(self.videoTab)
@@ -565,6 +575,7 @@ class Ui_mainWindow(object):
         font.setBold(True)
         font.setWeight(75)
         self.radioButtonOldest.setFont(font)
+        self.radioButtonOldest.setStyleSheet("color: white;")
         self.radioButtonOldest.setObjectName("radioButtonOldest")
         self.horizontalLayout.addWidget(self.radioButtonOldest)
         self.verticalLayout.addLayout(self.horizontalLayout)
@@ -573,10 +584,18 @@ class Ui_mainWindow(object):
         font = QtGui.QFont()
         font.setPointSize(16)
         self.videoSeeMoreButton.setFont(font)
-        self.videoSeeMoreButton.setStyleSheet("background-color: rgb(202, 202, 202);\n"
-"color: rgb(200, 47, 101);\n"
+        self.videoSeeMoreButton.setStyleSheet("QPushButton{\n"
+"    background-color: black;\n"
+"    color: white;\n"
+"    margin-right: 2em;\n"
+"}\n"
 "\n"
-"padding: 2em;")
+"\n"
+"QPushButton:hover{\n"
+"    color: ;\n"
+"    color: rgb(137, 175, 209);\n"
+"}\n"
+"")
         self.videoSeeMoreButton.setObjectName("videoSeeMoreButton")
         self.verticalLayout.addWidget(self.videoSeeMoreButton)
         self.gridLayout_4.addLayout(self.verticalLayout, 1, 1, 1, 1)
@@ -597,18 +616,17 @@ class Ui_mainWindow(object):
         self.infoSupportLabel.setMinimumSize(QtCore.QSize(0, 60))
         self.infoSupportLabel.setMaximumSize(QtCore.QSize(16777215, 60))
         font = QtGui.QFont()
-        font.setFamily("Britannic Bold")
+        font.setFamily("Ebrima")
         font.setPointSize(18)
         font.setBold(False)
         font.setWeight(50)
         self.infoSupportLabel.setFont(font)
-        self.infoSupportLabel.setStyleSheet("color: rgb(198, 140, 41);\n"
-"border-bottom: 3px solid rgb(198, 140, 41);")
+        self.infoSupportLabel.setStyleSheet("color: white;")
         self.infoSupportLabel.setAlignment(QtCore.Qt.AlignCenter)
         self.infoSupportLabel.setObjectName("infoSupportLabel")
         self.infoSupportDisplayLabel = QtWidgets.QLabel(self.splitter_8)
         font = QtGui.QFont()
-        font.setFamily("Tahoma")
+        font.setFamily("Ebrima")
         font.setPointSize(12)
         self.infoSupportDisplayLabel.setFont(font)
         self.infoSupportDisplayLabel.setStyleSheet("background-color: rgb(255, 255, 255);\n"
@@ -626,18 +644,17 @@ class Ui_mainWindow(object):
         self.infoTechLabel.setMinimumSize(QtCore.QSize(0, 60))
         self.infoTechLabel.setMaximumSize(QtCore.QSize(16777215, 60))
         font = QtGui.QFont()
-        font.setFamily("Britannic Bold")
+        font.setFamily("Ebrima")
         font.setPointSize(18)
         font.setBold(False)
         font.setWeight(50)
         self.infoTechLabel.setFont(font)
-        self.infoTechLabel.setStyleSheet("color: rgb(198, 140, 41);\n"
-"border-bottom: 3px solid rgb(198, 140, 41);")
+        self.infoTechLabel.setStyleSheet("color: white;")
         self.infoTechLabel.setAlignment(QtCore.Qt.AlignCenter)
         self.infoTechLabel.setObjectName("infoTechLabel")
         self.infoTechDisplayLabel = QtWidgets.QLabel(self.splitter_7)
         font = QtGui.QFont()
-        font.setFamily("Tahoma")
+        font.setFamily("Ebrima")
         font.setPointSize(12)
         self.infoTechDisplayLabel.setFont(font)
         self.infoTechDisplayLabel.setStyleSheet("background-color: rgb(255, 255, 255);\n"
@@ -654,18 +671,18 @@ class Ui_mainWindow(object):
         self.infoInstructionsLabel.setMinimumSize(QtCore.QSize(0, 60))
         self.infoInstructionsLabel.setMaximumSize(QtCore.QSize(16777215, 60))
         font = QtGui.QFont()
-        font.setFamily("Britannic Bold")
+        font.setFamily("Ebrima")
         font.setPointSize(18)
         font.setBold(False)
         font.setWeight(50)
         self.infoInstructionsLabel.setFont(font)
-        self.infoInstructionsLabel.setStyleSheet("color: rgb(198, 140, 41);\n"
-"border-bottom: 3px solid rgb(198, 140, 41);")
+        self.infoInstructionsLabel.setStyleSheet("color: white;\n"
+"")
         self.infoInstructionsLabel.setAlignment(QtCore.Qt.AlignCenter)
         self.infoInstructionsLabel.setObjectName("infoInstructionsLabel")
         self.infoInstructionsDisplayLabel = QtWidgets.QLabel(self.splitter_6)
         font = QtGui.QFont()
-        font.setFamily("Tahoma")
+        font.setFamily("Ebrima")
         font.setPointSize(12)
         self.infoInstructionsDisplayLabel.setFont(font)
         self.infoInstructionsDisplayLabel.setStyleSheet("background-color: rgb(255, 255, 255);\n"
@@ -682,18 +699,17 @@ class Ui_mainWindow(object):
         self.infoCreatedLabel.setMinimumSize(QtCore.QSize(0, 60))
         self.infoCreatedLabel.setMaximumSize(QtCore.QSize(16777215, 60))
         font = QtGui.QFont()
-        font.setFamily("Britannic Bold")
+        font.setFamily("Ebrima")
         font.setPointSize(18)
         font.setBold(False)
         font.setWeight(50)
         self.infoCreatedLabel.setFont(font)
-        self.infoCreatedLabel.setStyleSheet("color: rgb(198, 140, 41);\n"
-"border-bottom: 3px solid rgb(198, 140, 41);")
+        self.infoCreatedLabel.setStyleSheet("color: white;")
         self.infoCreatedLabel.setAlignment(QtCore.Qt.AlignCenter)
         self.infoCreatedLabel.setObjectName("infoCreatedLabel")
         self.infoCreatedDisplayLabel = QtWidgets.QLabel(self.splitter_9)
         font = QtGui.QFont()
-        font.setFamily("Tahoma")
+        font.setFamily("Ebrima")
         font.setPointSize(12)
         self.infoCreatedDisplayLabel.setFont(font)
         self.infoCreatedDisplayLabel.setStyleSheet("background-color: rgb(255, 255, 255);\n"
@@ -708,7 +724,7 @@ class Ui_mainWindow(object):
         self.gridLayout.addWidget(self.tabs, 0, 0, 1, 1)
         mainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(mainWindow)
-        self.menubar.setGeometry(QtCore.QRect(0, 0, 1223, 23))
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 1248, 23))
         self.menubar.setObjectName("menubar")
         mainWindow.setMenuBar(self.menubar)
         self.statusbar = QtWidgets.QStatusBar(mainWindow)
@@ -722,43 +738,40 @@ class Ui_mainWindow(object):
     def retranslateUi(self, mainWindow):
         _translate = QtCore.QCoreApplication.translate
         mainWindow.setWindowTitle(_translate("mainWindow", "ShowBoat"))
-        self.label.setText(_translate("mainWindow", "ShowBoat"))
-        self.label_2.setText(_translate("mainWindow", "Find out where your favorite bands are playing and get tickets, all with one click!"))
-        self.bandPhotoLabel.setToolTip(_translate("mainWindow", "Artist photo will be displayed here"))
-        self.bandBioHeader_2.setText(_translate("mainWindow", "Artist Search"))
-        self.bandSearchLineEdit.setPlaceholderText(_translate("mainWindow", "Enter the name of an artist or band to find shows"))
-        self.lastSearchButton.setToolTip(_translate("mainWindow", "<html><head/><body><p>Click to execute last search</p></body></html>"))
+        self.label.setText(_translate("mainWindow", "Search for an artist below and use tabs above to explore their content and tour dates"))
+        self.bandSearchLineEdit.setPlaceholderText(_translate("mainWindow", "Enter artist name..."))
+        self.lastSearchButton.setToolTip(_translate("mainWindow", "<html><head/><body><p style: \"color: white\">Click to execute last search</p></body></html>"))
         self.lastSearchButton.setText(_translate("mainWindow", "Previous Search"))
         self.searchButton.setToolTip(_translate("mainWindow", "<html><head/><body><p>Search by artist name</p></body></html>"))
-        self.searchButton.setText(_translate("mainWindow", "Find Shows"))
-        self.bandBioHeader.setText(_translate("mainWindow", "Artist Bio:"))
-        self.tabs.setTabText(self.tabs.indexOf(self.homeTab), _translate("mainWindow", "Home"))
+        self.searchButton.setText(_translate("mainWindow", "Find Artist"))
+        self.bandPhotoLabel.setToolTip(_translate("mainWindow", "Artist photo will be displayed here"))
+        self.tabs.setTabText(self.tabs.indexOf(self.homeTab), _translate("mainWindow", "SEARCH"))
         self.showsHeaderLabel.setText(_translate("mainWindow", "Double click venue or tickets cell to view information in your browser"))
         item = self.showsTableWidget.horizontalHeaderItem(0)
-        item.setText(_translate("mainWindow", "Date"))
+        item.setText(_translate("mainWindow", "DATE"))
         item = self.showsTableWidget.horizontalHeaderItem(1)
-        item.setText(_translate("mainWindow", "Venue"))
+        item.setText(_translate("mainWindow", "VENUE"))
         item = self.showsTableWidget.horizontalHeaderItem(2)
-        item.setText(_translate("mainWindow", "City"))
+        item.setText(_translate("mainWindow", "CITY"))
         item = self.showsTableWidget.horizontalHeaderItem(3)
-        item.setText(_translate("mainWindow", "Tickets"))
-        self.tabs.setTabText(self.tabs.indexOf(self.tourDatesTab), _translate("mainWindow", "Shows"))
+        item.setText(_translate("mainWindow", "TICKETS"))
+        self.tabs.setTabText(self.tabs.indexOf(self.tourDatesTab), _translate("mainWindow", "SHOWS"))
         self.mapMapHeaderLabel.setText(_translate("mainWindow", "Click a marker on the map to see show details"))
         self.mapMapHeaderLabel_2.setText(_translate("mainWindow", "Search by proximity to city"))
-        self.citySearchButton.setText(_translate("mainWindow", "Search"))
         self.citySearchInput.setPlaceholderText(_translate("mainWindow", "Enter city or address..."))
         self.clearCityButton.setText(_translate("mainWindow", "Clear City"))
+        self.citySearchButton.setText(_translate("mainWindow", "Search"))
         self.miles50Radio.setText(_translate("mainWindow", "50 miles"))
         self.miles100Radio.setText(_translate("mainWindow", "100 miles"))
         self.miles250Radio.setText(_translate("mainWindow", "250 miles"))
-        self.tabs.setTabText(self.tabs.indexOf(self.mapTab), _translate("mainWindow", "Map"))
+        self.tabs.setTabText(self.tabs.indexOf(self.mapTab), _translate("mainWindow", "MAP"))
         self.label_4.setText(_translate("mainWindow", "Display videos that are:"))
         self.radioButtonPopular.setText(_translate("mainWindow", "Most Popular"))
         self.radioButtonNewest.setText(_translate("mainWindow", "Newest"))
         self.radioButtonOldest.setText(_translate("mainWindow", "Oldest"))
         self.videoSeeMoreButton.setToolTip(_translate("mainWindow", "Travel to artist YouTube page in browser"))
         self.videoSeeMoreButton.setText(_translate("mainWindow", "See More!"))
-        self.tabs.setTabText(self.tabs.indexOf(self.videoTab), _translate("mainWindow", "Video"))
+        self.tabs.setTabText(self.tabs.indexOf(self.videoTab), _translate("mainWindow", "VIDEO"))
         self.infoSupportLabel.setText(_translate("mainWindow", "Support the Arts!"))
         self.infoSupportDisplayLabel.setText(_translate("mainWindow", "<html><head/><body>\n"
 "<p><strong>Click links below to support artists in need:</strong><br/><br/>\n"
@@ -796,5 +809,6 @@ class Ui_mainWindow(object):
 "Musician turned programmer living in the high desert and eating burritos.\n"
 "</p>\n"
 ""))
-        self.tabs.setTabText(self.tabs.indexOf(self.infoTab), _translate("mainWindow", "Info"))
+        self.tabs.setTabText(self.tabs.indexOf(self.infoTab), _translate("mainWindow", "INFO"))
 from PyQt5 import QtWebEngineWidgets
+import logo_rc
