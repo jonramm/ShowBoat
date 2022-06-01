@@ -189,6 +189,7 @@ class UI(QtWidgets.QMainWindow):
         self.searchButton = self.findChild(QtWidgets.QPushButton, "searchButton")
         self.searchButton.setCursor(Qt.QCursor(QtCore.Qt.PointingHandCursor))
         self.lastSearchButton.setCursor(Qt.QCursor(QtCore.Qt.PointingHandCursor))
+        self.logoPhotoLayout = self.findChild(QtWidgets.QVBoxLayout, "logoPhotoLayout")
 
         # Tour Dates
 
@@ -207,6 +208,8 @@ class UI(QtWidgets.QMainWindow):
         self.initializeMap(coordinates, 2)
         self.citySearchButton = self.findChild(QtWidgets.QPushButton, "citySearchButton")
         self.clearCityButton = self.findChild(QtWidgets.QPushButton, "clearCityButton")
+        self.citySearchButton.setCursor(Qt.QCursor(QtCore.Qt.PointingHandCursor))
+        self.clearCityButton.setCursor(Qt.QCursor(QtCore.Qt.PointingHandCursor))
         self.citySearchInput = self.findChild(QtWidgets.QLineEdit, "citySearchInput")
         self.miles50Radio = self.findChild(QtWidgets.QRadioButton, "miles50Radio")
         self.miles100Radio = self.findChild(QtWidgets.QRadioButton, "miles100Radio")
@@ -323,7 +326,7 @@ class UI(QtWidgets.QMainWindow):
         self.currentSearch = data['artist']
         self.homeArtistLabel.setText(self.currentArtist)
         self.statusBar.showMessage(self.searchedArtists)
-        self.artistTourLabel.setText(f"{self.currentArtist} tour dates")
+        self.artistTourLabel.setText(f"\u261D {self.currentArtist} tour dates \u261D")
         self.mapMapHeaderLabel.setText(f"Click a marker on the map to see {self.currentArtist} show details")
 
     def errorBox(self, msgString):
