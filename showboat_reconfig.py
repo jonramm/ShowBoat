@@ -54,7 +54,6 @@ class VideoSearchThread(QThread):
         display widgets with returned data.
         """
         obj = {"name": self.artist, "type": "popular"}
-        # call video-search endpoint
         response = requests.post('https://youtube-scraper-microservice.herokuapp.com/videos', json=obj)
         data = response.json()
         if response.status_code != 200 or len(data) < 2:
@@ -232,6 +231,7 @@ class UI(QtWidgets.QMainWindow):
         self.radioButtonNewest = self.findChild(QtWidgets.QRadioButton, "radioButtonNewest")
         self.radioButtonOldest = self.findChild(QtWidgets.QRadioButton, "radioButtonOldest")
         self.videoSeeMoreButton = self.findChild(QtWidgets.QPushButton, "videoSeeMoreButton")
+        self.videoSeeMoreButton.setCursor(Qt.QCursor(QtCore.Qt.PointingHandCursor))
 
 #######################################################################################
 #                                                                                     #
@@ -488,7 +488,6 @@ class UI(QtWidgets.QMainWindow):
         splash_screen = self.loadSplash()
         splash_screen.show()
         app.processEvents()
-        # call artist-search endpoint
         response = requests.post('https://showboat-rest-api.herokuapp.com/artist-search', data=obj)
         data = response.json()
         if data['artist']:
@@ -506,11 +505,10 @@ class UI(QtWidgets.QMainWindow):
         refreshes the video display widgets with data by calling the YouTube scraper API
         endpoint.
         """
-        obj = {"name": self.bandInfoNameLabel.text(), "type": type}
+        obj = {"name": self.currentArtist, "type": type}
         splash_screen = self.loadSplash()
         splash_screen.show()
         app.processEvents()
-        # call video-search endpoint
         response = requests.post('https://youtube-scraper-microservice.herokuapp.com/videos', json=obj)
         data = response.json()
         i = 0
@@ -619,7 +617,7 @@ class UI(QtWidgets.QMainWindow):
                 if 'channel_url' in entry:
                     self.channelUrl = entry['channel_url']
                 else:
-                    self.video_dict[f"video{i}"].setUrl(QtCore.QUrl(entry["url"].replace("embed", "watch")))
+                    self.video_dict[f"video{i}"].setHtml(f'<!DOCTYPE html><html><body><iframe width="566" height="320" src="{entry["url"].replace("?v=", "/")}" allowfullscreen></iframe></body></html>', QtCore.QUrl('https://www.youtube.com'))    
                     i += 1
             self.videoSeeMoreButton.setText(f"{self.currentArtist}'s YouTube Channel")
             self.videoThread.quit()

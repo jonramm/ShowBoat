@@ -36,6 +36,7 @@ class Ui_mainWindow(object):
 "\n"
 "QTabWidget::tab-bar {\n"
 "    alignment: center;\n"
+"    margin-top: 2em;\n"
 "}\n"
 "\n"
 "QTabWidget::pane { border: 0; }\n"
@@ -507,7 +508,7 @@ class Ui_mainWindow(object):
         self.gridLayout_2 = QtWidgets.QGridLayout(self.videoTab)
         self.gridLayout_2.setObjectName("gridLayout_2")
         self.gridLayout_4 = QtWidgets.QGridLayout()
-        self.gridLayout_4.setContentsMargins(10, 10, 10, 10)
+        self.gridLayout_4.setContentsMargins(20, 20, 20, 20)
         self.gridLayout_4.setSpacing(40)
         self.gridLayout_4.setObjectName("gridLayout_4")
         self.video2 = QtWebEngineWidgets.QWebEngineView(self.videoTab)
@@ -529,14 +530,15 @@ class Ui_mainWindow(object):
         self.video1.setObjectName("video1")
         self.gridLayout_4.addWidget(self.video1, 0, 1, 1, 1)
         self.verticalLayout = QtWidgets.QVBoxLayout()
+        self.verticalLayout.setContentsMargins(20, -1, 20, 40)
         self.verticalLayout.setSpacing(40)
         self.verticalLayout.setObjectName("verticalLayout")
         self.label_4 = QtWidgets.QLabel(self.videoTab)
         font = QtGui.QFont()
-        font.setFamily("Britannic Bold")
+        font.setFamily("Ebrima")
         font.setPointSize(20)
         self.label_4.setFont(font)
-        self.label_4.setStyleSheet("color: rgb(198, 140, 41);")
+        self.label_4.setStyleSheet("color: white;")
         self.label_4.setAlignment(QtCore.Qt.AlignCenter)
         self.label_4.setWordWrap(True)
         self.label_4.setObjectName("label_4")
@@ -552,6 +554,7 @@ class Ui_mainWindow(object):
         font.setBold(True)
         font.setWeight(75)
         self.radioButtonPopular.setFont(font)
+        self.radioButtonPopular.setStyleSheet("color: white;")
         self.radioButtonPopular.setChecked(True)
         self.radioButtonPopular.setObjectName("radioButtonPopular")
         self.horizontalLayout.addWidget(self.radioButtonPopular)
@@ -562,6 +565,7 @@ class Ui_mainWindow(object):
         font.setBold(True)
         font.setWeight(75)
         self.radioButtonNewest.setFont(font)
+        self.radioButtonNewest.setStyleSheet("color: white;")
         self.radioButtonNewest.setObjectName("radioButtonNewest")
         self.horizontalLayout.addWidget(self.radioButtonNewest)
         self.radioButtonOldest = QtWidgets.QRadioButton(self.videoTab)
@@ -571,6 +575,7 @@ class Ui_mainWindow(object):
         font.setBold(True)
         font.setWeight(75)
         self.radioButtonOldest.setFont(font)
+        self.radioButtonOldest.setStyleSheet("color: white;")
         self.radioButtonOldest.setObjectName("radioButtonOldest")
         self.horizontalLayout.addWidget(self.radioButtonOldest)
         self.verticalLayout.addLayout(self.horizontalLayout)
@@ -579,10 +584,18 @@ class Ui_mainWindow(object):
         font = QtGui.QFont()
         font.setPointSize(16)
         self.videoSeeMoreButton.setFont(font)
-        self.videoSeeMoreButton.setStyleSheet("background-color: rgb(202, 202, 202);\n"
-"color: rgb(200, 47, 101);\n"
+        self.videoSeeMoreButton.setStyleSheet("QPushButton{\n"
+"    background-color: black;\n"
+"    color: white;\n"
+"    margin-right: 2em;\n"
+"}\n"
 "\n"
-"padding: 2em;")
+"\n"
+"QPushButton:hover{\n"
+"    color: ;\n"
+"    color: rgb(137, 175, 209);\n"
+"}\n"
+"")
         self.videoSeeMoreButton.setObjectName("videoSeeMoreButton")
         self.verticalLayout.addWidget(self.videoSeeMoreButton)
         self.gridLayout_4.addLayout(self.verticalLayout, 1, 1, 1, 1)
@@ -603,18 +616,17 @@ class Ui_mainWindow(object):
         self.infoSupportLabel.setMinimumSize(QtCore.QSize(0, 60))
         self.infoSupportLabel.setMaximumSize(QtCore.QSize(16777215, 60))
         font = QtGui.QFont()
-        font.setFamily("Britannic Bold")
+        font.setFamily("Ebrima")
         font.setPointSize(18)
         font.setBold(False)
         font.setWeight(50)
         self.infoSupportLabel.setFont(font)
-        self.infoSupportLabel.setStyleSheet("color: rgb(198, 140, 41);\n"
-"border-bottom: 3px solid rgb(198, 140, 41);")
+        self.infoSupportLabel.setStyleSheet("color: white;")
         self.infoSupportLabel.setAlignment(QtCore.Qt.AlignCenter)
         self.infoSupportLabel.setObjectName("infoSupportLabel")
         self.infoSupportDisplayLabel = QtWidgets.QLabel(self.splitter_8)
         font = QtGui.QFont()
-        font.setFamily("Tahoma")
+        font.setFamily("Ebrima")
         font.setPointSize(12)
         self.infoSupportDisplayLabel.setFont(font)
         self.infoSupportDisplayLabel.setStyleSheet("background-color: rgb(255, 255, 255);\n"
@@ -632,18 +644,17 @@ class Ui_mainWindow(object):
         self.infoTechLabel.setMinimumSize(QtCore.QSize(0, 60))
         self.infoTechLabel.setMaximumSize(QtCore.QSize(16777215, 60))
         font = QtGui.QFont()
-        font.setFamily("Britannic Bold")
+        font.setFamily("Ebrima")
         font.setPointSize(18)
         font.setBold(False)
         font.setWeight(50)
         self.infoTechLabel.setFont(font)
-        self.infoTechLabel.setStyleSheet("color: rgb(198, 140, 41);\n"
-"border-bottom: 3px solid rgb(198, 140, 41);")
+        self.infoTechLabel.setStyleSheet("color: white;")
         self.infoTechLabel.setAlignment(QtCore.Qt.AlignCenter)
         self.infoTechLabel.setObjectName("infoTechLabel")
         self.infoTechDisplayLabel = QtWidgets.QLabel(self.splitter_7)
         font = QtGui.QFont()
-        font.setFamily("Tahoma")
+        font.setFamily("Ebrima")
         font.setPointSize(12)
         self.infoTechDisplayLabel.setFont(font)
         self.infoTechDisplayLabel.setStyleSheet("background-color: rgb(255, 255, 255);\n"
@@ -660,18 +671,18 @@ class Ui_mainWindow(object):
         self.infoInstructionsLabel.setMinimumSize(QtCore.QSize(0, 60))
         self.infoInstructionsLabel.setMaximumSize(QtCore.QSize(16777215, 60))
         font = QtGui.QFont()
-        font.setFamily("Britannic Bold")
+        font.setFamily("Ebrima")
         font.setPointSize(18)
         font.setBold(False)
         font.setWeight(50)
         self.infoInstructionsLabel.setFont(font)
-        self.infoInstructionsLabel.setStyleSheet("color: rgb(198, 140, 41);\n"
-"border-bottom: 3px solid rgb(198, 140, 41);")
+        self.infoInstructionsLabel.setStyleSheet("color: white;\n"
+"")
         self.infoInstructionsLabel.setAlignment(QtCore.Qt.AlignCenter)
         self.infoInstructionsLabel.setObjectName("infoInstructionsLabel")
         self.infoInstructionsDisplayLabel = QtWidgets.QLabel(self.splitter_6)
         font = QtGui.QFont()
-        font.setFamily("Tahoma")
+        font.setFamily("Ebrima")
         font.setPointSize(12)
         self.infoInstructionsDisplayLabel.setFont(font)
         self.infoInstructionsDisplayLabel.setStyleSheet("background-color: rgb(255, 255, 255);\n"
@@ -688,18 +699,17 @@ class Ui_mainWindow(object):
         self.infoCreatedLabel.setMinimumSize(QtCore.QSize(0, 60))
         self.infoCreatedLabel.setMaximumSize(QtCore.QSize(16777215, 60))
         font = QtGui.QFont()
-        font.setFamily("Britannic Bold")
+        font.setFamily("Ebrima")
         font.setPointSize(18)
         font.setBold(False)
         font.setWeight(50)
         self.infoCreatedLabel.setFont(font)
-        self.infoCreatedLabel.setStyleSheet("color: rgb(198, 140, 41);\n"
-"border-bottom: 3px solid rgb(198, 140, 41);")
+        self.infoCreatedLabel.setStyleSheet("color: white;")
         self.infoCreatedLabel.setAlignment(QtCore.Qt.AlignCenter)
         self.infoCreatedLabel.setObjectName("infoCreatedLabel")
         self.infoCreatedDisplayLabel = QtWidgets.QLabel(self.splitter_9)
         font = QtGui.QFont()
-        font.setFamily("Tahoma")
+        font.setFamily("Ebrima")
         font.setPointSize(12)
         self.infoCreatedDisplayLabel.setFont(font)
         self.infoCreatedDisplayLabel.setStyleSheet("background-color: rgb(255, 255, 255);\n"
