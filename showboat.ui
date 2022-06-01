@@ -167,6 +167,9 @@ QTabWidget QTabBar{
             <property name="topMargin">
              <number>45</number>
             </property>
+            <property name="rightMargin">
+             <number>50</number>
+            </property>
             <item>
              <layout class="QVBoxLayout" name="verticalLayout_2">
               <item>
@@ -200,7 +203,7 @@ margin-top: 2em;</string>
                 </property>
                 <property name="minimumSize">
                  <size>
-                  <width>700</width>
+                  <width>500</width>
                   <height>50</height>
                  </size>
                 </property>
@@ -231,6 +234,12 @@ QLineEdit:focus {
               </item>
               <item>
                <layout class="QHBoxLayout" name="horizontalLayout_2">
+                <property name="leftMargin">
+                 <number>20</number>
+                </property>
+                <property name="rightMargin">
+                 <number>20</number>
+                </property>
                 <item>
                  <widget class="QPushButton" name="lastSearchButton">
                   <property name="sizePolicy">
@@ -248,7 +257,7 @@ QLineEdit:focus {
                   <property name="font">
                    <font>
                     <family>Ebrima</family>
-                    <pointsize>14</pointsize>
+                    <pointsize>16</pointsize>
                    </font>
                   </property>
                   <property name="toolTip">
@@ -306,7 +315,7 @@ QPushButton:hover{
                   <property name="font">
                    <font>
                     <family>Ebrima</family>
-                    <pointsize>14</pointsize>
+                    <pointsize>16</pointsize>
                    </font>
                   </property>
                   <property name="toolTip">
@@ -1232,10 +1241,16 @@ QPushButton:hover{
         <item row="0" column="0">
          <layout class="QGridLayout" name="gridLayout_8">
           <property name="leftMargin">
-           <number>10</number>
+           <number>20</number>
+          </property>
+          <property name="topMargin">
+           <number>20</number>
           </property>
           <property name="rightMargin">
-           <number>10</number>
+           <number>20</number>
+          </property>
+          <property name="bottomMargin">
+           <number>20</number>
           </property>
           <property name="spacing">
            <number>40</number>
@@ -1363,8 +1378,9 @@ Flask&lt;br&gt;
 PyQt5&lt;br&gt;
 Qt Designer&lt;br&gt;
 Folium map library&lt;br&gt;
-Band data: The AudioDB&lt;br&gt;
-Show data: SongKick
+The AudioDB API&lt;br&gt;
+SongKick API&lt;br&gt;
+Google Geolocation API
 &lt;/strong&gt;
 </string>
              </property>
@@ -1418,7 +1434,7 @@ Show data: SongKick
              <property name="font">
               <font>
                <family>Ebrima</family>
-               <pointsize>12</pointsize>
+               <pointsize>11</pointsize>
               </font>
              </property>
              <property name="styleSheet">
@@ -1429,14 +1445,14 @@ border-radius: 10px;</string>
              <property name="text">
               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;
 &lt;p&gt;
-&lt;strong&gt;Home:&lt;/strong&gt;&lt;br&gt;
-Search by artist to display shows &lt;br/&gt;
+&lt;strong&gt;Search:&lt;/strong&gt;&lt;br&gt;
+Search by artist to display info, use tabs to explore content and tour data. &lt;br/&gt;
 &lt;strong&gt;Shows:&lt;/strong&gt;&lt;br&gt;
-View shows and click link for ticket info&lt;br&gt;
+View shows and double click 'TICKETS' or 'VENUE' cells for more information.&lt;br&gt;
 &lt;strong&gt;Map:&lt;/strong&gt;&lt;br&gt;
-Explore shows on interactive map, click marker for info&lt;br&gt;
+Explore shows on interactive map, click marker for info. Enter a city and distance to search for shows near there.&lt;br&gt;
 &lt;strong&gt;Video:&lt;/strong&gt;&lt;br&gt;
-View artist music videos&lt;br/&gt;
+View artist music videos or travel to their artist channel.&lt;br/&gt;
 &lt;/p&gt;
 &lt;/body&gt;&lt;/html&gt;</string>
              </property>
@@ -1498,9 +1514,11 @@ View artist music videos&lt;br/&gt;
 border-radius: 10px;</string>
              </property>
              <property name="text">
-              <string>&lt;strong&gt;Jon Ramm&lt;/strong&gt;
+              <string>&lt;p&gt;
+Software developed by Jon Ramm.
+&lt;/p&gt;
 &lt;p&gt;
-Musician turned programmer living in the high desert and eating burritos.
+Original artwork by Samantha Mullen.
 &lt;/p&gt;
 </string>
              </property>

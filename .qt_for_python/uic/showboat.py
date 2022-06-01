@@ -82,7 +82,7 @@ class Ui_mainWindow(object):
         self.gridLayout_3.addLayout(self.horizontalLayout_4, 0, 0, 2, 1)
         self.verticalLayout_3 = QtWidgets.QVBoxLayout()
         self.verticalLayout_3.setSizeConstraint(QtWidgets.QLayout.SetFixedSize)
-        self.verticalLayout_3.setContentsMargins(-1, 45, -1, -1)
+        self.verticalLayout_3.setContentsMargins(-1, 45, 50, -1)
         self.verticalLayout_3.setObjectName("verticalLayout_3")
         self.verticalLayout_2 = QtWidgets.QVBoxLayout()
         self.verticalLayout_2.setObjectName("verticalLayout_2")
@@ -103,7 +103,7 @@ class Ui_mainWindow(object):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.bandSearchLineEdit.sizePolicy().hasHeightForWidth())
         self.bandSearchLineEdit.setSizePolicy(sizePolicy)
-        self.bandSearchLineEdit.setMinimumSize(QtCore.QSize(700, 50))
+        self.bandSearchLineEdit.setMinimumSize(QtCore.QSize(500, 50))
         font = QtGui.QFont()
         font.setFamily("Ebrima")
         font.setPointSize(12)
@@ -121,6 +121,7 @@ class Ui_mainWindow(object):
         self.bandSearchLineEdit.setObjectName("bandSearchLineEdit")
         self.verticalLayout_2.addWidget(self.bandSearchLineEdit)
         self.horizontalLayout_2 = QtWidgets.QHBoxLayout()
+        self.horizontalLayout_2.setContentsMargins(20, -1, 20, -1)
         self.horizontalLayout_2.setObjectName("horizontalLayout_2")
         self.lastSearchButton = QtWidgets.QPushButton(self.homeTab)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
@@ -131,7 +132,7 @@ class Ui_mainWindow(object):
         self.lastSearchButton.setMinimumSize(QtCore.QSize(0, 0))
         font = QtGui.QFont()
         font.setFamily("Ebrima")
-        font.setPointSize(14)
+        font.setPointSize(16)
         self.lastSearchButton.setFont(font)
         self.lastSearchButton.setStyleSheet("QPushButton{\n"
 "    background-color: black;\n"
@@ -159,7 +160,7 @@ class Ui_mainWindow(object):
         self.searchButton.setMinimumSize(QtCore.QSize(0, 0))
         font = QtGui.QFont()
         font.setFamily("Ebrima")
-        font.setPointSize(14)
+        font.setPointSize(16)
         self.searchButton.setFont(font)
         self.searchButton.setStyleSheet("QPushButton{\n"
 "    background-color: black;\n"
@@ -606,7 +607,7 @@ class Ui_mainWindow(object):
         self.gridLayout_6 = QtWidgets.QGridLayout(self.infoTab)
         self.gridLayout_6.setObjectName("gridLayout_6")
         self.gridLayout_8 = QtWidgets.QGridLayout()
-        self.gridLayout_8.setContentsMargins(10, -1, 10, -1)
+        self.gridLayout_8.setContentsMargins(20, 20, 20, 20)
         self.gridLayout_8.setSpacing(40)
         self.gridLayout_8.setObjectName("gridLayout_8")
         self.splitter_8 = QtWidgets.QSplitter(self.infoTab)
@@ -683,7 +684,7 @@ class Ui_mainWindow(object):
         self.infoInstructionsDisplayLabel = QtWidgets.QLabel(self.splitter_6)
         font = QtGui.QFont()
         font.setFamily("Ebrima")
-        font.setPointSize(12)
+        font.setPointSize(11)
         self.infoInstructionsDisplayLabel.setFont(font)
         self.infoInstructionsDisplayLabel.setStyleSheet("background-color: rgb(255, 255, 255);\n"
 "\n"
@@ -786,27 +787,30 @@ class Ui_mainWindow(object):
 "PyQt5<br>\n"
 "Qt Designer<br>\n"
 "Folium map library<br>\n"
-"Band data: The AudioDB<br>\n"
-"Show data: SongKick\n"
+"The AudioDB API<br>\n"
+"SongKick API<br>\n"
+"Google Geolocation API\n"
 "</strong>\n"
 ""))
         self.infoInstructionsLabel.setText(_translate("mainWindow", "Instructions"))
         self.infoInstructionsDisplayLabel.setText(_translate("mainWindow", "<html><head/><body>\n"
 "<p>\n"
-"<strong>Home:</strong><br>\n"
-"Search by artist to display shows <br/>\n"
+"<strong>Search:</strong><br>\n"
+"Search by artist to display info, use tabs to explore content and tour data. <br/>\n"
 "<strong>Shows:</strong><br>\n"
-"View shows and click link for ticket info<br>\n"
+"View shows and double click \'TICKETS\' or \'VENUE\' cells for more information.<br>\n"
 "<strong>Map:</strong><br>\n"
-"Explore shows on interactive map, click marker for info<br>\n"
+"Explore shows on interactive map, click marker for info. Enter a city and distance to search for shows near there.<br>\n"
 "<strong>Video:</strong><br>\n"
-"View artist music videos<br/>\n"
+"View artist music videos or travel to their artist channel.<br/>\n"
 "</p>\n"
 "</body></html>"))
         self.infoCreatedLabel.setText(_translate("mainWindow", "Created By"))
-        self.infoCreatedDisplayLabel.setText(_translate("mainWindow", "<strong>Jon Ramm</strong>\n"
+        self.infoCreatedDisplayLabel.setText(_translate("mainWindow", "<p>\n"
+"Software developed by Jon Ramm.\n"
+"</p>\n"
 "<p>\n"
-"Musician turned programmer living in the high desert and eating burritos.\n"
+"Original artwork by Samantha Mullen.\n"
 "</p>\n"
 ""))
         self.tabs.setTabText(self.tabs.indexOf(self.infoTab), _translate("mainWindow", "INFO"))
