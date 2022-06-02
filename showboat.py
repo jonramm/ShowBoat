@@ -403,12 +403,10 @@ class UI(QtWidgets.QMainWindow):
         Takes a city search string and uses the Google geolocation API to find and return
         the latitude and longitude of the city in a tuple.
         """
-        data = requests.get(f"https://maps.googleapis.com/maps/api/geocode/json?address={city}&key={os.environ.get('GOOGLE_API_KEY')}")
-        if not data.json()['results']:
-            return None
-        lat = data.json()['results'][0]['geometry']['location']['lat']
-        lng = data.json()['results'][0]['geometry']['location']['lng']
-        return (lat, lng)
+        obj = {"city": city}
+        response = requests.post('https://showboat-rest-api.herokuapp.com/city-search', data=obj)
+        data = response.json()
+        return data['coords']
 
     def searchByCity(self, city):
         """
