@@ -1,8 +1,15 @@
 # Sources:
+# Packaging app with pyinstaller:
 # https://www.pythonguis.com/tutorials/packaging-pyqt5-pyside2-applications-windows-pyinstaller/
 # https://github.com/pyinstaller/pyinstaller/issues/1826
+# Web scraping:
 # https://mechanize.readthedocs.io/en/latest/
+# # Haversine formula
 # https://www.geeksforgeeks.org/program-distance-two-points-earth/
+# PyQt threading
+# https://realpython.com/python-pyqt-qthread/
+# PyQt basics:
+# https://www.youtube.com/watch?v=rZcdhles6vQ&list=PLCC34OHNcOtpmCA8s_dpPMvQLyHbvxocY
 
 import webbrowser
 from PyQt5 import QtCore, QtGui, QtWidgets, Qt
