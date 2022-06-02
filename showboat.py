@@ -1,6 +1,12 @@
+# Sources:
+# https://www.pythonguis.com/tutorials/packaging-pyqt5-pyside2-applications-windows-pyinstaller/
+# https://github.com/pyinstaller/pyinstaller/issues/1826
+# https://mechanize.readthedocs.io/en/latest/
+# https://www.geeksforgeeks.org/program-distance-two-points-earth/
+
 import webbrowser
 from PyQt5 import QtCore, QtGui, QtWidgets, Qt
-from PyQt5.QtGui import QPixmap, QFont, QMovie
+from PyQt5.QtGui import QPixmap, QFont
 from PyQt5.QtWebEngineWidgets import QWebEngineView
 from PyQt5.QtWebEngineWidgets import QWebEngineSettings
 from PyQt5.QtCore import QThread, pyqtSignal
@@ -15,9 +21,9 @@ import urllib
 from bs4 import BeautifulSoup
 import mechanize
 from math import radians, cos, sin, asin, sqrt
-
 import resources
 
+# provide windows with different application id so we can display a custom taskbar icon 
 try:
     from ctypes import windll  # Only exists on Windows.
     myappid = 'ShowBoat.1.1'
@@ -25,7 +31,7 @@ try:
 except ImportError:
     pass
 
-# https://github.com/pyinstaller/pyinstaller/issues/1826
+# provide relative filepaths for assets
 if getattr(sys, 'frozen', False):
     # we are running in a bundle
     bundle_dir = sys._MEIPASS
@@ -115,9 +121,9 @@ class AutocompleteThread(QThread):
         URL ="https://www.theaudiodb.com/browse.php"
         br = mechanize.Browser()
         response = br.open(URL)
-        br.form = list(br.forms())[0]  # use when form is unnamed
+        br.form = list(br.forms())[0] 
         control = br.form.controls[0]
-        control.value = self.search_string
+        control.value = self.search_string # insert search string into form
         response = br.submit()
         data = response.read()
         soup = BeautifulSoup(data, "html.parser")
@@ -133,7 +139,7 @@ class AutocompleteThread(QThread):
 
 #######################################################################################
 #                                                                                     #
-# Define main window class                                                             #
+# Define main window class                                                            #
 #                                                                                     #
 #######################################################################################
 
@@ -263,52 +269,11 @@ class UI(QtWidgets.QMainWindow):
 #                                                                                     #
 #######################################################################################
 
-    def populateTourDateCells(self, data):
-        """
-        Takes a data object and fills the table cells in the Tour Dates tab.
-        """
-        row = 0
-        self.showsTableWidget.setRowCount(len(data["events"]))
-        # loop through events to add cells to table widget
-        for date in data["events"]:
-            # restructure date for API call to conversion microservice
-            rawDate = date['start']['date']
-            front = rawDate[5:]
-            back = rawDate[0:4]
-            combinedDate = front + "-" + back
-            self.date_arr.append(combinedDate) 
-            # populate tour table widget with data 
-            dateCell = QtWidgets.QTableWidgetItem(rawDate)
-            dateCell.setTextAlignment(QtCore.Qt.AlignCenter)
-            venueCell = QtWidgets.QTableWidgetItem(date['venue']['displayName'])
-            venueCell.setForeground(QtGui.QBrush(QtGui.QColor(6,69,173)))
-            venueCell.setTextAlignment(QtCore.Qt.AlignCenter)
-            venueCell.setToolTip(date['venue']['uri'])
-            cityCell = QtWidgets.QTableWidgetItem(date['location']['city'])
-            cityCell.setTextAlignment(QtCore.Qt.AlignCenter)
-            ticketsCell = QtWidgets.QTableWidgetItem('Tickets')
-            ticketsCell.setForeground(QtGui.QBrush(QtGui.QColor(6,69,173)))
-            ticketsCell.setTextAlignment(QtCore.Qt.AlignCenter)
-            ticketsCell.setToolTip(date['uri'])
-            self.showsTableWidget.setItem(row, 0, dateCell)
-            self.showsTableWidget.setItem(row, 1, venueCell)
-            self.showsTableWidget.setItem(row, 2, cityCell)
-            self.showsTableWidget.setItem(row, 3, ticketsCell)
-            row += 1
-
-    def addPopUps(self, obj):
-        """
-        Takes a tour date data object and adds popups to the map.
-        """
-        lat = obj['location']['lat']
-        lng = obj['location']['lng']
-        # add data to popup dialog in map markers
-        iframe = folium.IFrame(f"<section style='font-size: 20px; ' height='80' width='100'><p>{obj['venue']['displayName']}</p><p>{obj['start']['date']}</p><p>{obj['location']['city']}</p></section>")
-        popup = folium.Popup(iframe, min_width=300, max_width=300)
-        folium.Marker(
-            location=(lat, lng),
-            popup=popup,
-        ).add_to(self.map)
+#####################################################
+#                                                   #
+# General                                           #
+#                                                   #
+#####################################################
 
     def updateWidgets(self, data):
         """
@@ -354,6 +319,273 @@ class UI(QtWidgets.QMainWindow):
         splash_screen.showMessage('Loading...', color=QtGui.QColor(200, 47, 101))
         return splash_screen
 
+    def keyPressEvent(self, event):
+        """
+        Handles user key presses.
+        """
+        if event.key() == 16777220 or event.key() == 16777221:
+            if self.tabs.currentIndex() == 0:
+                self.artist_search('key_press')
+            elif self.tabs.currentIndex() == 2:
+                self.searchByCity(self.citySearchInput.text())
+
+    def link_clicked(self, item):
+        """
+        Takes a tour table cell as a parameter and uses its stored tooltip data to 
+        link to a Songkick webpage containing either venue or tour date ticket info.
+        """
+        if item.toolTip():
+            confirm = QtWidgets.QMessageBox()
+            confirm.setWindowTitle("Confirm redirect")
+            confirm.setText('Link will open in your browser...do you wish to proceed?')
+            confirm.setStandardButtons(QtWidgets.QMessageBox.Yes | QtWidgets.QMessageBox.No)
+            confirm.exec_()
+            if confirm.standardButton(confirm.clickedButton()) == QtWidgets.QMessageBox.Yes:
+                self.confirmation = 1
+                webbrowser.open(item.toolTip())
+            else:
+                self.confirmation = 0
+
+#####################################################
+#                                                   #
+# SEARCH tab                                        #
+#                                                   #
+#####################################################
+
+    def artist_search(self, type):
+        """
+        Takes a search type (search button clicked or 'return' pressed) and calls the 
+        artist search API endpoint. Updates display widgets with returned data.
+        """
+        if type == 'search' or type == 'key_press':
+            value = self.bandSearchLineEdit.text()
+            if not value:
+                self.errorBox("Please enter an artist name")
+                return
+            obj = {"artist_search": value}
+        else:
+            value = self.previousSearch
+            if not value:
+                self.errorBox("Previous search unavailable")
+                return
+            obj = {"artist_search": value}
+        splash_screen = self.loadSplash()
+        splash_screen.show()
+        app.processEvents()
+        response = requests.post('https://showboat-rest-api.herokuapp.com/artist-search', data=obj)
+        data = response.json()
+        if data['artist']:
+            self.updateWidgets(data)
+        else:
+            self.errorBox("Artist not found") 
+        self.bandSearchLineEdit.setText("")
+        splash_screen.close()
+
+    def set_photo(self, img_url):
+        """
+        Takes an image url and creates a pixmap, then updates the artist photo
+        display widget.
+        """
+        data = urllib.request.urlopen(img_url).read()
+        pixmap = QPixmap()
+        pixmap.loadFromData(data)
+        self.bandPhotoLabel.setPixmap(pixmap)
+        self.bandPhotoLabel.setScaledContents(True)
+
+    def auto_complete(self, search_string):
+        """
+        Takes a search string with the current text in the search bar. Creates a separate thread
+        for non-blocking use of an AudioDB web scraper.
+        """
+        if self.completerThreadFinished:
+            self.completerThreadFinished = False
+            self.autoThread = AutocompleteThread(search_string)
+            self.autoThread.authResult.connect(self.handleAutoResult)
+            self.autoThread.finished.connect(self.on_finish)
+            self.autoThread.start()
+
+    def on_finish(self):
+        """
+        Sets boolean value for global completerThreadFinished variable so auto_complete() threads
+        aren't piled on top of one another.
+        """
+        self.completerThreadFinished = True
+
+    def handleAutoResult(self, result):
+        """
+        Takes result array and updates completer.
+        """
+        self.model.setStringList(result)
+        self.completer.complete()
+        self.autoThread.quit()
+
+#####################################################
+#                                                   #
+# SHOWS tab                                         #
+#                                                   #
+#####################################################
+
+    def tour_search(self, artist):
+        """
+        Takes an artist name as a parameter and calls the tour search API endpoint which pulls
+        Songkick tour data from the web. Also calls teammate's date conversion microservice API
+        endpoint. Updates display widgets with returned data.
+        """
+        self.initializeMap((27.03992362079509, -22.920434372492934), 2)
+        obj = {"artist_search": artist}
+        response = requests.post('https://showboat-rest-api.herokuapp.com/tour-search', data=obj)
+        data = response.json()
+        # hold dates data for later map manipulation
+        self.curDates = data["events"]
+        for obj in data["events"]:
+            self.addPopUps(obj)
+        map_data = io.BytesIO()
+        self.map.save(map_data, close_file=False)
+        self.mapMapContainer.setHtml(map_data.getvalue().decode())
+        self.populateTourDateCells(data)
+        # creates separate thread for date conversion microservice calls     
+        self.date_conversion(self.date_arr)
+
+    def populateTourDateCells(self, data):
+        """
+        Takes a data object and fills the table cells in the Tour Dates tab.
+        """
+        row = 0
+        self.showsTableWidget.setRowCount(len(data["events"]))
+        for date in data["events"]:
+            # restructure date for API call to conversion microservice
+            rawDate = date['start']['date']
+            front = rawDate[5:]
+            back = rawDate[0:4]
+            combinedDate = front + "-" + back
+            self.date_arr.append(combinedDate) 
+            dateCell = self.set_date_cell(rawDate)
+            venueCell = self.set_venue_cell(date['venue']['displayName'], date['venue']['uri'])
+            cityCell = self.set_city_cell(date['location']['city'])
+            ticketsCell = self.set_tickets_cell(date['uri'])
+            self.showsTableWidget.setItem(row, 0, dateCell)
+            self.showsTableWidget.setItem(row, 1, venueCell)
+            self.showsTableWidget.setItem(row, 2, cityCell)
+            self.showsTableWidget.setItem(row, 3, ticketsCell)
+            row += 1
+
+    def set_date_cell(self, date):
+        """
+        Takes date string and returns a date QTableWidgetItem.
+        """
+        dateCell = QtWidgets.QTableWidgetItem(date)
+        dateCell.setTextAlignment(QtCore.Qt.AlignCenter)
+        return dateCell
+
+    def set_venue_cell(self, venue, url):
+        """
+        Takes venue and venue url strings and returns a venue QTableWidgetItem.
+        """
+        venueCell = QtWidgets.QTableWidgetItem(venue)
+        venueCell.setForeground(QtGui.QBrush(QtGui.QColor(6,69,173)))
+        venueCell.setTextAlignment(QtCore.Qt.AlignCenter)
+        venueCell.setToolTip(url)
+        return venueCell
+
+    def set_city_cell(self, city):
+        """
+        Takes city string and returns a city QTableWidgetItem.
+        """
+        cityCell = QtWidgets.QTableWidgetItem(city)
+        cityCell.setTextAlignment(QtCore.Qt.AlignCenter)
+        return cityCell
+
+    def set_tickets_cell(self, url):
+        """
+        Takes tickets url string and returns a tickets QTableWidgetItem.
+        """
+        ticketsCell = QtWidgets.QTableWidgetItem('Tickets')
+        ticketsCell.setForeground(QtGui.QBrush(QtGui.QColor(6,69,173)))
+        ticketsCell.setTextAlignment(QtCore.Qt.AlignCenter)
+        ticketsCell.setToolTip(url)
+        return ticketsCell
+        
+    def date_conversion(self, date_arr):
+        """
+        Takes a date array containing dates to be converted. Creates a separate thread for multiple
+        calls to teammate's microservice so as not to block my GUI.
+        https://stackoverflow.com/questions/46781548/updating-variable-values-when-running-a-thread-using-qthread-in-pyqt4
+        """
+        self.dateThread = DateConversionThread(date_arr)
+        self.dateThread.authResult.connect(self.handleDatesResult)
+        self.dateThread.start()
+
+    def handleDatesResult(self, result):
+        """
+        Takes an array containing converted dates and updates display widget.
+        https://stackoverflow.com/questions/46781548/updating-variable-values-when-running-a-thread-using-qthread-in-pyqt4
+        """
+        row = 0
+        for newDate in result:
+            dateCell = QtWidgets.QTableWidgetItem(newDate)
+            dateCell.setTextAlignment(QtCore.Qt.AlignCenter)
+            self.showsTableWidget.setItem(row, 0, dateCell)
+            row += 1
+            self.dateThread.quit()
+
+#####################################################
+#                                                   #
+# MAP tab                                           #
+#                                                   #
+#####################################################
+
+    def searchByCity(self, city):
+        """
+        Takes a city search string and calls my REST API city-search endpoint, which is a wrapper
+        for the Google geolocation API, to find coordinates. Uses coordinates to filter map popups 
+        to show only shows in cities a certain distance from searched city. 
+        """
+        coordinates = self.getCoords(city)
+        if not coordinates:
+            self.errorBox('Please enter a valid city')
+            self.citySearchInput.setText('')
+            return
+        latCity, lngCity = coordinates
+        self.initializeMap((latCity, lngCity), 6)
+        distanceFromCity = self.set_distance()
+        # filter popups by search radius
+        for obj in self.curDates:
+            lat = obj['location']['lat']
+            lng = obj['location']['lng']
+            distance = self.distance(latCity, lat, lngCity, lng)
+            if distance < distanceFromCity:
+                self.addPopUps(obj)
+        map_data = io.BytesIO()
+        self.map.save(map_data, close_file=False)
+        self.mapMapContainer.setHtml(map_data.getvalue().decode())
+
+    def set_distance(self):
+        """
+        Returns the value selected with the Map tab radio buttons.
+        """
+        distance = 0
+        if self.miles50Radio.isChecked():
+            distance = 50
+        if self.miles100Radio.isChecked():
+            distance = 100
+        if self.miles250Radio.isChecked():
+            distance = 250
+        return distance
+
+    def addPopUps(self, obj):
+        """
+        Takes a tour date data object and adds popups to the map.
+        """
+        lat = obj['location']['lat']
+        lng = obj['location']['lng']
+        # add data to popup dialog in map markers
+        iframe = folium.IFrame(f"<section style='font-size: 20px; ' height='80' width='100'><p>{obj['venue']['displayName']}</p><p>{obj['start']['date']}</p><p>{obj['location']['city']}</p></section>")
+        popup = folium.Popup(iframe, min_width=300, max_width=300)
+        folium.Marker(
+            location=(lat, lng),
+            popup=popup,
+        ).add_to(self.map)
+
     def initializeMap(self, coordinates, zoom):
         """
         Takes a set of coordinates as a tuple and a zoom index as an integer and
@@ -382,20 +614,19 @@ class UI(QtWidgets.QMainWindow):
 
     def distance(self, lat1, lat2, lon1, lon2):
         """
-        https://www.geeksforgeeks.org/program-distance-two-points-earth/
+        Takes two sets of coordinates and computes the distance between the two 
+        points using the Haversine formula.
         """
         lon1 = radians(lon1)
         lon2 = radians(lon2)
         lat1 = radians(lat1)
         lat2 = radians(lat2)
-        # Haversine formula
         dlon = lon2 - lon1
         dlat = lat2 - lat1
         a = sin(dlat / 2)**2 + cos(lat1) * cos(lat2) * sin(dlon / 2)**2
         c = 2 * asin(sqrt(a))
         # Radius of earth in miles
         r = 3956
-        # calculate the result
         return(c * r)
 
     def getCoords(self, city):
@@ -408,35 +639,40 @@ class UI(QtWidgets.QMainWindow):
         data = response.json()
         return data['coords']
 
-    def searchByCity(self, city):
+#####################################################
+#                                                   #
+# VIDEO tab                                         #
+#                                                   #
+#####################################################
+
+    def video_search(self, artist):
         """
-        Takes a city search string and calls the Google geolocation API to find coordinates.
-        Uses coordinates to filter map popups to show only shows in cities a certain distance
-        from searched city. 
+        Takes a search string with the current text in the search bar. Creates a separate thread
+        for non-blocking use of an AudioDB web scraper.
         """
-        coordinates = self.getCoords(city)
-        if not coordinates:
-            self.errorBox('Please enter a valid city')
-            self.citySearchInput.setText('')
-            return
-        latCity, lngCity = coordinates
-        self.initializeMap((latCity, lngCity), 6)
-        distanceFromCity = 0
-        if self.miles50Radio.isChecked():
-            distanceFromCity = 50
-        if self.miles100Radio.isChecked():
-            distanceFromCity = 100
-        if self.miles250Radio.isChecked():
-            distanceFromCity = 250
-        for obj in self.curDates:
-            lat = obj['location']['lat']
-            lng = obj['location']['lng']
-            distance = self.distance(latCity, lat, lngCity, lng)
-            if distance < distanceFromCity:
-                self.addPopUps(obj)
-        map_data = io.BytesIO()
-        self.map.save(map_data, close_file=False)
-        self.mapMapContainer.setHtml(map_data.getvalue().decode())
+        self.videoThread = VideoSearchThread(artist)
+        self.videoThread.authResult.connect(self.handleVideoResult)
+        self.videoThread.start()
+
+    def handleVideoResult(self, result):
+        """
+        Takes a JSON object with YouTube urls and updates display widgets.
+        """
+        if not result:
+            for key in self.video_dict:
+                self.video_dict[key].setHtml('')
+                self.videoSeeMoreButton.setText("See More!")
+                self.videoThread.quit()
+        else:
+            i = 0
+            for entry in result:
+                if 'channel_url' in entry:
+                    self.channelUrl = entry['channel_url']
+                else:
+                    self.video_dict[f"video{i}"].setHtml(f'<!DOCTYPE html><html><body><iframe width="566" height="320" src="{entry["url"].replace("?v=", "/")}" allowfullscreen></iframe></body></html>', QtCore.QUrl('https://www.youtube.com'))    
+                    i += 1
+            self.videoSeeMoreButton.setText(f"{self.currentArtist}'s YouTube Channel")
+            self.videoThread.quit()
             
     def artistChannelRedirect(self):
         """
@@ -454,46 +690,6 @@ class UI(QtWidgets.QMainWindow):
                 webbrowser.open(self.channelUrl)
             else:
                 self.confirmation = 0
-
-    def keyPressEvent(self, event):
-        """
-        Handles user key presses.
-        """
-        if event.key() == 16777220 or event.key() == 16777221:
-            if self.tabs.currentIndex() == 0:
-                self.artist_search('key_press')
-            elif self.tabs.currentIndex() == 2:
-                self.searchByCity(self.citySearchInput.text())
-
-    def artist_search(self, type):
-        """
-        Takes a search type (search button clicked or 'return' pressed) and calls the 
-        artist search API endpoint. Updates display widgets with returned data.
-        """
-        # get search string from search bar if search button or 'return' key pressed 
-        if type == 'search' or type == 'key_press':
-            value = self.bandSearchLineEdit.text()
-            if not value:
-                self.errorBox("Please enter an artist name")
-                return
-            obj = {"artist_search": value}
-        else:
-            value = self.previousSearch
-            if not value:
-                self.errorBox("Previous search unavailable")
-                return
-            obj = {"artist_search": value}
-        splash_screen = self.loadSplash()
-        splash_screen.show()
-        app.processEvents()
-        response = requests.post('https://showboat-rest-api.herokuapp.com/artist-search', data=obj)
-        data = response.json()
-        if data['artist']:
-            self.updateWidgets(data)
-        else:
-            self.errorBox("Artist not found") 
-        self.bandSearchLineEdit.setText("")
-        splash_screen.close()
 
     def video_refresh(self, type):
         """
@@ -515,135 +711,7 @@ class UI(QtWidgets.QMainWindow):
                 self.video_dict[f"video{i}"].setHtml(f'<!DOCTYPE html><html><body><iframe width="566" height="320" src="{entry["url"].replace("?v=", "/")}" allowfullscreen></iframe></body></html>', QtCore.QUrl('https://www.youtube.com'))    
                 i += 1
         splash_screen.close()
-
-    def tour_search(self, artist):
-        """
-        Takes an artist name as a parameter and calls the tour search API endpoint which pulls
-        Songkick tour data from the web. Also calls teammate's date conversion microservice API
-        endpoint. Updates display widgets with returned data.
-        """
-        self.initializeMap((27.03992362079509, -22.920434372492934), 2)
-        obj = {"artist_search": artist}
-        response = requests.post('https://showboat-rest-api.herokuapp.com/tour-search', data=obj)
-        data = response.json()
-        # hold dates data for later map manipulation
-        self.curDates = data["events"]
-        for obj in data["events"]:
-            self.addPopUps(obj)
-        map_data = io.BytesIO()
-        self.map.save(map_data, close_file=False)
-        self.mapMapContainer.setHtml(map_data.getvalue().decode())
-        self.populateTourDateCells(data)
-        # creates separate thread for date conversion microservice calls     
-        self.date_conversion(self.date_arr)
-
-    def auto_complete(self, search_string):
-        """
-        Takes a search string with the current text in the search bar. Creates a separate thread
-        for non-blocking use of an AudioDB web scraper.
-        """
-        if self.completerThreadFinished:
-            self.completerThreadFinished = False
-            self.autoThread = AutocompleteThread(search_string)
-            self.autoThread.authResult.connect(self.handleAutoResult)
-            self.autoThread.finished.connect(self.on_finish)
-            self.autoThread.start()
-
-    def on_finish(self):
-        """
-        Sets boolean value for global completerThreadFinished variable so threads
-        aren't piled on top of one another.
-        """
-        self.completerThreadFinished = True
-
-    def handleAutoResult(self, result):
-        """
-        Takes result array and updates completer.
-        """
-        self.model.setStringList(result)
-        self.completer.complete()
-        self.autoThread.quit()
-
-    def date_conversion(self, date_arr):
-        """
-        Takes a date array containing dates to be converted. Creates a separate thread for multiple
-        calls to teammate's microservice so as not to block my GUI.
-        https://stackoverflow.com/questions/46781548/updating-variable-values-when-running-a-thread-using-qthread-in-pyqt4
-        """
-        self.dateThread = DateConversionThread(date_arr)
-        self.dateThread.authResult.connect(self.handleDatesResult)
-        self.dateThread.start()
-
-    def handleDatesResult(self, result):
-        """
-        Takes an array containing converted dates and updates display widget.
-        https://stackoverflow.com/questions/46781548/updating-variable-values-when-running-a-thread-using-qthread-in-pyqt4
-        """
-        row = 0
-        for newDate in result:
-            dateCell = QtWidgets.QTableWidgetItem(newDate)
-            dateCell.setTextAlignment(QtCore.Qt.AlignCenter)
-            self.showsTableWidget.setItem(row, 0, dateCell)
-            row += 1
-            self.dateThread.quit()
-
-    def video_search(self, artist):
-        """
-        Takes a search string with the current text in the search bar. Creates a separate thread
-        for non-blocking use of an AudioDB web scraper.
-        """
-        self.videoThread = VideoSearchThread(artist)
-        self.videoThread.authResult.connect(self.handleVideoResult)
-        self.videoThread.start()
-
-
-    def handleVideoResult(self, result):
-        """
-        Takes a JSON object with YouTube urls and updates display widgets.
-        """
-        if not result:
-            for key in self.video_dict:
-                self.video_dict[key].setHtml('')
-                self.videoSeeMoreButton.setText("See More!")
-                self.videoThread.quit()
-        else:
-            i = 0
-            for entry in result:
-                if 'channel_url' in entry:
-                    self.channelUrl = entry['channel_url']
-                else:
-                    self.video_dict[f"video{i}"].setHtml(f'<!DOCTYPE html><html><body><iframe width="566" height="320" src="{entry["url"].replace("?v=", "/")}" allowfullscreen></iframe></body></html>', QtCore.QUrl('https://www.youtube.com'))    
-                    i += 1
-            self.videoSeeMoreButton.setText(f"{self.currentArtist}'s YouTube Channel")
-            self.videoThread.quit()
-
-    def link_clicked(self, item):
-        """
-        Takes a tour table cell as a parameter and uses its stored tooltip data to 
-        link to a Songkick webpage containing either venue or tour date ticket info.
-        """
-        if item.toolTip():
-            confirm = QtWidgets.QMessageBox()
-            confirm.setWindowTitle("Confirm redirect")
-            confirm.setText('Link will open in your browser...do you wish to proceed?')
-            confirm.setStandardButtons(QtWidgets.QMessageBox.Yes | QtWidgets.QMessageBox.No)
-            confirm.exec_()
-            if confirm.standardButton(confirm.clickedButton()) == QtWidgets.QMessageBox.Yes:
-                self.confirmation = 1
-                webbrowser.open(item.toolTip())
-            else:
-                self.confirmation = 0
  
-    def set_photo(self, img_url):
-        """
-        Takes an image url and creates a pixmap, then updates the artist photo
-        display widget.
-        """
-        data = urllib.request.urlopen(img_url).read()
-        pixmap = QPixmap()
-        pixmap.loadFromData(data)
-        self.bandPhotoLabel.setPixmap(pixmap)
-        self.bandPhotoLabel.setScaledContents(True)
 
 # initialize app
 app = QtWidgets.QApplication(sys.argv)
