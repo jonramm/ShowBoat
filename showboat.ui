@@ -137,7 +137,7 @@ QTabWidget QTabBar{
                <string/>
               </property>
               <property name="pixmap">
-               <pixmap resource="logo.qrc">:/logo/showLogoCropped.png</pixmap>
+               <pixmap>:/logo/showLogoCropped.png</pixmap>
               </property>
               <property name="scaledContents">
                <bool>true</bool>
@@ -540,7 +540,7 @@ margin-bottom: 2em;
 margin-top: 2em;</string>
               </property>
               <property name="text">
-               <string>Double click venue or tickets cell to view information in your browser</string>
+               <string>Double click venue or tickets to view details in browser</string>
               </property>
               <property name="alignment">
                <set>Qt::AlignCenter</set>
@@ -782,7 +782,7 @@ QHeaderView::section {
              <string notr="true">color: white;</string>
             </property>
             <property name="text">
-             <string>Click a marker on the map to see show details</string>
+             <string>Click a marker on the map to see show details. Refine search below.</string>
             </property>
             <property name="alignment">
              <set>Qt::AlignCenter</set>
@@ -838,10 +838,13 @@ border-radius: 10px;</string>
 margin-right: 2em;</string>
               </property>
               <property name="text">
-               <string>Search by proximity to city</string>
+               <string>Filter shows by city and search radius</string>
               </property>
               <property name="alignment">
                <set>Qt::AlignCenter</set>
+              </property>
+              <property name="wordWrap">
+               <bool>true</bool>
               </property>
              </widget>
             </item>

@@ -10,6 +10,8 @@
 # https://realpython.com/python-pyqt-qthread/
 # PyQt basics:
 # https://www.youtube.com/watch?v=rZcdhles6vQ&list=PLCC34OHNcOtpmCA8s_dpPMvQLyHbvxocY
+# Mouse hover for table widget
+# https://stackoverflow.com/questions/20064975/how-to-catch-mouse-over-event-of-qtablewidget-item-in-pyqt
 
 import webbrowser
 from PyQt5 import QtCore, QtGui, QtWidgets, Qt
@@ -165,6 +167,7 @@ class UI(QtWidgets.QMainWindow):
         self.curDates = []
         self.searchedArtists = "Artists searched:"
         self.completerThreadFinished = True
+        self.current_hover = [0, 0]
 
 
 #######################################################################################
@@ -217,6 +220,7 @@ class UI(QtWidgets.QMainWindow):
         self.showsTableWidget.setColumnWidth(1,396)
         self.showsTableWidget.setColumnWidth(2,385)
         self.showsTableWidget.setColumnWidth(3,76)
+        self.showsTableWidget.setMouseTracking(True)
 
         # Map
         self.mapMapContainer = self.findChild(QWebEngineView, "mapMapContainer")
@@ -266,6 +270,7 @@ class UI(QtWidgets.QMainWindow):
         self.citySearchButton.clicked.connect(lambda: self.searchByCity(self.citySearchInput.text()))
         self.clearCityButton.clicked.connect(self.clearCity)
         self.bandSearchLineEdit.textChanged.connect(lambda: self.auto_complete(self.bandSearchLineEdit.text()))
+        self.showsTableWidget.cellEntered.connect(self.cellHover)
 
         # show the app
         self.show()
@@ -534,6 +539,23 @@ class UI(QtWidgets.QMainWindow):
             self.showsTableWidget.setItem(row, 0, dateCell)
             row += 1
             self.dateThread.quit()
+
+    def cellHover(self, row, column):
+        """
+        Event handler for table widget mouse hover.
+        """
+        item = self.showsTableWidget.item(row, column)
+        header = self.showsTableWidget.horizontalHeaderItem(item.column()).text()
+        old_item = self.showsTableWidget.item(self.current_hover[0], self.current_hover[1])
+        if header == 'VENUE' or header == 'TICKETS':
+            if self.current_hover != [row,column]:
+                old_item.setBackground(QtGui.QBrush(QtGui.QColor('black')))
+                item.setBackground(QtGui.QBrush(QtGui.QColor('yellow')))
+            self.current_hover = [row, column]
+        else:
+            if self.current_hover != [row,column]:
+                old_item.setBackground(QtGui.QBrush(QtGui.QColor('black')))
+            self.current_hover = [row, column]
 
 #####################################################
 #                                                   #

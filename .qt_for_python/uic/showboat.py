@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'c:\Users\jrgbo\Documents\repos\ShowBoat\dist\showboat\showboat.ui'
+# Form implementation generated from reading ui file 'c:\Users\jrgbo\Documents\repos\ShowBoat\showboat.ui'
 #
 # Created by: PyQt5 UI code generator 5.15.6
 #
@@ -243,7 +243,7 @@ class Ui_mainWindow(object):
         self.gridLayout_3.addLayout(self.horizontalLayout_7, 2, 0, 1, 1)
         self.gridLayout_5.addLayout(self.gridLayout_3, 0, 0, 1, 1)
         icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap("c:\\Users\\jrgbo\\Documents\\repos\\ShowBoat\\dist\\showboat\\../../../../Pictures/IconImages/icons/home.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon.addPixmap(QtGui.QPixmap("c:\\Users\\jrgbo\\Documents\\repos\\ShowBoat\\../../../../Pictures/IconImages/icons/home.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.tabs.addTab(self.homeTab, icon, "")
         self.tourDatesTab = QtWidgets.QWidget()
         self.tourDatesTab.setObjectName("tourDatesTab")
@@ -352,7 +352,7 @@ class Ui_mainWindow(object):
         self.label_3.setMinimumSize(QtCore.QSize(120, 20))
         self.label_3.setMaximumSize(QtCore.QSize(120, 40))
         self.label_3.setText("")
-        self.label_3.setPixmap(QtGui.QPixmap("c:\\Users\\jrgbo\\Documents\\repos\\ShowBoat\\dist\\showboat\\powered-by-songkick-pink.png"))
+        self.label_3.setPixmap(QtGui.QPixmap("c:\\Users\\jrgbo\\Documents\\repos\\ShowBoat\\powered-by-songkick-pink.png"))
         self.label_3.setScaledContents(True)
         self.label_3.setAlignment(QtCore.Qt.AlignCenter)
         self.label_3.setObjectName("label_3")
@@ -401,6 +401,7 @@ class Ui_mainWindow(object):
         self.mapMapHeaderLabel_2.setStyleSheet("color: white;\n"
 "margin-right: 2em;")
         self.mapMapHeaderLabel_2.setAlignment(QtCore.Qt.AlignCenter)
+        self.mapMapHeaderLabel_2.setWordWrap(True)
         self.mapMapHeaderLabel_2.setObjectName("mapMapHeaderLabel_2")
         self.horizontalLayout_6.addWidget(self.mapMapHeaderLabel_2)
         self.verticalLayout_7 = QtWidgets.QVBoxLayout()
@@ -747,7 +748,7 @@ class Ui_mainWindow(object):
         self.searchButton.setText(_translate("mainWindow", "Find Artist"))
         self.bandPhotoLabel.setToolTip(_translate("mainWindow", "Artist photo will be displayed here"))
         self.tabs.setTabText(self.tabs.indexOf(self.homeTab), _translate("mainWindow", "SEARCH"))
-        self.showsHeaderLabel.setText(_translate("mainWindow", "Double click venue or tickets cell to view information in your browser"))
+        self.showsHeaderLabel.setText(_translate("mainWindow", "Double click venue or tickets to view details in browser"))
         item = self.showsTableWidget.horizontalHeaderItem(0)
         item.setText(_translate("mainWindow", "DATE"))
         item = self.showsTableWidget.horizontalHeaderItem(1)
@@ -757,8 +758,8 @@ class Ui_mainWindow(object):
         item = self.showsTableWidget.horizontalHeaderItem(3)
         item.setText(_translate("mainWindow", "TICKETS"))
         self.tabs.setTabText(self.tabs.indexOf(self.tourDatesTab), _translate("mainWindow", "SHOWS"))
-        self.mapMapHeaderLabel.setText(_translate("mainWindow", "Click a marker on the map to see show details"))
-        self.mapMapHeaderLabel_2.setText(_translate("mainWindow", "Search by proximity to city"))
+        self.mapMapHeaderLabel.setText(_translate("mainWindow", "Click a marker on the map to see show details. Refine search below."))
+        self.mapMapHeaderLabel_2.setText(_translate("mainWindow", "Filter shows by city and search radius"))
         self.citySearchInput.setPlaceholderText(_translate("mainWindow", "Enter city or address..."))
         self.clearCityButton.setText(_translate("mainWindow", "Clear City"))
         self.citySearchButton.setText(_translate("mainWindow", "Search"))
