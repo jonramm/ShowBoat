@@ -11,6 +11,7 @@ __pycache__/
 build/
 develop-eggs/
 dist/
+dist2/
 downloads/
 eggs/
 .eggs/
@@ -155,3 +156,5 @@ dmypy.json
 cython_debug/
 
 showboat.spec
+
+.qt_for_python
